@@ -16,7 +16,7 @@ public class DetalleHt implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_detalle_ht")
 	private int idDetalleHt;
 
