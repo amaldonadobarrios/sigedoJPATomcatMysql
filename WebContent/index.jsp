@@ -54,16 +54,16 @@
     <div class="card card-login mx-auto mt-5">
       <div class="card-header">Iniciar Sesión</div>
       <div class="card-body">
-        <form>
+        <form data-toggle="validator" role="form" action="ServSeguridad" method="post">
           <div class="form-group">
-            <label for="exampleInputEmail1">Usuario</label>
-            <input class="form-control" id="exampleInputEmail1" type="email" aria-describedby="emailHelp" placeholder="Ingrese su usuario">
+            <label for="username" >Usuario</label>
+            <input class="form-control" id="username" name="username" required="required" type="text"  placeholder="Ingrese su usuario">
           </div>
           <div class="form-group">
-            <label for="exampleInputPassword1">Contraseña</label>
-            <input class="form-control" id="exampleInputPassword1" type="password" placeholder="Ingrese su contraseña">
+            <label for="password">Contraseña</label>
+            <input class="form-control" id="password" name="password" type="password" placeholder="Ingrese su contraseña" required="required">
           </div>
-          <a class="btn btn-primary btn-block" href="ServMenu?action=pagehome">Iniciar Sesión</a>
+          <button class="btn btn-primary btn-block" type="submit">Iniciar Sesión</button>
         </form>
         <div class="text-center">
             <h5 style="align-items: center;">Haga buen uso del Sistema, Cierre sesión al terminar el trabajo</h5>
@@ -76,6 +76,7 @@
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- Core plugin JavaScript-->
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="js/validator.min.js"></script>
 </body>
 <style>
 	background-color:#0066CC;

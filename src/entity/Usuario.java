@@ -50,12 +50,6 @@ public class Usuario implements Serializable {
 
 	private String password;
 
-	@Column(name="perfil_id_perfil")
-	private int perfilIdPerfil;
-
-	@Column(name="persona_id_persona")
-	private int personaIdPersona;
-
 	private String usuario;
 
 	public Usuario() {
@@ -149,28 +143,90 @@ public class Usuario implements Serializable {
 		this.password = password;
 	}
 
-	public int getPerfilIdPerfil() {
-		return this.perfilIdPerfil;
-	}
-
-	public void setPerfilIdPerfil(int perfilIdPerfil) {
-		this.perfilIdPerfil = perfilIdPerfil;
-	}
-
-	public int getPersonaIdPersona() {
-		return this.personaIdPersona;
-	}
-
-	public void setPersonaIdPersona(int personaIdPersona) {
-		this.personaIdPersona = personaIdPersona;
-	}
-
 	public String getUsuario() {
 		return this.usuario;
 	}
 
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario [idUsuario=" + idUsuario + ", diasVigencia=" + diasVigencia + ", estado=" + estado
+				+ ", fechaCaducidad=" + fechaCaducidad + ", fechaMod=" + fechaMod + ", fechaReg=" + fechaReg
+				+ ", idPerfil=" + idPerfil + ", idPersona=" + idPersona + ", idUsuarioCrea=" + idUsuarioCrea
+				+ ", idUsuarioMod=" + idUsuarioMod + ", password=" + password + ", usuario=" + usuario + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + diasVigencia;
+		result = prime * result + estado;
+		result = prime * result + ((fechaCaducidad == null) ? 0 : fechaCaducidad.hashCode());
+		result = prime * result + ((fechaMod == null) ? 0 : fechaMod.hashCode());
+		result = prime * result + ((fechaReg == null) ? 0 : fechaReg.hashCode());
+		result = prime * result + idPerfil;
+		result = prime * result + idPersona;
+		result = prime * result + idUsuario;
+		result = prime * result + idUsuarioCrea;
+		result = prime * result + idUsuarioMod;
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Usuario other = (Usuario) obj;
+		if (diasVigencia != other.diasVigencia)
+			return false;
+		if (estado != other.estado)
+			return false;
+		if (fechaCaducidad == null) {
+			if (other.fechaCaducidad != null)
+				return false;
+		} else if (!fechaCaducidad.equals(other.fechaCaducidad))
+			return false;
+		if (fechaMod == null) {
+			if (other.fechaMod != null)
+				return false;
+		} else if (!fechaMod.equals(other.fechaMod))
+			return false;
+		if (fechaReg == null) {
+			if (other.fechaReg != null)
+				return false;
+		} else if (!fechaReg.equals(other.fechaReg))
+			return false;
+		if (idPerfil != other.idPerfil)
+			return false;
+		if (idPersona != other.idPersona)
+			return false;
+		if (idUsuario != other.idUsuario)
+			return false;
+		if (idUsuarioCrea != other.idUsuarioCrea)
+			return false;
+		if (idUsuarioMod != other.idUsuarioMod)
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (usuario == null) {
+			if (other.usuario != null)
+				return false;
+		} else if (!usuario.equals(other.usuario))
+			return false;
+		return true;
 	}
 
 }
