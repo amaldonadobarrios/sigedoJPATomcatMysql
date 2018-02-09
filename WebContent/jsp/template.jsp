@@ -56,7 +56,7 @@
                     </li>
                     <li class="breadcrumb-item active">${breadcrumb}</li>
                 </ol>    
-                <c:import url="jsp/dinamico/${body}.jsp"/>
+                <c:import url="dinamico/${body}.jsp"/>
                 <script src="vendor/jquery/jquery.min.js"></script>
                 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
                 <!-- Core plugin JavaScript-->

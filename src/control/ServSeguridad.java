@@ -39,38 +39,39 @@ public class ServSeguridad extends HttpServlet {
 		String pas = request.getParameter("password").trim();
 
 		if (usu == null || pas == null) {
-			redireccionar(request,response,"index.jsp");
+			redireccionar(request, response, "index.jsp");
 		} else {
 			if (usu != "" && pas != "") {
 				try {
-					if (validar(usu,pas)) {
+					if (validar(usu, pas)) {
 						System.out.println("BIENVENIDO AL SISTEMA");
-					}else {
+						request.setAttribute("body", "home");
+						redireccionar(request, response, "jsp/template.jsp");
+					} else {
 						System.out.println("ERROR DE VALIDACION");
-						redireccionar(request,response,"index.jsp");
+						redireccionar(request, response, "index.jsp");
 					}
 				} catch (SQLException e) {
 					System.out.println("ERROR DE SISTEMA");
-					redireccionar(request,response,"index.jsp");
+					redireccionar(request, response, "index.jsp");
 					e.printStackTrace();
-					
+
 				}
 			}
 		}
 
 	}
 
-	
-
-	private void redireccionar(HttpServletRequest request, HttpServletResponse response, String string) throws ServletException, IOException {
+	private void redireccionar(HttpServletRequest request, HttpServletResponse response, String string)
+			throws ServletException, IOException {
 		RequestDispatcher rd = request.getRequestDispatcher(string);
 		rd.forward(request, response);
-		
+
 	}
 
 	private boolean validar(String usu, String pas) throws SQLException {
-		System.out.println("Validar : usu : "+usu+ " Pass: "+pas);
-		return LogicaSeguridad.getInstance().Validacion(usu, pas);	
+		System.out.println("Validar : usu : " + usu + " Pass: " + pas);
+		return LogicaSeguridad.getInstance().Validacion(usu, pas);
 	}
 
 	/**
