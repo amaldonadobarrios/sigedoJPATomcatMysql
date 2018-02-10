@@ -8,61 +8,61 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bandeja Principal de la Unidad">
-                <a class="nav-link" href="ServMenu?action=BandejaMP">
+                <a class="nav-link" href="SPage?action=BandejaMP">
                     <i class="fa fa-fw fa-book"></i>
                     <span class="nav-link-text">Bandeja Principal</span>
                 </a>
             </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Registar Documento">
-                <a class="nav-link" href="ServMenu?action=RegdocMP">
+                <a class="nav-link" href="SPage?action=RegdocMP">
                     <i class="fa fa-fw fa-pencil"></i>
                     <span class="nav-link-text">Registar Documento</span>
                 </a>
             </li>
              <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bandeja de Jefe">
-                <a class="nav-link" href="ServMenu?action=BandJefe">
+                <a class="nav-link" href="SPage?action=BandJefe">
                     <i class="fa fa-fw fa-book"></i>
                     <span class="nav-link-text">Bandeja de Jefe</span>
                 </a>
             </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Registar Orden">
-                <a class="nav-link" href="ServMenu?action=RegordenJF">
+                <a class="nav-link" href="SPage?action=RegordenJF">
                     <i class="fa fa-fw fa-pencil"></i>
                     <span class="nav-link-text">Registar Orden</span>
                 </a>
             </li>
              <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bandeja de Archivador">
-                <a class="nav-link" href="ServMenu?action=BandArchiv">
+                <a class="nav-link" href="SPage?action=BandArchiv">
                     <i class="fa fa-fw fa-book"></i>
                     <span class="nav-link-text">Bandeja de Archivador</span>
                 </a>
             </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Registar Archivo Nuevo">
-                <a class="nav-link" href="ServMenu?action=RegordenJF">
+                <a class="nav-link" href="SPage?action=RegordenJF">
                     <i class="fa fa-fw fa-pencil"></i>
                     <span class="nav-link-text">Registar Archivo Nuevo</span>
                 </a>
             </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Consultar Archivo">
-                <a class="nav-link" href="ServMenu?action=searchHT">
+                <a class="nav-link" href="SPage?action=searchHT">
                     <i class="fa fa-fw fa-search"></i>
                     <span class="nav-link-text">Consultar Archivo</span>
                 </a>
             </li>
              <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Consultar Archivo">
-                <a class="nav-link" href="ServMenu?action=searchHT">
+                <a class="nav-link" href="SPage?action=searchHT">
                     <i class="fa fa-fw fa-wrench"></i>
                     <span class="nav-link-text">Administrar Archivador</span>
                 </a>
             </li>
              <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bandeja de Archivador">
-                <a class="nav-link" href="ServMenu?action=BandArchiv">
+                <a class="nav-link" href="SPage?action=BandArchiv">
                     <i class="fa fa-fw fa-book"></i>
                     <span class="nav-link-text">Bandeja de Administrativo</span>
                 </a>
             </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Consultar Hoja de Trámite">
-                <a class="nav-link" href="ServMenu?action=searchHT">
+                <a class="nav-link" href="SPage?action=searchHT">
                     <i class="fa fa-fw fa-search"></i>
                     <span class="nav-link-text">Consultar Hoja de Trámite</span>
                 </a>
@@ -98,7 +98,7 @@
                     <span class="nav-link-text">Modificar Administradores</span></a>
                     </li>
                     <li>
-                        <a href="ServMenu?action=GestCenTrabajo"> <i class="fa fa-fw fa-home"></i>
+                        <a href="SPage?action=GestCenTrabajo"> <i class="fa fa-fw fa-home"></i>
                     <span class="nav-link-text">Gestionar Centro Trabajo</span></a>
                     </li>
                    <li>
@@ -223,9 +223,9 @@
             </li>
 
             <div class="btn-group">
-                <button type="button" class="btn btn-dark " data-toggle="dropdown"><i class="fa fa-user"></i> S1 PNP Alexander Maldonado Barrios</button>
+                <button type="button" class="btn btn-dark " data-toggle="dropdown"><i class="fa fa-user"></i>${sessionScope.usuario[1].grado} ${sessionScope.usuario[1].apePat} ${sessionScope.usuario[1].apeMat} ${sessionScope.usuario[1].nombres}</button>
                 <ul class="dropdown-menu" role="menu">
-                    <li class="dropdown-item"> <a href="ServMenu?action=key" class="btn-dark"><i class="fa fa-key btn-dark"></i> Modificar Contraseña</a> </li>
+                    <li class="dropdown-item"> <a href="SPage?action=key" class="btn-dark"><i class="fa fa-key btn-dark"></i> Modificar Contraseña</a> </li>
                     <div class="dropdown-divider"></div>
                     
                 </ul>

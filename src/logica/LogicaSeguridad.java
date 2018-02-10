@@ -1,7 +1,16 @@
 package logica;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import entity.CentroTrabajo;
+import entity.Oficina;
+import entity.Perfil;
+import entity.Persona;
+import entity.Unidad;
 import entity.Usuario;
 import service.UsuarioService;
 import service.impl.UsuarioServiceImpl;
@@ -21,11 +30,25 @@ public class LogicaSeguridad {
 	}
 	// PATRON SINGLETON FIN
 
-	public boolean Validacion(String usu, String pas) throws SQLException {
+	public boolean Validacion(String usu, String pas,HttpServletRequest request) throws SQLException {
 		UsuarioService serv = new UsuarioServiceImpl();
 		Usuario usuario = serv.validar(usu, pas);
 		if (usuario != null) {
 			if (usuario.getIdUsuario() > 0) {
+				Persona per=LogicaPersona.getInstance().BuscarporId(usuario.getIdPersona());
+				CentroTrabajo ct= LogicaCentroTrabajo.getInstance().BuscarporId(per.getIdCentroTrabajo());
+				Unidad un=LogicaUnidad.getInstance().BuscarporId(ct.getIdUnidad());
+				Oficina of=LogicaOficina.getInstance().BuscarporId(ct.getIdOficina());
+				Perfil perf=LogicaPerfil.getInstance().BuscarporId(usuario.getIdPerfil());
+				ArrayList<Object> SesionUsuario = new ArrayList<Object>();
+				SesionUsuario.add(usuario);
+				SesionUsuario.add(per);
+				SesionUsuario.add(ct);
+				SesionUsuario.add(un);
+				SesionUsuario.add(of);
+				SesionUsuario.add(perf);
+				HttpSession sesion= request.getSession();
+				sesion.setAttribute("usuario", SesionUsuario);
 				return true;
 			}
 		}

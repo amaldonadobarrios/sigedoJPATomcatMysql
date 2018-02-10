@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import entity.Usuario;
 import logica.LogicaSeguridad;
@@ -35,30 +36,42 @@ public class ServSeguridad extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		System.out.println("Servlet: " + this.getClass().getName());
-		String usu = request.getParameter("username").trim();
-		String pas = request.getParameter("password").trim();
-
-		if (usu == null || pas == null) {
-			redireccionar(request, response, "index.jsp");
-		} else {
-			if (usu != "" && pas != "") {
-				try {
-					if (validar(usu, pas)) {
-						System.out.println("BIENVENIDO AL SISTEMA");
-						request.setAttribute("body", "home");
-						redireccionar(request, response, "jsp/template.jsp");
-					} else {
-						System.out.println("ERROR DE VALIDACION");
+		String usu = request.getParameter("username")!= null ? request.getParameter("username") : "";
+		String pas = request.getParameter("password")!= null ? request.getParameter("password") : "";
+		String salir = request.getParameter("salir") != null ? request.getParameter("salir") : "";
+		if (salir==null || salir.equals("") ) {
+			if (usu == null || pas == null) {
+				redireccionar(request, response, "index.jsp");
+			} else {
+				if (usu != "" && pas != "") {
+					try {
+						if (validar(usu.trim(), pas.trim(), request)) {
+							System.out.println("BIENVENIDO AL SISTEMA");
+							request.setAttribute("breadcrumb", "home");
+							request.setAttribute("body", "home");
+							redireccionar(request, response, "jsp/template.jsp");
+						} else {
+							System.out.println("ERROR DE VALIDACION");
+							request.setAttribute("msg", "ERROR DE VALIDACIÓN");
+							redireccionar(request, response, "index.jsp");
+						}
+					} catch (SQLException e) {
+						System.out.println("ERROR DE SISTEMA");
 						redireccionar(request, response, "index.jsp");
-					}
-				} catch (SQLException e) {
-					System.out.println("ERROR DE SISTEMA");
-					redireccionar(request, response, "index.jsp");
-					e.printStackTrace();
+						e.printStackTrace();
 
+					}
 				}
 			}
+		}else {
+			HttpSession session = request.getSession();
+			session.invalidate();
+			request.setAttribute("msg", "SESIÓN FINALIZADA");
+			redireccionar(request, response, "index.jsp");
+			
+			
 		}
+		
 
 	}
 
@@ -69,9 +82,9 @@ public class ServSeguridad extends HttpServlet {
 
 	}
 
-	private boolean validar(String usu, String pas) throws SQLException {
+	private boolean validar(String usu, String pas, HttpServletRequest request) throws SQLException {
 		System.out.println("Validar : usu : " + usu + " Pass: " + pas);
-		return LogicaSeguridad.getInstance().Validacion(usu, pas);
+		return LogicaSeguridad.getInstance().Validacion(usu, pas, request);
 	}
 
 	/**

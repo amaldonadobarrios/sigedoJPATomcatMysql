@@ -38,13 +38,13 @@
                 <div class="container-fluid">
                     <div class="row" align="center">
                         <div class="col-md-4" style="background-color: black;align-items: center;">
-                            <a class="navbar-brand" href="#">Unidad: DIRTIC-PNP </a>
+                            <a class="navbar-brand" href="#">Unidad: ${sessionScope.usuario[3].descripcion} </a>
                         </div>
                         <div class="col-md 4" style="background-color: black;">
-                            <a class="navbar-brand" href="#">Oficina: Mesa de Partes</a>
+                            <a class="navbar-brand" href="#">Oficina: ${sessionScope.usuario[4].descripcion}</a>
                         </div>
                         <div class="col-md 4" style="background-color: black;">
-                            <a class="navbar-brand" href="#">Perfil: Mesa de Partes</a>
+                            <a class="navbar-brand" href="#">Perfil: ${sessionScope.usuario[5].descripcion}</a>
                         </div>
                     </div>
                 </div>
@@ -99,7 +99,7 @@
                 <div class="modal-body">Seleccione "Cerrar Sesión" si está seguro de salir del sistema.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <a class="btn btn-primary" href="ServMenu?action=login">Cerrar Sesión</a>
+                    <a class="btn btn-primary" href="ServSeguridad?salir=off">Cerrar Sesión</a>
                 </div>
             </div>
         </div>

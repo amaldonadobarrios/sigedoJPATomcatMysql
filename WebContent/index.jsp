@@ -66,7 +66,7 @@
           <button class="btn btn-primary btn-block" type="submit">Iniciar Sesión</button>
         </form>
         <div class="text-center">
-            <h5 style="align-items: center;">Haga buen uso del Sistema, Cierre sesión al terminar el trabajo</h5>
+            <h5 style="align-items: center;">${msg}</h5>
         </div>
       </div>
     </div>
