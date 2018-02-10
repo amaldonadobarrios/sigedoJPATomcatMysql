@@ -60,7 +60,7 @@ public class OficinaDAOImpl implements OficinaDAO {
 					while (rs.next()) {
 						temp = new Oficina();
 						temp.setIdOficina(rs.getInt(1));
-						temp.setIdOficina(rs.getInt(2));
+						temp.setDescripcion(rs.getString(2));
 						lista.add(temp);
 					}
 				}
