@@ -35,6 +35,7 @@ public class Test extends HttpServlet {
 		// TODO Auto-generated method stub
 		UsuarioDAO dao= new UsuarioDAOImpl();
 		Usuario usu=new Usuario();
+		//OK
 		try {
 			usu=dao.validar("amaldonadob", "mauricio");
 		} catch (SQLException e) {
