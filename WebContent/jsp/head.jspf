@@ -74,11 +74,11 @@
                 </a>
                 <ul class="sidenav-second-level collapse" id="collapseComponents">
                     <li>
-                        <a href="navbar.html"> <i class="fa fa-fw fa-user-plus"></i>
+                        <a href="SPage?action=RegUsu"> <i class="fa fa-fw fa-user-plus"></i>
                     <span class="nav-link-text">Registrar usuario</span></a>
                     </li>
                    <li>
-                        <a href="navbar.html"> <i class="fa fa-fw fa-user-o"></i>
+                        <a href="SPage?action=ModUsu"> <i class="fa fa-fw fa-user-o"></i>
                     <span class="nav-link-text">Modificar usuario</span></a>
                     </li>
                 </ul>
@@ -90,11 +90,11 @@
                 </a>
                 <ul class="sidenav-second-level collapse" id="collapseComponents1">
                     <li>
-                        <a href="navbar.html"> <i class="fa fa-fw fa-user-plus"></i>
+                        <a href="SPage?action=RegUsu"> <i class="fa fa-fw fa-user-plus"></i>
                     <span class="nav-link-text">Registrar Administradores</span></a>
                     </li>
                    <li>
-                        <a href="navbar.html"> <i class="fa fa-fw fa-user-o"></i>
+                        <a href="SPage?action=ModUsu"> <i class="fa fa-fw fa-user-o"></i>
                     <span class="nav-link-text">Modificar Administradores</span></a>
                     </li>
                     <li>
@@ -102,16 +102,12 @@
                     <span class="nav-link-text">Gestionar Centro Trabajo</span></a>
                     </li>
                    <li>
-                        <a href="navbar.html"> <i class="fa fa-fw fa-hourglass"></i>
-                    <span class="nav-link-text">Modificar unidades</span></a>
+                        <a href="SPage?action=RegUni"> <i class="fa fa-fw fa-hourglass"></i>
+                    <span class="nav-link-text">Registrar unidades</span></a>
                     </li>
                     <li>
-                        <a href="navbar.html"> <i class="fa fa-fw fa-desktop"></i>
+                        <a href="SPage?action=RegOfi"> <i class="fa fa-fw fa-desktop"></i>
                     <span class="nav-link-text">Registrar Oficina</span></a>
-                    </li>
-                   <li>
-                        <a href="navbar.html"> <i class="fa fa-fw fa-desktop"></i>
-                    <span class="nav-link-text">Modificar Oficina</span></a>
                     </li>
                 </ul>
             </li>

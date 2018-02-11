@@ -27,4 +27,10 @@ OficinaDAO dao=new OficinaDAOImpl();
 		return dao.Listar();
 	}
 
+	@Override
+	public List<Oficina> ListarxIdUnidad(int id_unidad) {
+		// TODO Auto-generated method stub
+		return dao.ListarxIdUnidad(id_unidad);
+	}
+
 }

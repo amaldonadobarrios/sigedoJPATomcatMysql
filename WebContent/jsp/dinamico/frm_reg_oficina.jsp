@@ -4,28 +4,40 @@
 	String sWS = request.getContextPath();
 %>
 <!DOCTYPE html>
-<div class="row">
-
-
 <div class="container">
     <div class="card card-register mx-auto mt-5">
-		<div class="card-header">Asignar Oficinas</div>
+		<div class="card-header">Registrar Oficinas</div>
 		<div class="card-body">
-			<form action="<%=sWS%>/ServAdministracion" method="post" id="form1" name="form1">
-    <input type="hidden" id="hdEvento2" name="hdEvento2">
-    <div class="form-group">
-							<label for="exampleInputEmail1">Seleccione Unidad</label> <select 
+			<form action="ServAdministracion" method="post" id="form2"
+				name="form2">
+				<input type="hidden"
+						id="hdEvento2" name="hdEvento2">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="exampleInputEmail1">Unidad</label> <select 
 								class="selectpicker form-control" data-live-search="true" id="cbxunidad" name="cbxunidad" onchange="fn_listarOficina()">
 								<option data-tokens="ketchup mustard" value=""
-									selected="selected" >Seleccione Unidad</option>
+									selected="selected" >Seleccione</option>
 								<c:forEach var="unid" items="${combouni}" varStatus="loop">
-									<option data-tokens="ketchup mustard" value="${unid.idUnidad}">${unid.descripcion} </option>
+									<option data-tokens="ketchup mustard" value="${unid.idUnidad}">${unid.descripcion}</option>
 								</c:forEach>
 
 							</select>
-						</div>			
-	</form>	
-
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="exampleInputEmail1">Oficina</label> <input
+								class="form-control" id="txtofocina" type="text"
+								aria-describedby="emailHelp" placeholder="Enter oficina">
+						</div>
+					</div>
+				</div>
+				<input class="btn btn-primary btn-block"
+					onclick="javascript:añadiroficina();" id="btn2añadir"
+					value="Añadir Oficina" type="button"> 
+			</form>
 		</div>
 		<div class="table-responsive">
 			<table class="table table-bordered" id="dataTable1" width="100%"
@@ -45,13 +57,10 @@
 				</tbody>
 			</table>
 		</div>
-		<input class="btn btn-success btn-block"
-					onclick="javascript:añadirunidad();" id="btn1añadir"
-					value="Añadir Oficina" type="button">
+
 	</div>
-	
 </div>
-</div>
+
 <script>
 	function alerta(msg) {
 		var texto = msg;
@@ -95,7 +104,7 @@
 	var id_unidad=$('#cbxunidad').val();
 	if (id_unidad!='') {
 	$('#hdEvento2').val('BUSCAR_OFICINA');
-		document.forms["form1"].submit();
+		document.forms["form2"].submit();
 	}
 	}
 	window.onload=function() {

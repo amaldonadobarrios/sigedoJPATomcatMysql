@@ -76,4 +76,42 @@ public class OficinaDAOImpl implements OficinaDAO {
 		return lista;
 	}
 
+	@Override
+	public List<Oficina> ListarxIdUnidad(int id_unidad) {
+		Oficina temp = null;
+		List <Oficina> lista=null;
+		String query = "Select oficina.id_oficina, oficina.descripcion from  centro_trabajo\r\n" + 
+				"INNER JOIN oficina ON oficina.id_oficina=centro_trabajo.id_oficina\r\n" + 
+				"where centro_trabajo.id_unidad=? and centro_trabajo.estado=1";
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		java.sql.Connection cn = em.unwrap(java.sql.Connection.class);
+		if (cn != null) {
+			try {
+				PreparedStatement ps = cn.prepareStatement(query);
+				ps.setInt(1, id_unidad);
+				ResultSet rs = ps.executeQuery();
+				if (rs.next()) {
+					lista = new ArrayList<Oficina>();
+					rs.beforeFirst();
+					while (rs.next()) {
+						temp = new Oficina();
+						temp.setIdOficina(rs.getInt(1));
+						temp.setDescripcion(rs.getString(2));
+						lista.add(temp);
+					}
+				}
+
+			} catch (SQLException e) {
+				System.out.println("Excepcion en query obtenercodigo de unidad: " + e.toString());
+			} finally {
+			    em.getTransaction().commit();
+			    em.close();
+			    emf.close();
+			}
+		}
+		return lista;
+	}
+
 }

@@ -28,6 +28,7 @@ public class SPage extends HttpServlet {
 	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+System.out.println(this.getClass().getName());
 		String action = request.getParameter("action") != null ? request.getParameter("action") : "";
 
         switch (action) {
@@ -62,6 +63,18 @@ public class SPage extends HttpServlet {
             case "GestCenTrabajo":
             	this.GestCenTrabajo(request, response);
             	break;
+            case "RegUsu":
+            	this.RegUsu(request, response);
+            	break;
+            case "ModUsu":
+            	this.ModUsu(request, response);
+            	break;
+            case "RegOfi":
+            	this.RegOfi(request, response);
+            	break;
+            case "RegUni":
+            	this.RegUni(request, response);
+            	break;
             default:
                 this.pagelogin(request, response);
                 break;
@@ -69,6 +82,34 @@ public class SPage extends HttpServlet {
         }
 	}
 	
+	private void RegUni(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("breadcrumb", "Registrar Unidad");
+        request.setAttribute("body", "frm_reg_unidad");
+        forwar("jsp/template.jsp", request, response);
+		
+	}
+
+	private void RegOfi(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("breadcrumb", "Registrar Oficina");
+        request.setAttribute("body", "frm_reg_oficina");
+        forwar("jsp/template.jsp", request, response);
+		
+	}
+
+	private void ModUsu(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("breadcrumb", "Modificar Usuario");
+        request.setAttribute("body", "frm_mod_usuario");
+        forwar("jsp/template.jsp", request, response);
+		
+	}
+
+	private void RegUsu(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		  request.setAttribute("breadcrumb", "Registrar Usuario");
+	        request.setAttribute("body", "frm_reg_usuario");
+	        forwar("jsp/template.jsp", request, response);
+		
+	}
+
 	public void forwar(String jsp, HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         req.getRequestDispatcher(jsp).forward(req, resp);
@@ -79,7 +120,6 @@ public class SPage extends HttpServlet {
         request.setAttribute("body", "frmGestCentroTrabajo");
         try {
 			request.setAttribute("combouni", LogicaCombos.getInstance().ListaUnidad());
-			request.setAttribute("comboofi", LogicaCombos.getInstance().ListaOficina());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -93,7 +133,7 @@ public class SPage extends HttpServlet {
         //request.setAttribute("objResumen", LogicResumenRNSP.getInstance().getResumen());
         request.setAttribute("breadcrumb", "Principal");
         request.setAttribute("body", "home");
-        forwar("template.jsp", request, response);
+        forwar("jsp/template.jsp", request, response);
     }
 
      private void pagelogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -103,43 +143,43 @@ public class SPage extends HttpServlet {
     private void pagekey(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("breadcrumb", "Cambiar Contraseña");
         request.setAttribute("body", "modkey");
-        forwar("template.jsp", request, response);
+        forwar("jsp/template.jsp", request, response);
     }
 
     private void pagesearchHT(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("breadcrumb", "Consultar Hoja de trámite");
         request.setAttribute("body", "consHT");
-        forwar("template.jsp", request, response);
+        forwar("jsp/template.jsp", request, response);
     }
 
     private void pageBandejaMP(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("breadcrumb", "Bandeja  de documentos de la Unidad");
         request.setAttribute("body", "bandejaMP");
-        forwar("template.jsp", request, response);
+        forwar("jsp/template.jsp", request, response);
     }
 
     private void pageregdocMP(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("breadcrumb", "Registrar Documento");
         request.setAttribute("body", "regdocMP");
-        forwar("template.jsp", request, response);
+        forwar("jsp/template.jsp", request, response);
     }
 
     private void pageBandJefe(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("breadcrumb", "Bandeja  de documentos de Jefe");
         request.setAttribute("body", "bandejaJF");
-        forwar("template.jsp", request, response);
+        forwar("jsp/template.jsp", request, response);
     }
 
     private void pageRegordenJF(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("breadcrumb", "Registrar Orden");
         request.setAttribute("body", "regordenJF");
-        forwar("template.jsp", request, response);
+        forwar("jsp/template.jsp", request, response);
     }
 
     private void pageBandArchiv(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
        request.setAttribute("breadcrumb", "Bandeja de Archivador");
         request.setAttribute("body", "bandejaARCH");
-        forwar("template.jsp", request, response);
+        forwar("jsp/template.jsp", request, response);
     }
 
 
