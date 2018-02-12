@@ -5,38 +5,31 @@
 %>
 <!DOCTYPE html>
 <div class="container">
-    <div class="card card-register mx-auto mt-5">
+<c:if test="${msgok!=null}">
+		<div class="alert alert-success">
+			<strong>CORRECTO</strong> ${msgok}
+		</div>
+	</c:if>
+	<c:if test="${msgnok!=null}"> 
+		<div class="alert alert-danger">
+			<strong>ERROR!</strong> ${msgnok}
+		</div>
+	</c:if>
+	<div class="card card-register mx-auto mt-5">
 		<div class="card-header">Registrar Oficinas</div>
 		<div class="card-body">
-			<form action="ServAdministracion" method="post" id="form2"
-				name="form2">
-				<input type="hidden"
-						id="hdEvento2" name="hdEvento2">
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="exampleInputEmail1">Unidad</label> <select 
-								class="selectpicker form-control" data-live-search="true" id="cbxunidad" name="cbxunidad" onchange="fn_listarOficina()">
-								<option data-tokens="ketchup mustard" value=""
-									selected="selected" >Seleccione</option>
-								<c:forEach var="unid" items="${combouni}" varStatus="loop">
-									<option data-tokens="ketchup mustard" value="${unid.idUnidad}">${unid.descripcion}</option>
-								</c:forEach>
+			<form action="ServAdministracion" method="post" id="form1"
+				name="form1">
+				<input type="hidden" id="hdEvento" name="hdEvento">
 
-							</select>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="exampleInputEmail1">Oficina</label> <input
-								class="form-control" id="txtofocina" type="text"
-								aria-describedby="emailHelp" placeholder="Enter oficina">
-						</div>
-					</div>
+				<div class="form-group">
+					<label for="exampleInputEmail1">Oficina</label> <input
+						class="form-control" id="txtoficina" name="txtoficina" type="text"
+						aria-describedby="emailHelp" placeholder="Enter oficina">
 				</div>
 				<input class="btn btn-primary btn-block"
 					onclick="javascript:añadiroficina();" id="btn2añadir"
-					value="Añadir Oficina" type="button"> 
+					value="Añadir Oficina" type="button">
 			</form>
 		</div>
 		<div class="table-responsive">
@@ -48,10 +41,9 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="ofi" items="${listaoficina}" varStatus="loop">
+					<c:forEach var="ofi" items="${lstOfi}" varStatus="loop">
 						<tr>
-							<td class="center"><a>
-									${loop.count} ${ofi.descripcion}</a></td>
+							<td class="center"><a> ${loop.count}   ${ofi.descripcion}</a></td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -81,36 +73,18 @@
 		});
 	}
 
-	function seleccionarUnidad(msg, uni, id) {
-		$('#txtunidad').val(uni);
-		$('#id_unidad').val(id);
-		$('#btn1añadir').attr("disabled", true);
-		$('#btn1modificar').attr("disabled", false);
-		alerta(msg);
-	}
-	function añadirunidad() {
-		var unidad = $('#txtunidad').val();
-		if (confirm("Desea Añadir una Unidad")) {
-			if (unidad !== '') {
-				$('#hdEvento').val('AGREGAR_UNIDAD');
+	function añadiroficina() {
+		var oficina = $('#txtoficina').val();
+		if (confirm("Desea Añadir una Oficina")) {
+			if (oficina !=='') {
+				$('#hdEvento').val('AGREGAR_OFICINA');
 				document.forms["form1"].submit();
 			} else {
-				danger('Ingrese un nombre de Unidad');
+				danger('Ingrese el nombre de la Oficina');
 			}
 		}
 
 	}
-	function fn_listarOficina(){
-	var id_unidad=$('#cbxunidad').val();
-	if (id_unidad!='') {
-	$('#hdEvento2').val('BUSCAR_OFICINA');
-		document.forms["form2"].submit();
-	}
-	}
-	window.onload=function() {
-			$("#cbxunidad").val(${VcomboUnidad});
-		}
-	
 </script>
 
 

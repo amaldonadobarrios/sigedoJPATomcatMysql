@@ -19,5 +19,15 @@ UnidadDAO dao=new UnidadDAOImpl();
 		// TODO Auto-generated method stub
 		return dao.Listar();
 	}
+	@Override
+	public Unidad AgregarUnidad(Unidad obj) {
+		// TODO Auto-generated method stub
+		return dao.AgregarUnidad(obj);
+	}
+	@Override
+	public List<Unidad> Buscarxdescripcion(String descripcion) {
+		// TODO Auto-generated method stub
+		return dao.Buscarxdescripcion(descripcion);
+	}
 
 }

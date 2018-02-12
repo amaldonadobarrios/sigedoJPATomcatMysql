@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import logica.LogicaCombos;
+import logica.LogicaOficina;
 
 /**
  * Servlet implementation class SPage
@@ -83,6 +84,7 @@ System.out.println(this.getClass().getName());
 	}
 	
 	private void RegUni(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("lstUnidad", LogicaCombos.getInstance().ListaUnidad());
 		request.setAttribute("breadcrumb", "Registrar Unidad");
         request.setAttribute("body", "frm_reg_unidad");
         forwar("jsp/template.jsp", request, response);
@@ -90,6 +92,7 @@ System.out.println(this.getClass().getName());
 	}
 
 	private void RegOfi(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("lstOfi", LogicaOficina.getInstance().ListarOficina());
 		request.setAttribute("breadcrumb", "Registrar Oficina");
         request.setAttribute("body", "frm_reg_oficina");
         forwar("jsp/template.jsp", request, response);
@@ -115,7 +118,7 @@ System.out.println(this.getClass().getName());
         req.getRequestDispatcher(jsp).forward(req, resp);
     }
 	private void GestCenTrabajo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
- 
+		request.setAttribute("lstOfi", LogicaOficina.getInstance().ListarOficina());
 		request.setAttribute("breadcrumb", "Gestionar Centro de Trabajo");
         request.setAttribute("body", "frmGestCentroTrabajo");
         try {

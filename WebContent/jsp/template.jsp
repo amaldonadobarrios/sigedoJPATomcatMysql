@@ -29,6 +29,7 @@
         <!-- Custom styles for this template
         -->
         <link href="css/animate.css" rel="stylesheet">
+        <link href="css/chosen.min.css" rel="stylesheet">
 
     </head>
     <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -76,6 +77,7 @@
                 <script src="vendor/datatables/jquery.dataTables.js"></script>
                 <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
 				<script src="js/bootstrap-notify.min.js"></script>
+				<script src="js/chosen.jquery.min.js"></script>
             </div>
 
     </body>
@@ -104,5 +106,9 @@
             </div>
         </div>
     </div>
+
+<script type="text/javascript">
+$(".chosen-select").chosen()
+</script>
 </html>
 

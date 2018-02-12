@@ -19,5 +19,15 @@ public class CentroTrabajoServiceImpl implements CentroTrabajoService {
 		// TODO Auto-generated method stub
 		return dao.Listar();
 	}
+	@Override
+	public List<CentroTrabajo> ListarxidUnixidOfi(int id_unidad, int id_oficina) {
+		// TODO Auto-generated method stub
+		return dao.ListarxidUnixidOfi(id_unidad, id_oficina);
+	}
+	@Override
+	public CentroTrabajo AsignarOficina(CentroTrabajo ct) {
+		// TODO Auto-generated method stub
+		return dao.AsignarOficina(ct);
+	}
 
 }

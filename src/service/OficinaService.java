@@ -9,4 +9,5 @@ public interface OficinaService {
 	public Oficina Buscarxid(int id);
 	public List<Oficina> Listar();
 	public List<Oficina> ListarxIdUnidad(int id_unidad);
+	public List<Oficina> Buscarxdescripcion(String descripcion);
 }

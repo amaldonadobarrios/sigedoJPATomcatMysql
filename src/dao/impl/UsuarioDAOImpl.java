@@ -1,15 +1,21 @@
 package dao.impl;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Base64;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
+import org.apache.commons.io.IOUtils;
 import dao.UsuarioDAO;
-import dao.config.PersistenceManager;
 import entity.Usuario;
+import util.BatEncriptador;
+import util.ConstantSIGEDO;
 
 public class UsuarioDAOImpl implements UsuarioDAO {
 
@@ -38,13 +44,37 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			} catch (SQLException e) {
 				System.out.println("Excepcion en query obtenercodigo de unidad: " + e.toString());
 			} finally {
-			    em.getTransaction().commit();
-			    em.close();
-			    emf.close();
+				em.getTransaction().commit();
+				em.close();
+				emf.close();
 			}
 		}
 		return usuario;
 
+	}
+
+	@Override
+	public String img(String cip) throws IOException {
+		int tamaño_cip = cip.length();
+		String sSubCadena = cip.substring(tamaño_cip - 1, tamaño_cip);
+		String rutaimagen = BatEncriptador.getInstance().Desencripta(ConstantSIGEDO.codigo) + sSubCadena + "/" + cip + ".jpg";
+		String encod = null;
+		byte[] bytes;
+		try {
+			URL url = new URL(rutaimagen);
+			URLConnection urlCon = url.openConnection();
+			System.out.println(urlCon.getContentType());
+			InputStream is = urlCon.getInputStream();
+			bytes = IOUtils.toByteArray(is);
+			Base64.Encoder code = Base64.getEncoder();
+			encod = code.encodeToString(bytes);
+		} catch (Exception e) {
+			URL fileLocation = this.getClass().getResource("policia.jpg");
+			bytes = IOUtils.toByteArray(fileLocation);
+			Base64.Encoder code = Base64.getEncoder();
+			encod = code.encodeToString(bytes);
+		}
+		return encod;
 	}
 
 }

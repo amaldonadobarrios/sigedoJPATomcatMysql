@@ -7,50 +7,78 @@
 <div class="row">
 
 
-<div class="container">
-    <div class="card card-register mx-auto mt-5">
-		<div class="card-header">Asignar Oficinas</div>
-		<div class="card-body">
-			<form action="<%=sWS%>/ServAdministracion" method="post" id="form1" name="form1">
-    <input type="hidden" id="hdEvento2" name="hdEvento2">
-    <div class="form-group">
-							<label for="exampleInputEmail1">Seleccione Unidad</label> <select 
-								class="selectpicker form-control" data-live-search="true" id="cbxunidad" name="cbxunidad" onchange="fn_listarOficina()">
-								<option data-tokens="ketchup mustard" value=""
-									selected="selected" >Seleccione Unidad</option>
-								<c:forEach var="unid" items="${combouni}" varStatus="loop">
-									<option data-tokens="ketchup mustard" value="${unid.idUnidad}">${unid.descripcion} </option>
-								</c:forEach>
+	<div class="container">
+		<c:if test="${msgok!=null}">
+			<div class="alert alert-success">
+				<strong>CORRECTO</strong> ${msgok}
+			</div>
+		</c:if>
+		<c:if test="${msgnok!=null}">
+			<div class="alert alert-danger">
+				<strong>ERROR!</strong> ${msgnok}
+			</div>
+		</c:if>
+		<div class="card card-register mx-auto mt-5">
+			<div class="card-header">Asignar Oficinas</div>
+			<div class="card-body">
+				<form action="<%=sWS%>/ServAdministracion" method="post" id="form1"
+					name="form1">
+					<input type="hidden" id="hdEvento" name="hdEvento">
+					<div class="form-group">
+						<label for="exampleInputEmail1">Seleccione Unidad</label> <select
+							class="selectpicker form-control " data-live-search="true"
+							id="cbxunidad" name="cbxunidad" onchange="fn_listarOficina()">
+							<option data-tokens="ketchup mustard" value=""
+								selected="selected">Seleccione Unidad</option>
+							<c:forEach var="unid" items="${combouni}" varStatus="loop">
+								<option data-tokens="ketchup mustard" value="${unid.idUnidad}">${unid.descripcion}
+								</option>
+							</c:forEach>
 
-							</select>
-						</div>			
-	</form>	
+						</select>
+					</div>
+				
 
-		</div>
-		<div class="table-responsive">
-			<table class="table table-bordered" id="dataTable1" width="100%"
-				cellspacing="0">
-				<thead>
-					<tr>
-						<th>OFICINAS</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="ofi" items="${listaoficina}" varStatus="loop">
+			</div>
+			<div class="table-responsive">
+				<table class="table table-bordered" id="dataTable1" width="100%"
+					cellspacing="0">
+					<thead>
 						<tr>
-							<td class="center"><a>
-									${loop.count} ${ofi.descripcion}</a></td>
+							<th>OFICINAS</th>
 						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						<c:forEach var="ofi" items="${listaoficina}" varStatus="loop">
+							<tr>
+								<td class="center"><a> ${loop.count} ${ofi.descripcion}</a></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-md-12" align="center">
+				<div class="input-group">
+					<select class="selectpicker form-control " data-live-search="true"
+						id="cbxoficina" name="cbxoficina">
+						<option data-tokens="ketchup mustard" value="" selected="selected">Seleccione
+							Oficina</option>
+						<c:forEach var="ofi" items="${lstOfi}" varStatus="loop">
+							<option data-tokens="ketchup mustard" value="${ofi.idOficina}">${ofi.descripcion}
+							</option>
+						</c:forEach>
+
+					</select> <span class="input-group-btn">
+						<button class="btn btn-success" type="button"
+							onclick="javascript:añadirOficina();">Agregar Oficina</button>
+					</span>
+				</div>
+				<!-- /input-group -->
+			</div>
+			<!-- /.col-lg-6 -->
 		</div>
-		<input class="btn btn-success btn-block"
-					onclick="javascript:añadirunidad();" id="btn1añadir"
-					value="Añadir Oficina" type="button">
+</form>
 	</div>
-	
-</div>
 </div>
 <script>
 	function alerta(msg) {
@@ -79,14 +107,20 @@
 		$('#btn1modificar').attr("disabled", false);
 		alerta(msg);
 	}
-	function añadirunidad() {
-		var unidad = $('#txtunidad').val();
-		if (confirm("Desea Añadir una Unidad")) {
-			if (unidad !== '') {
-				$('#hdEvento').val('AGREGAR_UNIDAD');
-				document.forms["form1"].submit();
+	function añadirOficina() {
+		var oficina = $('#cbxoficina').val();
+		var unidad= $('#cbxunidad').val(); 
+		if (confirm("Desea asignar una oficina")) {
+			if (oficina !== '') {
+				if (unidad!== '') {
+				$('#hdEvento').val('ASIGNAR_OFICINA');
+				document.forms["form1"].submit();	
+				}else{
+				danger('Debe Seleccionar una Unidad');
+				}
 			} else {
-				danger('Ingrese un nombre de Unidad');
+				danger('Debe Seleccionar una Oficina');
+				return;
 			}
 		}
 
@@ -94,7 +128,7 @@
 	function fn_listarOficina(){
 	var id_unidad=$('#cbxunidad').val();
 	if (id_unidad!='') {
-	$('#hdEvento2').val('BUSCAR_OFICINA');
+	$('#hdEvento').val('BUSCAR_OFICINA');
 		document.forms["form1"].submit();
 	}
 	}

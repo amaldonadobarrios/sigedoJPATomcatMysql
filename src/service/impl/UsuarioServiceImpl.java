@@ -1,5 +1,6 @@
 package service.impl;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 import dao.UsuarioDAO;
@@ -13,6 +14,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public Usuario validar(String usu, String pas) throws SQLException {
 		return dao.validar(usu, pas);
+	}
+
+	@Override
+	public String img(String cip) throws IOException {
+		// TODO Auto-generated method stub
+		return dao.img(cip);
 	}
 
 }

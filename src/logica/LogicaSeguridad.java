@@ -1,5 +1,6 @@
 package logica;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -40,6 +41,13 @@ public class LogicaSeguridad {
 				Unidad un=LogicaUnidad.getInstance().BuscarporId(ct.getIdUnidad());
 				Oficina of=LogicaOficina.getInstance().BuscarporId(ct.getIdOficina());
 				Perfil perf=LogicaPerfil.getInstance().BuscarporId(usuario.getIdPerfil());
+				String foto = null;
+				try {
+					foto = LogicaUsuario.getInstance().getfoto(per.getCip());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				ArrayList<Object> SesionUsuario = new ArrayList<Object>();
 				SesionUsuario.add(usuario);
 				SesionUsuario.add(per);
@@ -49,6 +57,7 @@ public class LogicaSeguridad {
 				SesionUsuario.add(perf);
 				HttpSession sesion= request.getSession();
 				sesion.setAttribute("usuario", SesionUsuario);
+				sesion.setAttribute("img64", foto);
 				return true;
 			}
 		}

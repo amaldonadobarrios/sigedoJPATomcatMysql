@@ -4,6 +4,7 @@ public interface ConstantSIGEDO
 {
 
 	public static final String NOMBRE_SISTEMA_LONG="Sistema de Gestión Documental DIVSECOM-PNP V2.0";
+	public static final String codigo="4d88525f33190b6e449b53462c42126f55925601274c466f559909692f574b3271955200";
 	public static final String ENTIDAD_NOMBRES	="SIGEDO PNP";
 	public static final String ENTIDAD_SIGLAS	="DIVSECOM";
 	public static final String TIT_DATOS_BASICOS	="REGISTRAR DOCUMENTO RECIBIDO";

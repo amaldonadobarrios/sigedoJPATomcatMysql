@@ -5,7 +5,17 @@
 %>
 <!DOCTYPE html>
 <div class="container">
-    <div class="card card-register mx-auto mt-5">
+	<c:if test="${msgok!=null}">
+		<div class="alert alert-success">
+			<strong>CORRECTO</strong> ${msgok}
+		</div>
+	</c:if>
+	<c:if test="${msgnok!=null}"> 
+		<div class="alert alert-danger">
+			<strong>ERROR!</strong> ${msgnok}
+		</div>
+	</c:if>
+	<div class="card card-register mx-auto mt-5">
 		<div class="card-header">Registrar Unidades</div>
 		<div class="card-body">
 			<form action="<%=sWS%>/ServAdministracion" method="post" id="form1"
@@ -31,11 +41,9 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="unid" items="${combouni}" varStatus="loop">
+					<c:forEach var="unid" items="${lstUnidad}" varStatus="loop">
 						<tr>
-							<td class="center"><a
-								href="javascript:seleccionarUnidad('Seleccionado  ${unid.descripcion}','${unid.descripcion}','${unid.idUnidad}');">
-									${loop.count} ${unid.descripcion}</a></td>
+							<td class="center">${loop.count}   ${unid.descripcion}</td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -82,11 +90,10 @@
 		}
 
 	}
-	
-	window.onload=function() {
-			$("#cbxunidad").val(${VcomboUnidad});
-		}
-	
+
+	window.onload = function() {
+
+	}
 </script>
 
 

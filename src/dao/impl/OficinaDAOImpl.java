@@ -11,20 +11,19 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import dao.OficinaDAO;
-import dao.config.PersistenceManager;
-import entity.CentroTrabajo;
 import entity.Oficina;
 
 public class OficinaDAOImpl implements OficinaDAO {
 
 	@Override
 	public int save(Oficina obj) {
-	    EntityManager em = PersistenceManager.INSTANCE.getEntityManager();
-	    em.getTransaction().begin();
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
 	    em.persist(obj);
 	    em.getTransaction().commit();
 	    em.close();
-	    PersistenceManager.INSTANCE.close();
+	    emf.close();
 		return obj.getIdOficina();
 	}
 
@@ -91,6 +90,41 @@ public class OficinaDAOImpl implements OficinaDAO {
 			try {
 				PreparedStatement ps = cn.prepareStatement(query);
 				ps.setInt(1, id_unidad);
+				ResultSet rs = ps.executeQuery();
+				if (rs.next()) {
+					lista = new ArrayList<Oficina>();
+					rs.beforeFirst();
+					while (rs.next()) {
+						temp = new Oficina();
+						temp.setIdOficina(rs.getInt(1));
+						temp.setDescripcion(rs.getString(2));
+						lista.add(temp);
+					}
+				}
+
+			} catch (SQLException e) {
+				System.out.println("Excepcion en query obtenercodigo de unidad: " + e.toString());
+			} finally {
+			    em.getTransaction().commit();
+			    em.close();
+			    emf.close();
+			}
+		}
+		return lista;
+	}
+	@Override
+	public List<Oficina>  Buscarxdescripcion(String descripcion) {
+		Oficina temp = null;
+		List <Oficina> lista=null;
+		String query = "SELECT id_oficina, descripcion FROM oficina where descripcion=? and estado=1";
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		java.sql.Connection cn = em.unwrap(java.sql.Connection.class);
+		if (cn != null) {
+			try {
+				PreparedStatement ps = cn.prepareStatement(query);
+				ps.setString(1, descripcion);
 				ResultSet rs = ps.executeQuery();
 				if (rs.next()) {
 					lista = new ArrayList<Oficina>();

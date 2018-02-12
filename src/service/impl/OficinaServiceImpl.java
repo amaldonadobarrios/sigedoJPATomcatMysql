@@ -33,4 +33,10 @@ OficinaDAO dao=new OficinaDAOImpl();
 		return dao.ListarxIdUnidad(id_unidad);
 	}
 
+	@Override
+	public List<Oficina> Buscarxdescripcion(String descripcion) {
+		// TODO Auto-generated method stub
+		return dao.Buscarxdescripcion(descripcion);
+	}
+
 }
