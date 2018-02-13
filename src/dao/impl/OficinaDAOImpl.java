@@ -79,7 +79,7 @@ public class OficinaDAOImpl implements OficinaDAO {
 	public List<Oficina> ListarxIdUnidad(int id_unidad) {
 		Oficina temp = null;
 		List <Oficina> lista=null;
-		String query = "Select oficina.id_oficina, oficina.descripcion from  centro_trabajo\r\n" + 
+		String query = "Select oficina.id_oficina, oficina.descripcion,centro_trabajo.id_centro_trabajo from  centro_trabajo\r\n" + 
 				"INNER JOIN oficina ON oficina.id_oficina=centro_trabajo.id_oficina\r\n" + 
 				"where centro_trabajo.id_unidad=? and centro_trabajo.estado=1";
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
@@ -98,6 +98,7 @@ public class OficinaDAOImpl implements OficinaDAO {
 						temp = new Oficina();
 						temp.setIdOficina(rs.getInt(1));
 						temp.setDescripcion(rs.getString(2));
+						temp.setUsuReg(rs.getInt(3));
 						lista.add(temp);
 					}
 				}

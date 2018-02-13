@@ -22,4 +22,22 @@ public class UsuarioServiceImpl implements UsuarioService {
 		return dao.img(cip);
 	}
 
+	@Override
+	public Usuario GrabarUsuario(Usuario usu) {
+		// TODO Auto-generated method stub
+		return dao.GrabarUsuario(usu);
+	}
+
+	@Override
+	public Usuario ModificarUsuario(Usuario usu) {
+		// TODO Auto-generated method stub
+		return dao.ModificarUsuario(usu);
+	}
+
+	@Override
+	public Usuario ModificarClave(Usuario usu) {
+		// TODO Auto-generated method stub
+		return dao.ModificarClave(usu);
+	}
+
 }

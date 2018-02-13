@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import entity.Usuario;
+import com.captcha.botdetect.web.servlet.Captcha;
+
 import logica.LogicaSeguridad;
 
 /**
@@ -36,43 +37,56 @@ public class ServSeguridad extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		System.out.println("Servlet: " + this.getClass().getName());
-		String usu = request.getParameter("username")!= null ? request.getParameter("username") : "";
-		String pas = request.getParameter("password")!= null ? request.getParameter("password") : "";
-		String salir = request.getParameter("salir") != null ? request.getParameter("salir") : "";
-		if (salir==null || salir.equals("") ) {
-			if (usu == null || pas == null) {
+		HttpSession session = request.getSession();
+		try {
+			Captcha captcha = Captcha.load(request, "exampleCaptcha");
+			boolean isHuman = captcha.validate(request.getParameter("captchaCode"));
+			if (!isHuman) {
+				System.out.println("NO ES HUMANO ");
+				request.setAttribute("msg", "CODIGO DE CAPCHA INCORRECTO");
 				redireccionar(request, response, "index.jsp");
 			} else {
-				if (usu != "" && pas != "") {
-					try {
-						if (validar(usu.trim(), pas.trim(), request)) {
-							System.out.println("BIENVENIDO AL SISTEMA");
-							request.setAttribute("breadcrumb", "home");
-							request.setAttribute("body", "home");
-							redireccionar(request, response, "jsp/template.jsp");
-						} else {
-							System.out.println("ERROR DE VALIDACION");
-							request.setAttribute("msg", "ERROR DE VALIDACIÓN");
+				System.out.println("PASO EL CAPCHA");
+
+				String usu = request.getParameter("username") != null ? request.getParameter("username") : "";
+				String pas = request.getParameter("password") != null ? request.getParameter("password") : "";
+					if (usu == null || pas == null) {
+						session.invalidate();
+						request.setAttribute("msg", "SESIÓN FINALIZADA");
+						redireccionar(request, response, "index.jsp");
+					} else {
+						if (usu != "" && pas != "") {
+							try {
+								if (validar(usu.trim(), pas.trim(), request)) {
+									System.out.println("BIENVENIDO AL SISTEMA");
+									request.setAttribute("breadcrumb", "home");
+									request.setAttribute("body", "home");
+									redireccionar(request, response, "jsp/template.jsp");
+								} else {
+									System.out.println("ERROR DE VALIDACION");
+									request.setAttribute("msg", "CREDENCIALES INCORRECTAS");
+									redireccionar(request, response, "index.jsp");
+								}
+							} catch (SQLException e) {
+								System.out.println("ERROR DE SISTEMA");
+								redireccionar(request, response, "index.jsp");
+								e.printStackTrace();
+
+							}
+						}else {
+							session.invalidate();
+							request.setAttribute("msg", "SESIÓN FINALIZADA");
+							redireccionar(request, response, "index.jsp");
 							redireccionar(request, response, "index.jsp");
 						}
-					} catch (SQLException e) {
-						System.out.println("ERROR DE SISTEMA");
-						redireccionar(request, response, "index.jsp");
-						e.printStackTrace();
-
 					}
-				}
+				 
 			}
-		}else {
-			HttpSession session = request.getSession();
+		} catch (Exception e) {
 			session.invalidate();
 			request.setAttribute("msg", "SESIÓN FINALIZADA");
 			redireccionar(request, response, "index.jsp");
-			
-			
 		}
-		
-
 	}
 
 	private void redireccionar(HttpServletRequest request, HttpServletResponse response, String string)

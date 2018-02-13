@@ -58,6 +58,7 @@
                     <li class="breadcrumb-item active">${breadcrumb}</li>
                 </ol>    
                 <c:import url="dinamico/${body}.jsp"/>
+                
                 <script src="vendor/jquery/jquery.min.js"></script>
                 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
                 <!-- Core plugin JavaScript-->
@@ -78,6 +79,10 @@
                 <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
 				<script src="js/bootstrap-notify.min.js"></script>
 				<script src="js/chosen.jquery.min.js"></script>
+				
+				
+				
+				
             </div>
 
     </body>
@@ -101,7 +106,7 @@
                 <div class="modal-body">Seleccione "Cerrar Sesión" si está seguro de salir del sistema.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <a class="btn btn-primary" href="ServSeguridad?salir=off">Cerrar Sesión</a>
+                    <a class="btn btn-primary" href="SPage?action=login">Cerrar Sesión</a>
                 </div>
             </div>
         </div>

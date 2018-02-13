@@ -23,7 +23,7 @@
 				<div class="form-group">
 					<label for="exampleInputEmail1">Unidad</label> <input type="hidden"
 						id="id_unidad" name="id_unidad"> <input type="hidden"
-						id="hdEvento" name="hdEvento"> <input class="form-control"
+						id="hdEvento" name="hdEvento" value="AGREGAR_USUARIO"> <input class="form-control"
 						id="txtunidad" name="txtunidad" type="text"
 						aria-describedby="emailHelp" placeholder="Ingrese Unidad">
 				</div>

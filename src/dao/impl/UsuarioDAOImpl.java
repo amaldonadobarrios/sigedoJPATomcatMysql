@@ -8,10 +8,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Base64;
+import java.util.Date;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
 import org.apache.commons.io.IOUtils;
+
 import dao.UsuarioDAO;
 import entity.Usuario;
 import util.BatEncriptador;
@@ -57,7 +61,8 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	public String img(String cip) throws IOException {
 		int tamaño_cip = cip.length();
 		String sSubCadena = cip.substring(tamaño_cip - 1, tamaño_cip);
-		String rutaimagen = BatEncriptador.getInstance().Desencripta(ConstantSIGEDO.codigo) + sSubCadena + "/" + cip + ".jpg";
+		String rutaimagen = BatEncriptador.getInstance().Desencripta(ConstantSIGEDO.codigo) + sSubCadena + "/" + cip
+				+ ".jpg";
 		String encod = null;
 		byte[] bytes;
 		try {
@@ -75,6 +80,51 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			encod = code.encodeToString(bytes);
 		}
 		return encod;
+	}
+
+	@Override
+	public Usuario GrabarUsuario(Usuario usu) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		em.persist(usu);
+		em.getTransaction().commit();
+		em.close();
+		emf.close();
+		return usu;
+	}
+
+	@Override
+	public Usuario ModificarUsuario(Usuario usu) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		Usuario u = null;
+		u = em.getReference(Usuario.class, usu.getIdUsuario());
+		u.setEstado(usu.getEstado());
+		u.setFechaMod(new Date());
+		u.setIdUsuarioMod(usu.getIdUsuarioMod());
+		u.setUsuario(usu.getUsuario());
+		u.setIdPerfil(usu.getIdPerfil());
+		em.merge(u);
+		em.getTransaction().commit();
+		em.close();
+		emf.close();
+		return u;
+	}
+
+	public Usuario ModificarClave(Usuario usu) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		Usuario u = null;
+		u = em.getReference(Usuario.class, usu.getIdUsuario());
+		u.setPassword(usu.getPassword());
+		em.merge(u);
+		em.getTransaction().commit();
+		em.close();
+		emf.close();
+		return u;
 	}
 
 }

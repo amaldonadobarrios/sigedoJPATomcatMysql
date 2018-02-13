@@ -8,4 +8,7 @@ import entity.Usuario;
 public interface UsuarioService {
 	public Usuario validar(String usu,String pas) throws SQLException;
 	public String img(String cip) throws IOException;
+	public Usuario GrabarUsuario(Usuario usu);
+	public Usuario ModificarUsuario(Usuario usu);
+	public Usuario ModificarClave(Usuario usu);
 }

@@ -18,14 +18,43 @@ public class LogicaPersona {
 	private LogicaPersona() {
 	}
 	// PATRON SINGLETON FIN
-	
+
 	public Persona BuscarporId(int id) {
-		PersonaService serv=new PersonaServiceImpl();
-		Persona per=null;
-		per=serv.BuscarxId(id);
-		if (per!=null) {
-		return per;	
+		PersonaService serv = new PersonaServiceImpl();
+		Persona per = null;
+		per = serv.BuscarxId(id);
+		if (per != null) {
+			return per;
 		}
 		return null;
+	}
+
+	public int grabarPersona(Persona per) {
+		PersonaService serv = new PersonaServiceImpl();
+		Persona persona = null;
+		persona = serv.GrabarPersona(per);
+		if (persona != null) {
+			return persona.getIdPersona();
+		}
+		return 0;
+	}
+	
+	public Persona Buscarxcip(String cip) {
+		PersonaService serv = new PersonaServiceImpl();
+		Persona per = null;
+		per = serv.BuscarxCip(cip);
+		if (per != null) {
+			return per;
+		}
+		return null;	
+	}
+	public boolean ExistePersona(String cip) {
+		PersonaService serv = new PersonaServiceImpl();
+		Persona per = null;
+		per = serv.BuscarxCip(cip);
+		if (per != null) {
+			return true;
+		}
+		return false;	
 	}
 }

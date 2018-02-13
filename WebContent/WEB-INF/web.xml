@@ -9,4 +9,22 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <servlet-name>BotDetect Captcha</servlet-name>
+    <servlet-class>com.captcha.botdetect.web.servlet.CaptchaServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BotDetect Captcha</servlet-name>
+    <url-pattern>/botdetectcaptcha</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ServAdministracionAJAX</display-name>
+    <servlet-name>ServAdministracionAJAX</servlet-name>
+    <servlet-class>control.ServAdministracionAJAX</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServAdministracionAJAX</servlet-name>
+    <url-pattern>/ServAdministracionAJAX</url-pattern>
+  </servlet-mapping>
 </web-app>
