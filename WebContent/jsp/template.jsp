@@ -101,7 +101,7 @@
                 <div class="modal-body">Seleccione "Cerrar Sesión" si está seguro de salir del sistema.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <a class="btn btn-primary" href="ServSeguridad?salir=off">Cerrar Sesión</a>
+                    <a class="btn btn-primary" href="SPage?action=login">Cerrar Sesión</a>
                 </div>
             </div>
         </div>

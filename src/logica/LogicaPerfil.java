@@ -1,5 +1,7 @@
 package logica;
 
+import java.util.List;
+
 import entity.Perfil;
 import service.PerfilService;
 import service.impl.PerfilServiceImpl;
@@ -22,6 +24,15 @@ public class LogicaPerfil {
 			PerfilService serv=new PerfilServiceImpl();
 			Perfil  obj=null;
 			obj=serv.BuscarxId(id);
+			if (obj!=null) {
+			return obj;	
+			}
+			return null;
+		}
+		public List<Perfil>  Listar() {
+			PerfilService serv=new PerfilServiceImpl();
+			List<Perfil>   obj=null;
+			obj=serv.Listar();
 			if (obj!=null) {
 			return obj;	
 			}

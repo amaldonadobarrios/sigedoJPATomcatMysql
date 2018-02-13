@@ -45,7 +45,6 @@ public class LogicaSeguridad {
 				try {
 					foto = LogicaUsuario.getInstance().getfoto(per.getCip());
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				ArrayList<Object> SesionUsuario = new ArrayList<Object>();
@@ -58,6 +57,9 @@ public class LogicaSeguridad {
 				HttpSession sesion= request.getSession();
 				sesion.setAttribute("usuario", SesionUsuario);
 				sesion.setAttribute("img64", foto);
+				sesion.setAttribute("ID", sesion.getId());
+				sesion.setAttribute("CIP", per.getCip());
+				sesion.setMaxInactiveInterval(300);
 				return true;
 			}
 		}

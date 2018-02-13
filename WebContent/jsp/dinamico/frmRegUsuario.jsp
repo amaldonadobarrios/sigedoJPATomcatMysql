@@ -149,9 +149,9 @@
 		document.forms["form2"].submit();
 	}
 	}
-	window.onload=function() {
-			$("#cbxunidad").val(${VcomboUnidad});
-		}
+window.onload=function() {
+$("#cbxunidad").val(${VcomboUnidad});
+}
 	
 </script>
 
