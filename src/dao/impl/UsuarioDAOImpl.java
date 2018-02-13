@@ -127,4 +127,37 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		return u;
 	}
 
+	@Override
+	public Usuario BuscarxIdPersona(int id_persona) {
+		Usuario usuario = null;
+		String query = "SELECT id_usuario, usuario,estado, id_persona, id_perfil \r\n" + 
+				"FROM usuario where id_persona=?;";
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		java.sql.Connection cn = em.unwrap(java.sql.Connection.class);
+		if (cn != null) {
+			try {
+				PreparedStatement ps = cn.prepareStatement(query);
+				ps.setInt(1, id_persona);
+				ResultSet rs = ps.executeQuery();
+				if (rs.next()) {
+					usuario = new Usuario();
+					usuario.setIdUsuario(rs.getInt(1));
+					usuario.setUsuario(rs.getString(2));
+					usuario.setEstado(rs.getInt(3));
+					usuario.setIdPersona(rs.getInt(4));
+					usuario.setIdPerfil(rs.getInt(5));
+				}
+			} catch (SQLException e) {
+				System.out.println("Excepcion en query obtenercodigo de unidad: " + e.toString());
+			} finally {
+				em.getTransaction().commit();
+				em.close();
+				emf.close();
+			}
+		}
+		return usuario;
+	}
+
 }

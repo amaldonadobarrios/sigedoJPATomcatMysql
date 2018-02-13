@@ -14,12 +14,17 @@ import javax.servlet.http.HttpSession;
 
 import entity.CentroTrabajo;
 import entity.Oficina;
+import entity.Persona;
 import entity.Unidad;
 import entity.Usuario;
 import logica.LogicaCentroTrabajo;
 import logica.LogicaCombos;
 import logica.LogicaOficina;
+import logica.LogicaPersona;
 import logica.LogicaUnidad;
+import logica.LogicaUsuario;
+import util.BatEncriptador;
+import util.DirDate;
 
 /**
  * Servlet implementation class ServAdministracion
@@ -75,7 +80,7 @@ public class ServAdministracion extends HttpServlet {
 							AsignarOficina(request, response);
 							break;
 						case "AGREGAR_USUARIO":
-							System.out.println("hdEvento :  ASIGNAR_OFICINA");
+							System.out.println("hdEvento :  AGREGAR_USUARIO");
 							AgregarUsuario(request, response);
 							break;
 						default:
@@ -90,13 +95,13 @@ public class ServAdministracion extends HttpServlet {
 
 				}
 
-			}else {
+			} else {
 				request.setAttribute("msg", "SESION EXPIRADA, VUELVA A INGRESAR");
 				sesion.invalidate();
 				System.out.println("DESTINO:" + "index.jsp");
 				forwar("index.jsp", request, response);
 			}
-		}else {
+		} else {
 			request.setAttribute("msg", "SESION EXPIRADA, VUELVA A INGRESAR");
 			sesion.invalidate();
 			System.out.println("DESTINO:" + "index.jsp");
@@ -105,12 +110,74 @@ public class ServAdministracion extends HttpServlet {
 
 	}
 
-	private void AgregarUsuario(HttpServletRequest request, HttpServletResponse response) {
+	private void AgregarUsuario(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		System.out.println("void AgregarUsuario");
-		
-		
-		
-		
+		String cip = request.getParameter("txtcip");
+		String dni = request.getParameter("txtdni");
+		String grado = request.getParameter("cbxgrado");
+		String apePat = request.getParameter("txtapepat");
+		String apeMat = request.getParameter("txtapemat");
+		String Nom = request.getParameter("txtnom");
+		String cel = request.getParameter("txtcel");
+		String unidad = request.getParameter("cbxunidad");
+		int id_centro = Integer.parseInt(request.getParameter("cbxoficina"));
+		int perfil = Integer.parseInt(request.getParameter("cbxperfil"));
+		String usuario = request.getParameter("txtusu");
+		String pass = request.getParameter("txtpass");
+		int estado = Integer.parseInt(request.getParameter("cbxest"));
+		boolean existeCip = true;
+		boolean estadoGrabarUsuario=false;
+		Persona per = null;
+		Usuario usu = null;
+		if (cip != null) {
+			existeCip = LogicaPersona.getInstance().ExistePersona(cip);
+			if (existeCip) {
+				System.out.println("CIP EXISTE");
+				request.setAttribute("msgnok", "CIP YA REGISTRADO");
+			} else {
+				HttpSession sesion = request.getSession();
+				ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+				Usuario user = (Usuario) SesionUsuario.get(0);
+				System.out.println("CIP NO EXISTE");
+				per = new Persona();
+				per.setApeMat(apePat.toUpperCase());
+				per.setApePat(apeMat.toUpperCase());
+				per.setNombres(Nom.toUpperCase());
+				per.setCelular(cel);
+				per.setCip(cip);
+				per.setDni(dni);
+				per.setEstado(1);
+				per.setFechaReg(new Date());
+				per.setGrado(grado);
+				per.setIdCentroTrabajo(id_centro);
+				per.setUsuReg(user.getIdUsuario());
+				int id_persona=LogicaPersona.getInstance().grabarPersona(per);
+				if (id_persona>0) {
+				usu=new Usuario();
+				usu.setDiasVigencia(360);
+				usu.setEstado(estado);
+				usu.setFechaReg(new Date());
+				usu.setFechaCaducidad(DirDate.getInstance().getFechaSistemaAgregarDias(360));
+				usu.setIdPerfil(perfil);
+				usu.setIdPersona(id_persona);
+				usu.setIdUsuarioCrea(user.getIdUsuario());
+				usu.setPassword(BatEncriptador.getInstance().Encripta(pass));
+				usu.setUsuario(usuario);
+				estadoGrabarUsuario=LogicaUsuario.getInstance().grabarUsuario(usu);
+				if (estadoGrabarUsuario) {
+					request.setAttribute("msgok", "USUARIO REGISTRADO EXITOSAMENTE");	
+				}else {
+					request.setAttribute("msgnok", "NO SE REGISTRO USUARIO");
+				}
+				}	
+			}
+		}
+		request.setAttribute("lstuni", LogicaUnidad.getInstance().ListaUnidad());
+		request.setAttribute("breadcrumb", "Registrar Usuario");
+		request.setAttribute("body", "frm_reg_usuario");
+		forwar("jsp/template.jsp", request, response);
+
 	}
 
 	private void AsignarOficina(HttpServletRequest request, HttpServletResponse response)

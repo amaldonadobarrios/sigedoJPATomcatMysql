@@ -67,13 +67,13 @@
 					<div class="form-group">
 						<label for="username">Usuario</label> <input class="form-control"
 							id="username" name="username" required="required" type="text"
-							placeholder="Ingrese su usuario">
+							placeholder="Ingrese su usuario" value="amaldonadob">
 					</div>
 					<div class="form-group">
 						<label for="password">Contraseña</label> <input
 							class="form-control" id="password" name="password"
 							type="password" placeholder="Ingrese su contraseña"
-							required="required">
+							required="required" value="mauricio">
 					</div>
 
 					<div class="container">

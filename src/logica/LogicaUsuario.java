@@ -55,4 +55,13 @@ public class LogicaUsuario {
 		}
 		return false;
 	}
+	public Usuario BuscarUsuarioxIdPersona(int id_persona) {
+		UsuarioService serv = new UsuarioServiceImpl();
+		Usuario usuario = null;
+		usuario = serv.BuscarxIdPersona(id_persona);
+		if (usuario!=null) {
+			return usuario;
+		}
+		return null;
+	}
 }

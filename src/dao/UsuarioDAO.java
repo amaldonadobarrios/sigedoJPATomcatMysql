@@ -12,4 +12,5 @@ public interface UsuarioDAO {
 	public Usuario GrabarUsuario(Usuario usu);
 	public Usuario ModificarUsuario(Usuario usu);
 	public Usuario ModificarClave(Usuario usu);
+	public Usuario BuscarxIdPersona(int id_persona);
 }

@@ -40,4 +40,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 		return dao.ModificarClave(usu);
 	}
 
+	@Override
+	public Usuario BuscarxIdPersona(int id_persona) {
+		// TODO Auto-generated method stub
+		return dao.BuscarxIdPersona(id_persona);
+	}
+
 }

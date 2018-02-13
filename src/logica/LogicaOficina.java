@@ -35,7 +35,11 @@ public class LogicaOficina {
 	public List<Oficina>  BuscarporIdUnidad(int id_unidad) {
 		OficinaService serv=new OficinaServiceImpl();
 		List<Oficina>  obj= new ArrayList<Oficina>();
-		obj= serv.ListarxIdUnidad(id_unidad);
+		try {
+			obj= serv.ListarxIdUnidad(id_unidad);	
+		} catch (Exception e) {
+			System.out.println("NO hay oficinas");
+		}
 		if (obj!=null) {
 		return obj;	
 		}

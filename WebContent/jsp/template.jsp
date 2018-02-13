@@ -58,6 +58,7 @@
                     <li class="breadcrumb-item active">${breadcrumb}</li>
                 </ol>    
                 <c:import url="dinamico/${body}.jsp"/>
+                
                 <script src="vendor/jquery/jquery.min.js"></script>
                 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
                 <!-- Core plugin JavaScript-->
@@ -78,6 +79,10 @@
                 <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
 				<script src="js/bootstrap-notify.min.js"></script>
 				<script src="js/chosen.jquery.min.js"></script>
+				<script src="js/dirtexto.js"></script>
+				
+				
+				
             </div>
 
     </body>
