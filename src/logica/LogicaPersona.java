@@ -48,6 +48,15 @@ public class LogicaPersona {
 		}
 		return null;	
 	}
+	public Persona BuscarxCipSinPrivilegios(String cip) {
+		PersonaService serv = new PersonaServiceImpl();
+		Persona per = null;
+		per = serv.BuscarxCipSinPrivilegios(cip);
+		if (per != null) {
+			return per;
+		}
+		return null;	
+	}
 	public boolean ExistePersona(String cip) {
 		PersonaService serv = new PersonaServiceImpl();
 		Persona per = null;
@@ -56,5 +65,15 @@ public class LogicaPersona {
 			return true;
 		}
 		return false;	
+	}
+	public boolean Actualizar(Persona per) {
+		PersonaService serv = new PersonaServiceImpl();
+		Persona perso=null;
+		perso=new Persona();
+		perso=serv.ModificarPersona(per);
+		if (perso.getFechaMod().equals(per.getFechaMod())) {
+			return true;
+		}
+		return false;
 	}
 }

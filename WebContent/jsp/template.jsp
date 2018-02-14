@@ -79,7 +79,7 @@
                 <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
 				<script src="js/bootstrap-notify.min.js"></script>
 				<script src="js/chosen.jquery.min.js"></script>
-				
+				<script src="js/dirtexto.js"></script>
 				
 				
 				

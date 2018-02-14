@@ -7,4 +7,5 @@ public interface PersonaService {
 	public Persona GrabarPersona(Persona obj);
 	public Persona BuscarxCip(String  cip);
 	public Persona ModificarPersona(Persona obj);
+	public Persona BuscarxCipSinPrivilegios(String  cip);
 }

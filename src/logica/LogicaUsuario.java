@@ -37,14 +37,14 @@ public class LogicaUsuario {
 		}
 		return false;
 	}
-	public int ModificarUsuario(Usuario usu) {
+	public boolean ModificarUsuario(Usuario usu) {
 		UsuarioService serv = new UsuarioServiceImpl();
 		Usuario usuario = null;
 		usuario = serv.ModificarUsuario(usu);
-		if (usuario != null) {
-			return usuario.getIdUsuario();
+		if (usuario.getFechaMod().equals(usu.getFechaMod())) {
+			return true;
 		}
-		return 0;
+		return false;
 	}
 	public boolean ModificarClave(Usuario usu) {
 		UsuarioService serv = new UsuarioServiceImpl();
@@ -54,5 +54,14 @@ public class LogicaUsuario {
 			return true;
 		}
 		return false;
+	}
+	public Usuario BuscarUsuarioxIdPersona(int id_persona) {
+		UsuarioService serv = new UsuarioServiceImpl();
+		Usuario usuario = null;
+		usuario = serv.BuscarxIdPersona(id_persona);
+		if (usuario!=null) {
+			return usuario;
+		}
+		return null;
 	}
 }

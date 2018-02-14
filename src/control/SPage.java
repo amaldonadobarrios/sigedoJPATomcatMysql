@@ -132,6 +132,7 @@ public class SPage extends HttpServlet {
 	}
 
 	private void ModUsu(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("lstuni", LogicaUnidad.getInstance().ListaUnidad());
 		request.setAttribute("breadcrumb", "Modificar Usuario");
 		request.setAttribute("body", "frm_mod_usuario");
 		forwar("jsp/template.jsp", request, response);

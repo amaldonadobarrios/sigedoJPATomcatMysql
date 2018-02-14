@@ -27,6 +27,11 @@ PersonaDAO dao=new PersonaDAOImpl();
 		// TODO Auto-generated method stub
 		return dao.ModificarPersona(obj);
 	}
+	@Override
+	public Persona BuscarxCipSinPrivilegios(String cip) {
+		// TODO Auto-generated method stub
+		return dao.BuscarxCipSinPrivilegios(cip);
+	}
 
 
 }

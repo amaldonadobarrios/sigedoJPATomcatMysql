@@ -1,6 +1,7 @@
 <%@ page pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"	id="mainNav">
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
+	id="mainNav">
 	<a class="navbar-brand" href="index.html">Sistema de Gestión
 		Documental</a>
 	<button class="navbar-toggler navbar-toggler-right" type="button"
@@ -61,6 +62,7 @@
 				href="SPage?action=searchHT"> <i class="fa fa-fw fa-search"></i>
 					<span class="nav-link-text">Consultar Hoja de Trámite</span>
 			</a></li>
+			<c:if test="${sessionScope.usuario[5].idPerfil==1}">
 			<li class="nav-item" data-toggle="tooltip" data-placement="right"
 				title="Administrador"><a
 				class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
@@ -75,30 +77,35 @@
 							class="fa fa-fw fa-user-o"></i> <span class="nav-link-text">Modificar
 								usuario</span></a></li>
 				</ul></li>
-			<li class="nav-item" data-toggle="tooltip" data-placement="right"
-				title="Super Administrador"><a
-				class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
-				href="#collapseComponents1" data-parent="#exampleAccordion"> <i
-					class="fa fa-fw fa-wrench"></i> <span class="nav-link-text">Super
-						Administrador</span>
-			</a>
-				<ul class="sidenav-second-level collapse" id="collapseComponents1">
-					<li><a href="SPage?action=RegUsu"> <i
-							class="fa fa-fw fa-user-plus"></i> <span class="nav-link-text">Registrar
-								Administradores</span></a></li>
-					<li><a href="SPage?action=ModUsu"> <i
-							class="fa fa-fw fa-user-o"></i> <span class="nav-link-text">Modificar
-								Administradores</span></a></li>
-					<li><a href="SPage?action=GestCenTrabajo"> <i
-							class="fa fa-fw fa-home"></i> <span class="nav-link-text">Gestionar
-								Centro Trabajo</span></a></li>
-					<li><a href="SPage?action=RegUni"> <i
-							class="fa fa-fw fa-hourglass"></i> <span class="nav-link-text">Registrar
-								unidades</span></a></li>
-					<li><a href="SPage?action=RegOfi"> <i
-							class="fa fa-fw fa-desktop"></i> <span class="nav-link-text">Registrar
-								Oficina</span></a></li>
-				</ul></li>
+				</c:if>	
+			<c:if test="${sessionScope.usuario[5].idPerfil==6}">
+
+				<li class="nav-item" data-toggle="tooltip" data-placement="right"
+					title="Super Administrador"><a
+					class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
+					href="#collapseComponents1" data-parent="#exampleAccordion"> <i
+						class="fa fa-fw fa-wrench"></i> <span class="nav-link-text">Super
+							Administrador</span>
+				</a>
+					<ul class="sidenav-second-level collapse" id="collapseComponents1">
+						<li><a href="SPage?action=RegUsu"> <i
+								class="fa fa-fw fa-user-plus"></i> <span class="nav-link-text">Registrar
+									Administradores</span></a></li>
+						<li><a href="SPage?action=ModUsu"> <i
+								class="fa fa-fw fa-user-o"></i> <span class="nav-link-text">Modificar
+									Administradores</span></a></li>
+						<li><a href="SPage?action=GestCenTrabajo"> <i
+								class="fa fa-fw fa-home"></i> <span class="nav-link-text">Gestionar
+									Centro Trabajo</span></a></li>
+						<li><a href="SPage?action=RegUni"> <i
+								class="fa fa-fw fa-hourglass"></i> <span class="nav-link-text">Registrar
+									unidades</span></a></li>
+						<li><a href="SPage?action=RegOfi"> <i
+								class="fa fa-fw fa-desktop"></i> <span class="nav-link-text">Registrar
+									Oficina</span></a></li>
+					</ul></li>
+
+			</c:if>
 			<li class="nav-item" data-toggle="tooltip" data-placement="right"
 				title="Estadistica"><a
 				class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
@@ -201,11 +208,11 @@
 					<div class="dropdown-divider"></div>
 					<a class="dropdown-item small" href="#">View all alerts</a>
 				</div></li>
-			<li class="nav-item"><a class="navbar-img" href="#"> 
-						<img alt="Brand" class="img-circle"
-							src="data:image/jpg;base64,${sessionScope.img64}" width="45"
-							height="40">
-					
+			<li class="nav-item"><a class="navbar-img" href="#"> <img
+					alt="Brand" class="img-circle"
+					src="data:image/jpg;base64,${sessionScope.img64}" width="45"
+					height="40">
+
 			</a></li>
 			<div class="btn-group">
 				<button type="button" class="btn btn-dark " data-toggle="dropdown">${sessionScope.usuario[1].grado}
@@ -229,9 +236,9 @@
 		</ul>
 	</div>
 </nav>
-    <style>
+<style>
 img {
-    border-radius: 50%;
+	border-radius: 50%;
 }
 </style>
 

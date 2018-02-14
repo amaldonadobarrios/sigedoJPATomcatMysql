@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import com.captcha.botdetect.web.servlet.Captcha;
 
 import logica.LogicaSeguridad;
+import util.BatEncriptador;
 
 /**
  * Servlet implementation class ServSeguridad
@@ -97,7 +98,6 @@ public class ServSeguridad extends HttpServlet {
 	}
 
 	private boolean validar(String usu, String pas, HttpServletRequest request) throws SQLException {
-		System.out.println("Validar : usu : " + usu + " Pass: " + pas);
 		return LogicaSeguridad.getInstance().Validacion(usu, pas, request);
 	}
 

@@ -15,6 +15,7 @@ import entity.Unidad;
 import entity.Usuario;
 import service.UsuarioService;
 import service.impl.UsuarioServiceImpl;
+import util.BatEncriptador;
 
 public class LogicaSeguridad {
 	// PATRON SINGLETON INI
@@ -33,7 +34,7 @@ public class LogicaSeguridad {
 
 	public boolean Validacion(String usu, String pas,HttpServletRequest request) throws SQLException {
 		UsuarioService serv = new UsuarioServiceImpl();
-		Usuario usuario = serv.validar(usu, pas);
+		Usuario usuario = serv.validar(usu, BatEncriptador.getInstance().Encripta(pas));
 		if (usuario != null) {
 			if (usuario.getIdUsuario() > 0) {
 				Persona per=LogicaPersona.getInstance().BuscarporId(usuario.getIdPersona());
