@@ -67,7 +67,7 @@
 					<div class="form-group">
 						<label for="username">Usuario</label> <input class="form-control"
 							id="username" name="username" required="required" type="text"
-							placeholder="Ingrese su usuario" value="amaldonadob">
+							placeholder="Ingrese su usuario" value="31424836">
 					</div>
 					<div class="form-group">
 						<label for="password">Contraseña</label> <input

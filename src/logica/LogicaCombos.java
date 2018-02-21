@@ -3,12 +3,18 @@ package logica;
 import java.util.List;
 
 import entity.CentroTrabajo;
+import entity.ClasContenidoDoc;
+import entity.ClasFuncionDoc;
 import entity.Oficina;
+import entity.PrioridadDoc;
+import entity.TipoDoc;
 import entity.Unidad;
 import service.CentroTrabajoService;
+import service.ComboDocumentoService;
 import service.OficinaService;
 import service.UnidadService;
 import service.impl.CentroTrabajoServiceImpl;
+import service.impl.ComboDocumentoServiceImpl;
 import service.impl.OficinaServiceImpl;
 import service.impl.UnidadServiceImpl;
 
@@ -39,6 +45,22 @@ public class LogicaCombos {
 		public List<CentroTrabajo> ListaCentroTrabajo() {
 			CentroTrabajoService serv= new CentroTrabajoServiceImpl();
 			return serv.Listar();
+		}
+		public List<TipoDoc> ListaTipoDoc(){
+			ComboDocumentoService serv=new ComboDocumentoServiceImpl();
+			return serv.ListaTipoDoc();
+		}
+		public List<ClasContenidoDoc> ListaClasContenidoDoc(){
+			ComboDocumentoService serv=new ComboDocumentoServiceImpl();	
+			return serv.ListaClasContenidoDoc();
+		}
+		public List<ClasFuncionDoc> ListaClasFuncionDoc(){
+			ComboDocumentoService serv=new ComboDocumentoServiceImpl();	
+			return serv.ListaClasFuncionDoc();
+		}
+		public List<PrioridadDoc> ListaPrioridadDoc(){
+			ComboDocumentoService serv=new ComboDocumentoServiceImpl();	
+			return serv.ListaPrioridadDoc();
 		}
 		
 		

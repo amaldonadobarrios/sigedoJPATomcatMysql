@@ -1,7 +1,15 @@
 package entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.Arrays;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 
 /**
@@ -20,6 +28,7 @@ public class FicheroDoc implements Serializable {
 	private int idFicheroDoc;
 
 	@Lob
+	@Column(name="fichero",nullable=true)
 	private byte[] blob;
 
 	private int estado;
@@ -79,6 +88,12 @@ public class FicheroDoc implements Serializable {
 
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
+	}
+
+	@Override
+	public String toString() {
+		return "FicheroDoc [idFicheroDoc=" + idFicheroDoc + ", blob=" + Arrays.toString(blob) + ", estado=" + estado
+				+ ", nombre=" + nombre + ", size=" + size + ", tipo=" + tipo + "]";
 	}
 
 }

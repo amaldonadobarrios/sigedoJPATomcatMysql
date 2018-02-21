@@ -208,6 +208,12 @@ public class SPage extends HttpServlet {
 
 	private void pageregdocMP(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		//cargar combos
+		request.setAttribute("combounid", LogicaCombos.getInstance().ListaUnidad());
+		request.setAttribute("combotipo", LogicaCombos.getInstance().ListaTipoDoc());
+		request.setAttribute("combocont", LogicaCombos.getInstance().ListaClasContenidoDoc());
+		request.setAttribute("combofunc", LogicaCombos.getInstance().ListaClasFuncionDoc());
+		request.setAttribute("comboprio", LogicaCombos.getInstance().ListaPrioridadDoc());
 		request.setAttribute("breadcrumb", "Registrar Documento");
 		request.setAttribute("body", "regdocMP");
 		forwar("jsp/template.jsp", request, response);

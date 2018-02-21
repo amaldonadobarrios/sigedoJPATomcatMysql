@@ -106,4 +106,12 @@ public class Documento implements Serializable {
 		this.idTipoDoc = idTipoDoc;
 	}
 
+	@Override
+	public String toString() {
+		return "Documento [idDocumento=" + idDocumento + ", idClasContenidoDoc=" + idClasContenidoDoc
+				+ ", idClasFuncionDoc=" + idClasFuncionDoc + ", idDetalleDoc=" + idDetalleDoc + ", idEstadoDoc="
+				+ idEstadoDoc + ", idFicheroDoc=" + idFicheroDoc + ", idPrioridadDoc=" + idPrioridadDoc + ", idTipoDoc="
+				+ idTipoDoc + "]";
+	}
+
 }

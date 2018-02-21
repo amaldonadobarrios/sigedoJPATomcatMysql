@@ -19,7 +19,7 @@ public class PrioridadDoc implements Serializable {
 	@Column(name="id_prioridad_doc")
 	private int idPrioridadDoc;
 
-	private String descrpcion;
+	private String descripcion;
 
 	public PrioridadDoc() {
 	}
@@ -32,12 +32,12 @@ public class PrioridadDoc implements Serializable {
 		this.idPrioridadDoc = idPrioridadDoc;
 	}
 
-	public String getDescrpcion() {
-		return this.descrpcion;
+	public String getDescripcion() {
+		return this.descripcion;
 	}
 
-	public void setDescrpcion(String descrpcion) {
-		this.descrpcion = descrpcion;
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 }
