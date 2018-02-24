@@ -4,8 +4,6 @@
 		<class>entity.CentroTrabajo</class>
 		<class>entity.ClasContenidoDoc</class>
 		<class>entity.ClasFuncionDoc</class>
-		<class>entity.DetalleDoc</class>
-		<class>entity.DetalleHt</class>
 		<class>entity.Documento</class>
 		<class>entity.EstadoDoc</class>
 		<class>entity.EstadoHt</class>
@@ -20,12 +18,14 @@
 		<class>entity.TipoDoc</class>
 		<class>entity.Unidad</class>
 		<class>entity.Usuario</class>
+		<class>entity.Codeqr</class>
 		<properties>
 			<property name="eclipselink.jdbc.batch-writing" value="JDBC"/>
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/dbsigedo?zeroDateTimeBehavior=convertToNull&amp;serverTimezone=UTC"/>
 			<property name="javax.persistence.jdbc.user" value="root"/>
 			<property name="javax.persistence.jdbc.password" value="mauricio"/>
+			<property name="javax.persistence.dbc.driver" value="com.mysql.jdbc.Driver"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/dbsigedo?jdbcCompliantTruncation=false"/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-		</properties>
+			</properties>
 	</persistence-unit>
 </persistence>

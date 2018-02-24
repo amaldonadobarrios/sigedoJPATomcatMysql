@@ -42,10 +42,19 @@ function fn_upload_ajax(vservlet){
       }).done(function(data) {
     	//alert(data);
     	if (data!=null) {
-    		var contexto = document.getElementById("contexto").value;
-    		var load ='<img  height="50px" width="50px" src="'+contexto+'/images/check.jpg">';
-    		$('#msjPDF').html(load);
-    		document.getElementById("id_fichero").value=data;	
+    		if (data=='0') {
+    			var contexto = document.getElementById("contexto").value;
+            	 $('#viewer').attr('src', 'about:blank');
+                 $('#uploadPDF').val('');
+                 var load='<img  height="50px" width="50px" src="'+contexto+'/images/error.png">';
+                document.getElementById("msjPDF").innerHTML =  load+' ERROR, NOMBRE MUY EXTENSO';	
+			}else{
+				var contexto = document.getElementById("contexto").value;
+	    		var load ='<img  height="50px" width="50px" src="'+contexto+'/images/check.jpg">';
+	    		$('#msjPDF').html(load);
+	    		document.getElementById("id_fichero").value=data;		
+			}
+    		
     		
 		}
       }).fail(function(jqXHR, textStatus) {
@@ -57,6 +66,16 @@ function fn_upload_ajax(vservlet){
 
 <ol class="breadcrumb">
 	<div class="container-fluid">
+		<c:if test="${msgok!=null}">
+			<div class="alert alert-success">
+				<strong>CORRECTO</strong> ${msgok}
+			</div>
+		</c:if>
+		<c:if test="${msgnok!=null}">
+			<div class="alert alert-danger">
+				<strong>ERROR!</strong> ${msgnok}
+			</div>
+		</c:if>
 		<div class="row">
 			<div class="col-md-6">
 
@@ -64,13 +83,13 @@ function fn_upload_ajax(vservlet){
 					<div class="card-header">Registrar un Documento</div>
 					<div class="card-body">
 						<form data-toggle="validator" role="form"
-							action="<%=sWS %>/ServGestionDocumento" method="post"
-							id="form1" name="form1">
+							action="<%=sWS %>/ServGestionDocumento" method="post" id="form1"
+							name="form1">
 							<input type="hidden" id="contexto" name="contexto"
 								value="<%=sWS%>"> <input id="id_fichero"
-								name="id_fichero" type="text" required class="hideme"> 
-								<input type="hidden"
-						id="hdEvento" name="hdEvento" value="REGISTRAR_DOCUMENTO_MP"> 
+								name="id_fichero" type="text" required class="hideme"> <input
+								type="hidden" id="hdEvento" name="hdEvento"
+								value="REGISTRAR_DOCUMENTO_MP">
 							<!-- PRIMERA COLUMNA -->
 							<div class="form-group">
 								<label id="lbldocumento">TIPO DE DOCUMENTO</label> <select
@@ -78,12 +97,12 @@ function fn_upload_ajax(vservlet){
 									data-placeholder="Seleccion el tipo de documento"
 									class=" form-control" tabindex="2" required>
 									<option value="" selected>Seleccione</option>
-										<c:forEach var="tipo" items="${combotipo}" varStatus="loop">
-								<option data-tokens="ketchup mustard" value="${tipo.idTipoDoc}">${tipo.descripcion}
-								</option>
-							</c:forEach>
+									<c:forEach var="tipo" items="${combotipo}" varStatus="loop">
+										<option data-tokens="ketchup mustard"
+											value="${tipo.idTipoDoc}">${tipo.descripcion}</option>
+									</c:forEach>
 								</select> <input id="hdntipodocumento" type="hidden" value="">
-								
+
 							</div>
 							<div class="form-group">
 								<label id="lblnumero">NUMERO DEL DOCUMENTO</label> <input
@@ -98,22 +117,30 @@ function fn_upload_ajax(vservlet){
 									placeholder="INGRESAR SIGLAS DEL DOCUMENTO" MaxLength="50"
 									id="txtsiglas" name="txtsiglas" value="" required>
 							</div>
+							
 							<div class="form-group">
-								<label id="lblfecha">FECHA DEL DOCUMENTO</label> <input
-									type="date" maxlength="10" id="txtfechadoc" name="txtfechadoc"
-									class="form-control" placeholder="DD/MM/AAAA" value="" required>
-								<input type="hidden" id="txtfechahiden" value="">
+								<label id="lblfecha">FECHA DEL DOCUMENTO</label> 
+								<div class="input-group date datepicker"  >
+								<input type="date" data-format="dd/mm/yyyy" class="form-control" id="txtfechadoc"  name="txtfechadoc" required>
+<!-- 									<span -->
+<!-- 									class="input-group-addon"> <i -->
+<!-- 									class="fa fa-calendar bigger-110"></i> -->
+<!-- 								</span>	 -->
+							</div>		
 							</div>
+							
+
 							<div class="form-group">
 								<label id="lblcontenido">CLASIFICACION POR CONTENIDO</label> <select
 									data-placeholder="Seleccione el tipo de contenido del documento"
 									class="form-control" tabindex="2" id="cbxcontenido"
 									name="cbxcontenido" required>
 									<option value="" selected>Seleccione</option>
-										<c:forEach var="cont" items="${combocont}" varStatus="loop">
-								<option data-tokens="ketchup mustard" value="${cont.idClasContenidoDoc}">${cont.descripcion}
-								</option>
-							</c:forEach>
+									<c:forEach var="cont" items="${combocont}" varStatus="loop">
+										<option data-tokens="ketchup mustard"
+											value="${cont.idClasContenidoDoc}">${cont.descripcion}
+										</option>
+									</c:forEach>
 
 								</select> <input id="hdncontenido" type="hidden" value="">
 
@@ -124,10 +151,10 @@ function fn_upload_ajax(vservlet){
 									class="form-control" tabindex="2" id="cbxfuncion"
 									name="cbxfuncion" required>
 									<option value="" selected>Seleccione</option>
-										<c:forEach var="fun" items="${combofunc}" varStatus="loop">
-								<option data-tokens="ketchup mustard" value="${fun.idClasFuncionDoc}">${fun.descripcion}
-								</option>
-							</c:forEach>
+									<c:forEach var="fun" items="${combofunc}" varStatus="loop">
+										<option data-tokens="ketchup mustard"
+											value="${fun.idClasFuncionDoc}">${fun.descripcion}</option>
+									</c:forEach>
 								</select> <input id="hdnfuncion" type="hidden" value="">
 							</div>
 							<div class="form-group">
@@ -137,9 +164,9 @@ function fn_upload_ajax(vservlet){
 									name="cbxprioridad" required>
 									<option value="" selected>Seleccione</option>
 									<c:forEach var="pri" items="${comboprio}" varStatus="loop">
-								<option data-tokens="ketchup mustard" value="${pri.idPrioridadDoc}">${pri.descripcion}
-								</option>
-							</c:forEach>
+										<option data-tokens="ketchup mustard"
+											value="${pri.idPrioridadDoc}">${pri.descripcion}</option>
+									</c:forEach>
 								</select> <input id="hdnprioridad" type="hidden" value="">
 							</div>
 							<div class="form-group">
@@ -149,10 +176,10 @@ function fn_upload_ajax(vservlet){
 									class="form-control" tabindex="2" onchange="fn_remitente();"
 									required>
 									<option value="" selected>Seleccione</option>
-										<c:forEach var="uni" items="${combounid}" varStatus="loop">
-								<option data-tokens="ketchup mustard" value="${uni.idUnidad}">${uni.descripcion}
-								</option>
-							</c:forEach>
+									<c:forEach var="uni" items="${combounid}" varStatus="loop">
+										<option data-tokens="ketchup mustard" value="${uni.idUnidad}">${uni.descripcion}
+										</option>
+									</c:forEach>
 								</select>
 							</div>
 							<div class="form-group">
@@ -245,18 +272,18 @@ function fn_upload_ajax(vservlet){
 
         return nBytes;
     }
-
+ 
+    
 </script>
 <style>
-.hideme
-{
-    display:none;
-    visibility:hidden;
+.hideme {
+	display: none;
+	visibility: hidden;
 }
-.showme
-{
-    display:inline;
-    visibility:visible;
+
+.showme {
+	display: inline;
+	visibility: visible;
 }
 
 button {

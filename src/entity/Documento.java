@@ -1,44 +1,75 @@
 package entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * The persistent class for the documento database table.
  * 
  */
 @Entity
-@NamedQuery(name="Documento.findAll", query="SELECT d FROM Documento d")
+@NamedQuery(name = "Documento.findAll", query = "SELECT d FROM Documento d")
 public class Documento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_documento")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_documento")
 	private int idDocumento;
 
-	@Column(name="id_clas_contenido_doc")
+	@Column(name = "id_clas_contenido_doc")
 	private int idClasContenidoDoc;
 
-	@Column(name="id_clas_funcion_doc")
+	@Column(name = "id_clas_funcion_doc")
 	private int idClasFuncionDoc;
 
-	@Column(name="id_detalle_doc")
-	private int idDetalleDoc;
-
-	@Column(name="id_estado_doc")
+	@Column(name = "id_estado_doc")
 	private int idEstadoDoc;
 
-	@Column(name="id_fichero_doc")
+	@Column(name = "id_fichero_doc")
 	private int idFicheroDoc;
 
-	@Column(name="id_prioridad_doc")
+	@Column(name = "id_prioridad_doc")
 	private int idPrioridadDoc;
 
-	@Column(name="id_tipo_doc")
+	@Column(name = "id_tipo_doc")
 	private int idTipoDoc;
 
+	@Column(name = "asunto")
+	private String asunto;
+
+	@Column(name = "siglas")
+	private String siglas;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "fecha_doc")
+	private Date fecha;
+
+	@Column(name = "numero")
+	private String numero;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "fecha_reg")
+	private Date fechaReg;
+
+	@Column(name = "id_unidad_remite")
+	private int idUnidad;
+
+	@Column(name = "usu_reg")
+	private int usuReg;
+
+	@Column(name = "id_unidad_registra")
+	private int idUnidadReg;
+	
 	public Documento() {
 	}
 
@@ -64,14 +95,6 @@ public class Documento implements Serializable {
 
 	public void setIdClasFuncionDoc(int idClasFuncionDoc) {
 		this.idClasFuncionDoc = idClasFuncionDoc;
-	}
-
-	public int getIdDetalleDoc() {
-		return this.idDetalleDoc;
-	}
-
-	public void setIdDetalleDoc(int idDetalleDoc) {
-		this.idDetalleDoc = idDetalleDoc;
 	}
 
 	public int getIdEstadoDoc() {
@@ -106,12 +129,79 @@ public class Documento implements Serializable {
 		this.idTipoDoc = idTipoDoc;
 	}
 
+	public String getAsunto() {
+		return asunto;
+	}
+
+	public void setAsunto(String asunto) {
+		this.asunto = asunto;
+	}
+
+	public String getSiglas() {
+		return siglas;
+	}
+
+	public void setSiglas(String siglas) {
+		this.siglas = siglas;
+	}
+
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+
+	public Date getFechaReg() {
+		return fechaReg;
+	}
+
+	public void setFechaReg(Date fechaReg) {
+		this.fechaReg = fechaReg;
+	}
+
+	public int getIdUnidad() {
+		return idUnidad;
+	}
+
+	public void setIdUnidad(int idUnidad) {
+		this.idUnidad = idUnidad;
+	}
+
+	public int getUsuReg() {
+		return usuReg;
+	}
+
+	public void setUsuReg(int usuReg) {
+		this.usuReg = usuReg;
+	}
+
+	public int getIdUnidadReg() {
+		return idUnidadReg;
+	}
+
+	public void setIdUnidadReg(int idUnidadReg) {
+		this.idUnidadReg = idUnidadReg;
+	}
+
 	@Override
 	public String toString() {
 		return "Documento [idDocumento=" + idDocumento + ", idClasContenidoDoc=" + idClasContenidoDoc
-				+ ", idClasFuncionDoc=" + idClasFuncionDoc + ", idDetalleDoc=" + idDetalleDoc + ", idEstadoDoc="
-				+ idEstadoDoc + ", idFicheroDoc=" + idFicheroDoc + ", idPrioridadDoc=" + idPrioridadDoc + ", idTipoDoc="
-				+ idTipoDoc + "]";
+				+ ", idClasFuncionDoc=" + idClasFuncionDoc + ", idEstadoDoc=" + idEstadoDoc + ", idFicheroDoc="
+				+ idFicheroDoc + ", idPrioridadDoc=" + idPrioridadDoc + ", idTipoDoc=" + idTipoDoc + ", asunto="
+				+ asunto + ", siglas=" + siglas + ", fecha=" + fecha + ", numero=" + numero + ", fechaReg=" + fechaReg
+				+ ", idUnidad=" + idUnidad + ", usuReg=" + usuReg + ", idUnidadReg=" + idUnidadReg + "]";
 	}
+
+
 
 }

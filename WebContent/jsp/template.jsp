@@ -30,6 +30,17 @@
         -->
         <link href="css/animate.css" rel="stylesheet">
         <link href="css/chosen.min.css" rel="stylesheet">
+        
+        
+         <link href="bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet">
+         <link href="bootstrap-datepicker/css/bootstrap-datepicker3.css" rel="stylesheet">
+ 		<link href="bootstrap-datepicker/css/bootstrap-datepicker.standalone.css" rel="stylesheet">
+    <link href="bootstrap-datepicker/css/bootstrap-datepicker3.standalone.css" rel="stylesheet">
+    
+    
+
+
+
 
     </head>
     <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -83,13 +94,16 @@
 				
 				
 				
+				
+				<script src="bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+				<script src="bootstrap-datepicker/locales/bootstrap-datepicker.es.min.js"></script>
             </div>
 
     </body>
     <footer class="sticky-footer">
         <div class="container">
             <div class="text-center">
-                <small>Copyright © Your Website 2017</small>
+                <small>Copyright © Maldonado 2018</small>
             </div>
         </div>
     </footer>
@@ -112,8 +126,18 @@
         </div>
     </div>
 
+
+
+  
+
+
+
+
+
 <script type="text/javascript">
 $(".chosen-select").chosen()
+
+
 </script>
 </html>
 

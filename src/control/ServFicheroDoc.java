@@ -85,7 +85,11 @@ public class ServFicheroDoc extends HttpServlet {
 			}
 		}
 		if (Fichero != null) {
-			id = String.valueOf(LogicaFichero.getInstance().GrabarFichero(Fichero));
+			try {
+				id = String.valueOf(LogicaFichero.getInstance().GrabarFichero(Fichero));	
+			} catch (Exception e) {
+				id=String.valueOf(0);
+			}
 		}
 
 		HtmlUtil.getInstance().escrituraHTML(response, id);
