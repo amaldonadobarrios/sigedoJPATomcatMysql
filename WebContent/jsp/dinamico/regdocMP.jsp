@@ -117,18 +117,20 @@ function fn_upload_ajax(vservlet){
 									placeholder="INGRESAR SIGLAS DEL DOCUMENTO" MaxLength="50"
 									id="txtsiglas" name="txtsiglas" value="" required>
 							</div>
-							
+
 							<div class="form-group">
-								<label id="lblfecha">FECHA DEL DOCUMENTO</label> 
-								<div class="input-group date datepicker"  >
-								<input type="date" data-format="dd/mm/yyyy" class="form-control" id="txtfechadoc"  name="txtfechadoc" required>
-<!-- 									<span -->
-<!-- 									class="input-group-addon"> <i -->
-<!-- 									class="fa fa-calendar bigger-110"></i> -->
-<!-- 								</span>	 -->
-							</div>		
+								<label id="lblfecha">FECHA DEL DOCUMENTO</label>
+								<div class="input-group date datepicker">
+									<input type="date" data-format="dd/mm/yyyy"
+										class="form-control" id="txtfechadoc" name="txtfechadoc"
+										required>
+									<!-- 									<span -->
+									<!-- 									class="input-group-addon"> <i -->
+									<!-- 									class="fa fa-calendar bigger-110"></i> -->
+									<!-- 								</span>	 -->
+								</div>
 							</div>
-							
+
 
 							<div class="form-group">
 								<label id="lblcontenido">CLASIFICACION POR CONTENIDO</label> <select
@@ -199,6 +201,11 @@ function fn_upload_ajax(vservlet){
 				<div class="card">
 					<div class="card-header">Subir Pdf</div>
 					<div class="card-body" align="center">
+						<div class="form-group">
+							<label id="lblasunto">OBSERVACIONES</label>
+							<textarea class="form-control" rows="4" cols="50"
+								id="txtobservaciones" name="txtobservaciones" required></textarea>
+						</div>
 						<input type="submit" value="REGISTRAR"
 							class="btn btn-success btn-lg">
 
@@ -275,6 +282,19 @@ function fn_upload_ajax(vservlet){
  
     
 </script>
+<script type="text/javascript">
+if (${ht}!='') {
+	var id_ht=${ht};
+	window.open("ServGestionDocumento?hdEvento=VER_REPORTE&id="+id_ht, '_blank');
+	
+}
+
+
+</script>
+
+
+
+
 <style>
 .hideme {
 	display: none;

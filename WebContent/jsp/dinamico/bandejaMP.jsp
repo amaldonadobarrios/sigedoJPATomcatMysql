@@ -1,10 +1,10 @@
-<%-- 
-    Document   : BandejaMP
-    Created on : 27/12/2017, 08:32:29 PM
-    Author     : 31424836
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%
+	String sWS = request.getContextPath();
+%>
+<jsp:useBean id="now" class="java.util.Date" scope="request" />
 <ol class="breadcrumb">
     <div class="container-fluid">
         <!-- Nav tabs -->
@@ -24,71 +24,12 @@
         <div class="tab-content">
             <div class="tab-pane active" id="Pendiente" role="tabpanel">
                 <div class="card mb-3">
-                    <div class="card-header">
-                        <i class="fa fa-table"></i> Data Table Example</div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>N°</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Age</th>
-                                        <th>Start date</th>
-                                        <th>Salary</th>
-                                        <th>Visualizar</th>
-                                        <th>Recibir</th>
-                                    </tr>
-                                </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>N°</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Age</th>
-                                        <th>Start date</th>
-                                        <th>asasas</th>
-                                        <th>Visualizar</th>
-                                        <th>Recibir</th>
-                                    </tr>
-                                </tfoot>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
-                                        <td>2011/04/25</td>
-                                        <td>$320,800</td>
-                                        <th style="text-align: center;"><button class="btn-info">Ver</button></th>
-                                        <th style="text-align: center;"><button class="btn-success">Recibir</button></th>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Accountant</td>
-                                        <td>Tokyo</td>
-                                        <td>63</td>
-                                        <td>2011/07/25</td>
-                                        <td>$170,750</td>
-                                        <th style="text-align: center;"><button class="btn-info">Ver</button></th>
-                                        <th style="text-align: center;"><button class="btn-success">Recibir</button></th>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Junior Technical Author</td>
-                                        <td>San Francisco</td>
-                                        <td>66</td>
-                                        <td>2009/01/12</td>
-                                        <td>$86,000</td>
-                                        <th style="text-align: center;"><button class="btn-info">Ver</button></th>
-                                        <th style="text-align: center;"><button class="btn-success">Recibir</button></th>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div  id ="tpendiente" class="table-responsive"> 
+                          ${lstpendiente} 
                         </div>
                     </div>
-                    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                     <div class="card-footer small text-muted">Actualizado  al <fmt:formatDate type = "both" dateStyle = "short" timeStyle = "short" value = "${now}" /></div>
                 </div>  
 
 
@@ -97,71 +38,12 @@
             </div>
             <div class="tab-pane" id="Recibido" role="tabpanel">
                 <div class="card mb-3">
-                    <div class="card-header">
-                        <i class="fa fa-table"></i> Data Table Example</div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Age</th>
-                                        <th>Start date</th>
-                                        <th>Estado</th>
-                                        <th>Responder</th>
-                                        <th>Archivar</th>
-                                    </tr>
-                                </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Age</th>
-                                        <th>Start date</th>
-                                        <th>Estado</th>
-                                        <th>Responder</th>
-                                        <th>Archivar</th>
-                                    </tr>
-                                </tfoot>
-                                <tbody>
-                                    <tr>
-                                        <td>RECIBIDO</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
-                                        <td>2011/04/25</td>
-                                        <td style="text-align: center;">Recibido <button class="btn-dark">Ver detalle</button></td>
-                                        <th style="text-align: center;"><button class="btn-info">Responder</button></th>
-                                        <th style="text-align: center;"><button class="btn-success">Archivar</button></th>
-                                    </tr>
-                                    <tr>
-                                        <td>Garrett Winters</td>
-                                        <td>Accountant</td>
-                                        <td>Tokyo</td>
-                                        <td>63</td>
-                                        <td>2011/07/25</td>
-                                         <td style="text-align: center;">Asignado <button class="btn-dark">Ver detalle</button></td>
-                                        <th style="text-align: center;"><button class="btn-info">Responder</button></th>
-                                        <th style="text-align: center;"><button class="btn-success">Archivar</button></th>
-                                    </tr>
-                                    <tr>
-                                        <td>Ashton Cox</td>
-                                        <td>Junior Technical Author</td>
-                                        <td>San Francisco</td>
-                                        <td>66</td>
-                                        <td>2009/01/12</td>
-                                         <td style="text-align: center;">Aprobado <button class="btn-dark">Ver detalle</button></td>
-                                        <th style="text-align: center;"><button class="btn-info">Responder</button></th>
-                                        <th style="text-align: center;"><button class="btn-success">Archivar</button></th>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div  id ="trecibido" class="table-responsive"> 
+                          ${lstrecibido} 
                         </div>
                     </div>
-                    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                    <div class="card-footer small text-muted">Actualizado  al <fmt:formatDate type = "both" dateStyle = "short" timeStyle = "short" value = "${now}" /></div>
                 </div>   
 
 
@@ -171,71 +53,12 @@
             </div>
             <div class="tab-pane" id="Enviados" role="tabpanel">
                 <div class="card mb-3">
-                    <div class="card-header">
-                        <i class="fa fa-table"></i> Data Table Example</div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Age</th>
-                                        <th>Start date</th>
-                                        <th>Salary</th>
-                                        <th>Estado</th>
-                                        <th>Salary</th>
-                                    </tr>
-                                </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Age</th>
-                                        <th>Start date</th>
-                                        <th>asasas</th>
-                                        <th>Estado</th>
-                                        <th>Estado</th>
-                                    </tr>
-                                </tfoot>
-                                <tbody>
-                                    <tr>
-                                        <td>APROBADO</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
-                                        <td>2011/04/25</td>
-                                        <td>$320,800</td>
-                                        <th>Recibido</th>
-                                        <th style="text-align: center;"><button class="btn-success">Archivar</button></th>
-                                    </tr>
-                                    <tr>
-                                        <td>Garrett Winters</td>
-                                        <td>Accountant</td>
-                                        <td>Tokyo</td>
-                                        <td>63</td>
-                                        <td>2011/07/25</td>
-                                        <td>$170,750</td>
-                                        <td>Asignado</td>
-                                        <th style="text-align: center;"><button class="btn-success">Archivar</button></th>
-                                    </tr>
-                                    <tr>
-                                        <td>Ashton Cox</td>
-                                        <td>Junior Technical Author</td>
-                                        <td>San Francisco</td>
-                                        <td>66</td>
-                                        <td>2009/01/12</td>
-                                        <td>$86,000</td>
-                                        <td>Aprobado</td>
-                                        <th style="text-align: center;"><button class="btn-success">Archivar</button></th>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div  id ="tderivado" class="table-responsive"> 
+                          ${lstderivado} 
                         </div>
                     </div>
-                    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                    <div class="card-footer small text-muted">Actualizado  al <fmt:formatDate type = "both" dateStyle = "short" timeStyle = "short" value = "${now}" /></div>
                 </div>   
 
             </div>

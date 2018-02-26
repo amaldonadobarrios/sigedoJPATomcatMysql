@@ -237,7 +237,7 @@
 	</div>
 </nav>
 <style>
-img {
+.img-circle {
 	border-radius: 50%;
 }
 </style>

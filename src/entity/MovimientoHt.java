@@ -24,7 +24,7 @@ public class MovimientoHt implements Serializable {
 	@Column(name="fecha_registro")
 	private Date fechaRegistro;
 
-	@Column(name="`id_ usuario_destino`")
+	@Column(name="id_usuario_destino")
 	private int id_usuarioDestino;
 
 	@Column(name="id_documento")
@@ -51,6 +51,9 @@ public class MovimientoHt implements Serializable {
 	@Column(name="id_usuario_registro")
 	private int idUsuarioRegistro;
 
+	@Column(name="observaciones")
+	private String observaciones;
+	
 	public MovimientoHt() {
 	}
 
@@ -140,6 +143,14 @@ public class MovimientoHt implements Serializable {
 
 	public void setIdUsuarioRegistro(int idUsuarioRegistro) {
 		this.idUsuarioRegistro = idUsuarioRegistro;
+	}
+
+	public String getObservaciones() {
+		return observaciones;
+	}
+
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
 	}
 
 }

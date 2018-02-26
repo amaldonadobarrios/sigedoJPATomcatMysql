@@ -60,7 +60,7 @@ public class LogicaSeguridad {
 				sesion.setAttribute("img64", foto);
 				sesion.setAttribute("ID", sesion.getId());
 				sesion.setAttribute("CIP", per.getCip());
-				sesion.setMaxInactiveInterval(300);
+				sesion.setMaxInactiveInterval(3000);
 				return true;
 			}
 		}

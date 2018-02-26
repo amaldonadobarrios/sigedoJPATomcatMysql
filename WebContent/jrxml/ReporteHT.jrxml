@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" whenNoDataType="NoPages" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="6e98a770-c1b4-46fd-aa3b-752c49f5692c">
-	<property name="ireport.zoom" value="1.3310000000000006"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="HojaTramiteNew" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6e98a770-c1b4-46fd-aa3b-752c49f5692c">
+	<property name="ireport.zoom" value="1.6105100000000019"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="184"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="ConexionMysql dbSigedo"/>
-	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -26,21 +25,49 @@
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
+	<subDataset name="Table Dataset 1" uuid="1e2b65e0-0241-473d-9d49-5627f4d3fbf9"/>
 	<parameter name="id_ht" class="java.lang.Integer">
-		<parameterDescription><![CDATA[Id Hoja de tramite]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT dbsigedo.documento.id_documento,
-	dbsigedo.documento.asunto
-FROM dbsigedo.documento where dbsigedo.documento.id_documento='2']]>
+		<![CDATA[SELECT ht.id_hoja_tramite,ht.fecha_registro,ht.asunto , doc.numero,tip.descripcion, concat(uni.DESCRIPCION,' ',ofi.DESCRIPCION) as OfiReg ,concat(per.grado,' ', per.ape_pat,' ',per.ape_mat,' ',per.nombres) as usuarioReg , qr.codeQr FROM hoja_tramite ht
+inner join documento doc on doc.id_documento=ht.id_documento_inicio
+join usuario usu on ht.id_usuario_registro=usu.id_usuario
+join persona per on per.id_persona=usu.id_persona
+join oficina ofi on ht.id_oficina_registro = ofi.id_oficina
+join unidad uni on ht.id_unidad_registro = uni.id_unidad
+join tipo_doc tip on tip.id_tipo_doc = doc.id_tipo_doc
+join prioridad_doc pri on pri.id_prioridad_doc=doc.id_prioridad_doc
+join codeqr qr on qr.id_Hoja_tramite=ht.id_hoja_tramite
+where ht.id_hoja_tramite=$P{id_ht};]]>
 	</queryString>
+	<field name="id_hoja_tramite" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_registro" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="asunto" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="descripcion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="OfiReg" class="java.lang.String"/>
+	<field name="usuarioReg" class="java.lang.String"/>
+	<field name="codeQr" class="java.io.InputStream">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="226" splitType="Stretch">
+		<band height="244" splitType="Stretch">
 			<rectangle radius="10">
-				<reportElement x="1" y="3" width="554" height="221" uuid="0a51f398-1745-4962-ae17-af7bc52cfb95"/>
+				<reportElement x="-1" y="0" width="554" height="244" uuid="0a51f398-1745-4962-ae17-af7bc52cfb95"/>
 			</rectangle>
 			<staticText>
 				<reportElement x="227" y="6" width="100" height="20" uuid="377d7b7a-f8b6-475d-be9f-c6be883bf3df"/>
@@ -84,12 +111,12 @@ FROM dbsigedo.documento where dbsigedo.documento.id_documento='2']]>
 				<text><![CDATA[Nro de Documento]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="90" y="131" width="122" height="21" uuid="3f671445-39de-4771-9a3a-54f7fcff3aa8"/>
+				<reportElement x="90" y="151" width="122" height="21" uuid="3f671445-39de-4771-9a3a-54f7fcff3aa8"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Fecha / Hora de Registro]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="90" y="152" width="122" height="21" uuid="217c7f03-7dcb-40e0-ac55-91443e0954d7"/>
+				<reportElement x="90" y="172" width="122" height="21" uuid="217c7f03-7dcb-40e0-ac55-91443e0954d7"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Usuario de Registro]]></text>
 			</staticText>
@@ -124,13 +151,66 @@ FROM dbsigedo.documento where dbsigedo.documento.id_documento='2']]>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<line>
-				<reportElement x="2" y="181" width="553" height="1" uuid="c001cca7-00d3-4b66-bf86-df4ce2659780"/>
+				<reportElement x="1" y="194" width="553" height="1" uuid="c001cca7-00d3-4b66-bf86-df4ce2659780"/>
 			</line>
 			<staticText>
-				<reportElement x="12" y="182" width="78" height="21" uuid="03731366-3705-4bbe-b202-fd10777c3f2d"/>
+				<reportElement x="12" y="195" width="78" height="21" uuid="03731366-3705-4bbe-b202-fd10777c3f2d"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Asunto:]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="227" y="80" width="122" height="20" uuid="cd9b8233-88d0-43b3-8cf4-e5fa5b413609"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Interno]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="131" width="122" height="21" uuid="2f2f3281-7efe-4059-8f54-a7d986754d72"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Oficina de Registro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="212" y="172" width="15" height="21" uuid="907e9c54-36d4-47ba-bca6-abb92987ee3d"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="227" y="60" width="122" height="20" uuid="d55adce6-4154-496c-a76a-364cf8f05b4a"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{id_hoja_tramite}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="227" y="100" width="122" height="15" uuid="aaf57a86-a515-4680-b893-d8df11132dd5"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="227" y="115" width="122" height="16" uuid="8b147032-e931-4e7d-9fb8-ad78ccc6b21e"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="227" y="132" width="159" height="20" uuid="4b73bf19-2ea8-4822-9930-239079b5cba4"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{OfiReg}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="227" y="151" width="159" height="21" uuid="03ed5b65-1bec-474a-8db5-b5443a3eda7e"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fecha_registro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="227" y="172" width="282" height="21" uuid="b59e3e25-40b6-4b22-bc15-04cf09b7f9ce"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{usuarioReg}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="196" width="450" height="48" uuid="9c3681e1-b75c-4ae1-a955-ec123d029646"/>
+				<textFieldExpression><![CDATA[$F{asunto}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="421" y="57" width="105" height="75" uuid="b2c6a617-b9a6-4787-b20b-552267a01907"/>
+				<imageExpression><![CDATA[$F{codeQr}]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>

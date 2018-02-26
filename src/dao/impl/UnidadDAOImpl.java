@@ -20,18 +20,18 @@ public class UnidadDAOImpl implements UnidadDAO {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
-	    Unidad obj=null;
-	    obj=em.getReference(Unidad.class, id);
-	    em.getTransaction().commit();
-	    em.close();
-	    emf.close();
+		Unidad obj = null;
+		obj = em.getReference(Unidad.class, id);
+		em.getTransaction().commit();
+		em.close();
+		emf.close();
 		return obj;
 	}
 
 	@Override
 	public List<Unidad> Listar() {
 		Unidad temp = null;
-		List <Unidad> lista=null;
+		List<Unidad> lista = null;
 		String query = "SELECT id_unidad, descripcion FROM unidad";
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
 		EntityManager em = emf.createEntityManager();
@@ -55,9 +55,9 @@ public class UnidadDAOImpl implements UnidadDAO {
 			} catch (SQLException e) {
 				System.out.println("Excepcion en query obtenercodigo de unidad: " + e.toString());
 			} finally {
-			    em.getTransaction().commit();
-			    em.close();
-			    emf.close();
+				em.getTransaction().commit();
+				em.close();
+				emf.close();
 			}
 		}
 		return lista;
@@ -68,17 +68,17 @@ public class UnidadDAOImpl implements UnidadDAO {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
-	    em.persist(obj);
-	    em.getTransaction().commit();
-	    em.close();
-	    emf.close();
-	   return obj;
+		em.persist(obj);
+		em.getTransaction().commit();
+		em.close();
+		emf.close();
+		return obj;
 	}
 
 	@Override
-	public List<Unidad>  Buscarxdescripcion(String descripcion) {
+	public List<Unidad> Buscarxdescripcion(String descripcion) {
 		Unidad temp = null;
-		List <Unidad> lista=null;
+		List<Unidad> lista = null;
 		String query = "SELECT id_unidad, descripcion FROM unidad where descripcion=? and estado=1";
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
 		EntityManager em = emf.createEntityManager();
@@ -103,9 +103,9 @@ public class UnidadDAOImpl implements UnidadDAO {
 			} catch (SQLException e) {
 				System.out.println("Excepcion en query obtenercodigo de unidad: " + e.toString());
 			} finally {
-			    em.getTransaction().commit();
-			    em.close();
-			    emf.close();
+				em.getTransaction().commit();
+				em.close();
+				emf.close();
 			}
 		}
 		return lista;

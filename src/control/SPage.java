@@ -13,6 +13,7 @@ import logica.LogicaCombos;
 import logica.LogicaOficina;
 import logica.LogicaPerfil;
 import logica.LogicaUnidad;
+import logica.grilla.LogicaGrillaBandeja;
 
 /**
  * Servlet implementation class SPage
@@ -201,6 +202,9 @@ public class SPage extends HttpServlet {
 
 	private void pageBandejaMP(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		request.setAttribute("lstrecibido", LogicaGrillaBandeja.getInstance().BandejaRecibido(2));
+		request.setAttribute("lstpendiente", LogicaGrillaBandeja.getInstance().BandejaRecibido(1));
+		request.setAttribute("lstderivado", LogicaGrillaBandeja.getInstance().BandejaRecibido(3));
 		request.setAttribute("breadcrumb", "Bandeja  de documentos de la Unidad");
 		request.setAttribute("body", "bandejaMP");
 		forwar("jsp/template.jsp", request, response);

@@ -36,7 +36,7 @@ public class LogicaQR {
 		int id = serv.GrabarIdQR(qr);
 		if (id > 0) {
 			try {
-				imagenQr = generateQR(String.valueOf(id), 200, 200);
+				imagenQr = generateQR(String.valueOf(id), 300, 300);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

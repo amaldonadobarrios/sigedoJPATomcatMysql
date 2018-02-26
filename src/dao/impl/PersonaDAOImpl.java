@@ -3,18 +3,13 @@ package dao.impl;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import dao.PersonaDAO;
-import entity.CentroTrabajo;
 import entity.Persona;
-import entity.Usuario;
 
 public class PersonaDAOImpl implements PersonaDAO {
 
@@ -23,11 +18,11 @@ public class PersonaDAOImpl implements PersonaDAO {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
-	    Persona obj=null;
-	    obj=em.getReference(Persona.class, id);
-	    em.getTransaction().commit();
-	    em.close();
-	    emf.close();
+		Persona obj = null;
+		obj = em.getReference(Persona.class, id);
+		em.getTransaction().commit();
+		em.close();
+		emf.close();
 		return obj;
 	}
 
@@ -36,18 +31,18 @@ public class PersonaDAOImpl implements PersonaDAO {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
-	    em.persist(obj);
-	    em.getTransaction().commit();
-	    em.close();
-	    emf.close();
+		em.persist(obj);
+		em.getTransaction().commit();
+		em.close();
+		emf.close();
 		return obj;
 	}
 
 	@Override
 	public Persona BuscarxCip(String cip) {
 		Persona per = null;
-		String query = "SELECT id_persona, cip, ape_pat, ape_mat, nombres, grado, dni, celular, id_centro_trabajo, estado \r\n" + 
-				"FROM persona where cip=? limit 1";
+		String query = "SELECT id_persona, cip, ape_pat, ape_mat, nombres, grado, dni, celular, id_centro_trabajo, estado \r\n"
+				+ "FROM persona where cip=? limit 1";
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
@@ -97,7 +92,7 @@ public class PersonaDAOImpl implements PersonaDAO {
 		u.setGrado(obj.getGrado());
 		u.setIdCentroTrabajo(obj.getIdCentroTrabajo());
 		u.setNombres(obj.getNombres());
-		u.setUsuMod(obj.getUsuMod());		
+		u.setUsuMod(obj.getUsuMod());
 		em.merge(u);
 		em.getTransaction().commit();
 		em.close();
@@ -108,9 +103,9 @@ public class PersonaDAOImpl implements PersonaDAO {
 	@Override
 	public Persona BuscarxCipSinPrivilegios(String cip) {
 		Persona per = null;
-		String query = "SELECT persona.id_persona, persona.cip, persona.ape_pat, persona.ape_mat, persona.nombres, persona.grado, persona.dni, persona.celular, id_centro_trabajo, persona.estado FROM persona\r\n" + 
-				"INNER JOIN usuario ON persona.id_persona=usuario.id_persona\r\n" + 
-				"where persona.cip=? and usuario.id_perfil!=6 and usuario.id_perfil!=1 limit 1";
+		String query = "SELECT persona.id_persona, persona.cip, persona.ape_pat, persona.ape_mat, persona.nombres, persona.grado, persona.dni, persona.celular, id_centro_trabajo, persona.estado FROM persona\r\n"
+				+ "INNER JOIN usuario ON persona.id_persona=usuario.id_persona\r\n"
+				+ "where persona.cip=? and usuario.id_perfil!=6 and usuario.id_perfil!=1 limit 1";
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();

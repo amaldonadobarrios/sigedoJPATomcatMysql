@@ -22,7 +22,7 @@ public class ComboDocumentoDAOImpl implements ComboDocumentoDAO {
 	public List<TipoDoc> ListaTipoDoc() {
 		TipoDoc temp = null;
 		List<TipoDoc> lista = null;
-		String query = "SELECT id_tipo_doc, descripcion \r\n" + "FROM tipo_doc";
+		String query = "SELECT id_tipo_doc, descripcion FROM tipo_doc";
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
@@ -57,7 +57,7 @@ public class ComboDocumentoDAOImpl implements ComboDocumentoDAO {
 	public List<ClasContenidoDoc> ListaClasContenidoDoc() {
 		ClasContenidoDoc temp = null;
 		List<ClasContenidoDoc> lista = null;
-		String query = "SELECT id_clas_contenido_doc, descripcion \r\n" + "FROM clas_contenido_doc\r\n" + "";
+		String query = "SELECT id_clas_contenido_doc, descripcion FROM clas_contenido_doc";
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
@@ -92,7 +92,7 @@ public class ComboDocumentoDAOImpl implements ComboDocumentoDAO {
 	public List<ClasFuncionDoc> ListaClasFuncionDoc() {
 		ClasFuncionDoc temp = null;
 		List<ClasFuncionDoc> lista = null;
-		String query = "SELECT id_clas_funcion_doc, descripcion \r\n" + "FROM clas_funcion_doc\r\n" + "";
+		String query = "SELECT id_clas_funcion_doc, descripcion  FROM clas_funcion_doc ";
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
