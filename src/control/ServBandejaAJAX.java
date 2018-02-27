@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import logica.LogicaFichero;
 import util.HtmlUtil;
 
 /**
@@ -43,6 +44,10 @@ public class ServBandejaAJAX extends HttpServlet {
 							System.out.println("hdEvento :  BANDEJA_RECIBIDO");
 							BandejaRecibido(request, response);
 							break;
+						case "VER_PDF":
+							System.out.println("hdEvento :  VER_PDF");
+							VerPdf(request, response);
+							break;
 						default:
 							break;
 						}
@@ -71,6 +76,15 @@ public class ServBandejaAJAX extends HttpServlet {
 		
 		
 		
+	}
+
+	private void VerPdf(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("VerPdf");
+		String rutaPDF="VACIO";
+		String id =request.getParameter("id_fichero");
+		int id_fichero=Integer.parseInt(id);
+		rutaPDF=LogicaFichero.getInstance().RutaVerPDF(id_fichero);
+		HtmlUtil.getInstance().escrituraHTML(response, rutaPDF);
 	}
 
 	private void BandejaRecibido(HttpServletRequest request, HttpServletResponse response) {

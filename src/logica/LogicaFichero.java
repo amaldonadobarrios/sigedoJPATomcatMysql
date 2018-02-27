@@ -27,4 +27,8 @@ public class LogicaFichero {
 		}		
 		return 0;
 	}
+	public String RutaVerPDF(int id_fichero) {
+		FicheroService ser=new FicheroServiceImpl();
+		return ser.RutaVerPDF(id_fichero);
+	}
 }

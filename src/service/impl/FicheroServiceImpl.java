@@ -13,4 +13,10 @@ public class FicheroServiceImpl implements FicheroService {
 		return dao.Grabar(obj);
 	}
 
+	@Override
+	public String RutaVerPDF(int id_fichero) {
+		// TODO Auto-generated method stub
+		return dao.RutaVerPDF(id_fichero);
+	}
+
 }
