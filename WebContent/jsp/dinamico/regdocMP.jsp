@@ -258,9 +258,7 @@ function fn_upload_ajax(vservlet){
     };
     var isPdf = function (name) {
         return name.match(/pdf$/i)
-    };
-    
-  
+    };  
     
     
     function updateSize(elementId) {

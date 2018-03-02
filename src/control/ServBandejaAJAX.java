@@ -1,14 +1,27 @@
 package control;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import entity.FicheroDoc;
+import entity.MovimientoHt;
+import entity.Oficina;
+import entity.Unidad;
+import entity.Usuario;
 import logica.LogicaFichero;
+import logica.LogicaMovimientoHT;
+import logica.grilla.LogicaGrillaBandeja;
+import util.DirTexto;
 import util.HtmlUtil;
 
 /**
@@ -17,19 +30,21 @@ import util.HtmlUtil;
 @WebServlet("/ServBandejaAJAX")
 public class ServBandejaAJAX extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ServBandejaAJAX() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ServBandejaAJAX() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void service(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		System.out.println(this.getClass().getName());
 		HttpSession sesion = request.getSession();
 		String ID = (String) sesion.getAttribute("ID");
@@ -44,9 +59,49 @@ public class ServBandejaAJAX extends HttpServlet {
 							System.out.println("hdEvento :  BANDEJA_RECIBIDO");
 							BandejaRecibido(request, response);
 							break;
+						case "BANDEJA_PENDIENTE":
+							System.out.println("hdEvento :  BANDEJA_PENDIENTE");
+							BandejaPendiente(request, response);
+							break;
+						case "BANDEJA_DERIVADO":
+							System.out.println("hdEvento :  BANDEJA_DERIVADO");
+							BandejaDerivado(request, response);
+							break;
+						case "RESPONDIDO":
+							System.out.println("hdEvento :  RESPONDIDO");
+							BandejaRespondido(request, response);
+							break;
+						case "BANDEJA_APROBADO":
+							System.out.println("hdEvento :  BANDEJA_APROBADO");
+							BandejaAprobado(request, response);
+							break;
+						case "BANDEJA_DESESTIMADO":
+							System.out.println("hdEvento :  BANDEJA_DESESTIMADO");
+							BandejaDesestimado(request, response);
+							break;
+						case "BANDEJA_DEVUELTO":
+							System.out.println("hdEvento :  BANDEJA_DEVUELTO");
+							BandejaDevuelto(request, response);
+							break;
+						case "BANDEJA_CONTESTADO":
+							System.out.println("hdEvento :  BANDEJA_CONTESTADO");
+							BandejaContestado(request, response);
+							break;
+						case "BANDEJA_ARCHIVADO":
+							System.out.println("hdEvento :  BANDEJA_ARCHIVADO");
+							BandejaArchivado(request, response);
+							break;
 						case "VER_PDF":
 							System.out.println("hdEvento :  VER_PDF");
 							VerPdf(request, response);
+							break;
+						case "DOWNLOAD":
+							System.out.println("hdEvento :  DOWNLOAD");
+							Download(request, response);
+							break;
+						case "RECIBIR":
+							System.out.println("hdEvento :  RECIBIR");
+							Recibir(request, response);
 							break;
 						default:
 							break;
@@ -71,39 +126,178 @@ public class ServBandejaAJAX extends HttpServlet {
 			HtmlUtil.getInstance().escrituraHTML(response, "NOSESION");
 
 		}
+
+	}
+
+	private void Recibir(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("Recibir");
+		int i=0;
+		String  idht=request.getParameter("id_ht");
+		String  iddoc=request.getParameter("id_doc");
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Usuario user = (Usuario) SesionUsuario.get(0);
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		Oficina ofi = (Oficina) SesionUsuario.get(4);
+		MovimientoHt mov=new MovimientoHt();
+		mov.setFechaRegistro(new Date());
+		mov.setId_usuarioDestino(user.getIdUsuario());
+		mov.setIdDocumento(Integer.parseInt(iddoc));
+		mov.setIdEstadoMovimientoHt(2);//recibido
+		mov.setIdHojaTramite(Integer.parseInt(idht));
+		mov.setIdOficinaDestino(ofi.getIdOficina());
+		mov.setIdOficinaRegistro(ofi.getIdOficina());
+		mov.setIdUnidadDestino(uni.getIdUnidad());
+		mov.setIdUnidadRegistro(uni.getIdUnidad());
+		mov.setIdUsuarioRegistro(user.getIdUsuario());
+		mov.setObservaciones(DirTexto.getInstance().cambiarFormatoUTF8("Hoja de tramite Recibida").toUpperCase());
+		try {
+		i=LogicaMovimientoHT.getInstance().grabarMovimientoHT(mov);	
+		} catch (Exception e) {
+			System.out.println("ServGestionDocumento.REGISTRAR_DOCUMENTO_MP()"+e.getMessage());
+		}
+	HtmlUtil.getInstance().escritura(response, String.valueOf(i));	
+	}
+
+	private void BandejaArchivado(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("BandejaArchivado");
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		String tabla=LogicaGrillaBandeja.getInstance().BandejaArchivado(9,uni.getIdUnidad());
+		HtmlUtil.getInstance().escritura(response, tabla);
 		
+	}
+
+	private void BandejaContestado(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("BandejaContestado");
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		String tabla=LogicaGrillaBandeja.getInstance().BandejaContestado(8,uni.getIdUnidad());
+		HtmlUtil.getInstance().escritura(response, tabla);
 		
+	}
+
+	private void BandejaDevuelto(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("BandejaDevuelto");
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		String tabla=LogicaGrillaBandeja.getInstance().BandejaDevuelto(7,uni.getIdUnidad());
+		HtmlUtil.getInstance().escritura(response, tabla);
 		
+	}
+
+	private void BandejaDesestimado(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("BandejaDesestimado");
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		String tabla=LogicaGrillaBandeja.getInstance().BandejaDesestimado(6,uni.getIdUnidad());
+		HtmlUtil.getInstance().escritura(response, tabla);
 		
+	}
+
+	private void BandejaAprobado(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("BandejaAprobado");
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		String tabla=LogicaGrillaBandeja.getInstance().BandejaAprobado(5,uni.getIdUnidad());
+		HtmlUtil.getInstance().escritura(response, tabla);
 		
+	}
+
+	private void BandejaRespondido(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("BandejaRespondido");
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		String tabla=LogicaGrillaBandeja.getInstance().BandejaRespondido(4,uni.getIdUnidad());
+		HtmlUtil.getInstance().escritura(response, tabla);
+		
+	}
+
+	private void BandejaDerivado(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("BandejaDerivado");
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		String tabla=LogicaGrillaBandeja.getInstance().BandejaDerivado(3,uni.getIdUnidad());
+		HtmlUtil.getInstance().escritura(response, tabla);
+		
+	}
+
+	private void BandejaPendiente(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("BandejaPendiente");
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		String tabla=LogicaGrillaBandeja.getInstance().BandejaPendiente(1,uni.getIdUnidad());
+		HtmlUtil.getInstance().escritura(response, tabla);
+		
+	}
+
+	private void Download(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("Download");
+		String id = request.getParameter("id");
+		int id_fichero = Integer.parseInt(id);
+		FicheroDoc doc = null;
+		doc = LogicaFichero.getInstance().Download(id_fichero);
+		if (id != null) {
+
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ServletOutputStream sos = null;
+
+			try {
+				baos.write(doc.getBlob());
+				// "application/octet-stream"
+				response.setContentType(doc.getTipo());
+				response.addHeader("Content-Disposition", "attachment; filename=" + doc.getNombre());
+				response.setContentLength(baos.size());
+				sos = response.getOutputStream();
+				baos.writeTo(sos);
+			} catch (IOException e) {
+			}
+		}
 	}
 
 	private void VerPdf(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("VerPdf");
-		String rutaPDF="VACIO";
-		String id =request.getParameter("id_fichero");
-		int id_fichero=Integer.parseInt(id);
-		rutaPDF=LogicaFichero.getInstance().RutaVerPDF(id_fichero);
+		String rutaPDF = "VACIO";
+		String id = request.getParameter("id_fichero");
+		int id_fichero = Integer.parseInt(id);
+		rutaPDF = LogicaFichero.getInstance().RutaVerPDF(id_fichero);
 		HtmlUtil.getInstance().escrituraHTML(response, rutaPDF);
 	}
 
 	private void BandejaRecibido(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("BandejaRecibido");
-		
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		String tabla=LogicaGrillaBandeja.getInstance().BandejaRecibido(2,uni.getIdUnidad());
+		HtmlUtil.getInstance().escritura(response, tabla);
+
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		service(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

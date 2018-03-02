@@ -19,4 +19,10 @@ public class FicheroServiceImpl implements FicheroService {
 		return dao.RutaVerPDF(id_fichero);
 	}
 
+	@Override
+	public FicheroDoc Download(int id_fichero) {
+		// TODO Auto-generated method stub
+		return dao.Download(id_fichero);
+	}
+
 }

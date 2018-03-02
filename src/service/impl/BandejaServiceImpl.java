@@ -10,9 +10,9 @@ import service.BandejaService;
 public class BandejaServiceImpl implements BandejaService {
 BandejaDAO dao=new BandejaDAOImpl();
 	@Override
-	public List<Bandeja> listaBandeja(int id_estado_movimiento) {
+	public List<Bandeja> listaBandeja(int id_estado_movimiento,int id_unidad_destino) {
 		// TODO Auto-generated method stub
-		return dao.listaBandeja(id_estado_movimiento);
+		return dao.listaBandeja(id_estado_movimiento, id_unidad_destino);
 	}
 
 }

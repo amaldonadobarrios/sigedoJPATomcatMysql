@@ -162,7 +162,6 @@
 				<div id="divPdfView" align="center">
 					<img src="images/reloj.gif">
 				</div>
-
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
@@ -205,15 +204,131 @@
 							$('#divPdfView').html(
 									'No Se pudo Procesar Archivo PDF');
 						} else {
-							//alert(v_resultado);
 							var frame = '<div style="clear: both" align="center"><iframe id="viewer" Width="600px" height="450px" align="center" scrolling="auto" frameborder="0" allowtransparency="true" border="0"></iframe></div>';
 							$('#divPdfView').html(frame);
-							$('#viewer').attr('src','data:application/pdf;base64,'+ v_resultado);
+							$('#viewer').attr(
+									'src',
+									'data:application/pdf;base64,'
+											+ v_resultado);
+							//window.open("ServBandejaAJAX?hdEvento=DOWNLOAD&id=70", '_blank');
 						}
 					}
 				});
 	}
 </script>
-
+<script type="text/javascript">
+	function fnlistarBandeja(evento) {
+		if (evento != '') {
+			var contexto = document.getElementById("contexto").value;
+			var vservlet = contexto + '/ServBandejaAJAX';
+			var txtevento = evento;
+			var jqdata={
+			hdEvento : txtevento};
+			
+			fnEjecutarPeticion(vservlet, jqdata, txtevento);
+		}
+	}
+	function fnEjecutarPeticion(vservlet, jdata, evento) {
+		$.ajax({
+			url : vservlet,
+			method : 'POST',
+			data : jdata,
+			success : function(responseText) {
+				fnControlEvento(evento, responseText + '');
+			}
+		});
+	}
+	function fnControlEvento(vevento, vvrespuesta) {
+		if (vvrespuesta == 'ERROR_SESION') {
+			window.location = 'SPage';
+		} else {
+			var v_resultado = vvrespuesta + "";
+			if (v_resultado == 'NOSESION') {
+				window.location = 'SPage?action=login';
+			} else if (v_resultado == '') {
+				//error
+				danger('ERROR, No cargo lista de documentos')
+			} else {
+				if (vevento == 'BANDEJA_RECIBIDO') {
+					var respuesta = v_resultado.split('||');
+    				var tabla = respuesta[0];
+    				var numero = respuesta[1];
+					$('#trecibido').html(tabla);
+					$('#lblrecibido').html(numero);
+					$('#dataTable').DataTable();
+				}
+				if (vevento == 'BANDEJA_PENDIENTE') {
+					var respuesta = v_resultado.split('||');
+    				var tabla = respuesta[0];
+    				var numero = respuesta[1];
+					$('#lblpendiente').html(numero);
+					$('#tpendiente').html(tabla);
+					$('#dataTable1').DataTable();
+				}
+				if (vevento == 'BANDEJA_DERIVADO') {
+					var respuesta = v_resultado.split('||');
+    				var tabla = respuesta[0];
+    				var numero = respuesta[1];
+					$('#lblderivado').html(numero);
+					$('#tderivado').html(tabla);
+					$('#dataTable2').DataTable();
+				}
+				if (vevento == 'BANDEJA_DEVUELTO') {
+					var respuesta = v_resultado.split('||');
+    				var tabla = respuesta[0];
+    				var numero = respuesta[1];
+					$('#lbldevuelto').html(numero);
+					$('#tdevuelto').html(tabla);
+					$('#dataTable3').DataTable();
+				}
+				if (vevento == 'BANDEJA_APROBADO') {
+					var respuesta = v_resultado.split('||');
+    				var tabla = respuesta[0];
+    				var numero = respuesta[1];
+					$('#lblaprobado').html(numero);
+					$('#taprobado').html(tabla);
+					$('#dataTable4').DataTable();
+				}
+				if (vevento == 'BANDEJA_CONTESTADO') {
+					var respuesta = v_resultado.split('||');
+    				var tabla = respuesta[0];
+    				var numero = respuesta[1];
+					$('#lblcontestado').html(numero);
+					$('#tcontestado').html(tabla);
+					$('#dataTable5').DataTable();
+				}
+				if (vevento == 'BANDEJA_ARCHIVADO') {
+					var respuesta = v_resultado.split('||');
+    				var tabla = respuesta[0];
+    				var numero = respuesta[1];
+					$('#lblarchivado').html(numero);
+					$('#tarchivado').html(tabla);
+					$('#dataTable6').DataTable();
+				}
+				
+			}
+		}
+	}
+</script>
+<script>
+	function alerta(msg) {
+		var texto = msg;
+		$.notify({
+			title : '<strong>Mensaje:</strong>',
+			message : texto
+		}, {
+			type : 'success'
+		});
+	}
+	function danger(msg) {
+		var texto = msg;
+		$.notify({
+			title : '<strong>Alerta:</strong>',
+			message : texto
+		}, {
+			type : 'danger'
+		});
+	}
+</script>
 </html>
 

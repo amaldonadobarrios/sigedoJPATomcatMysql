@@ -1,6 +1,7 @@
 package control;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import entity.Unidad;
+import entity.Usuario;
 import logica.LogicaCombos;
 import logica.LogicaOficina;
 import logica.LogicaPerfil;
@@ -202,9 +205,10 @@ public class SPage extends HttpServlet {
 
 	private void pageBandejaMP(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.setAttribute("lstrecibido", LogicaGrillaBandeja.getInstance().BandejaRecibido(2));
-		request.setAttribute("lstpendiente", LogicaGrillaBandeja.getInstance().BandejaRecibido(1));
-		request.setAttribute("lstderivado", LogicaGrillaBandeja.getInstance().BandejaRecibido(3));
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		request.setAttribute("lstpendiente", LogicaGrillaBandeja.getInstance().BandejaPendiente(1,uni.getIdUnidad()));
 		request.setAttribute("breadcrumb", "Bandeja  de documentos de la Unidad");
 		request.setAttribute("body", "bandejaMP");
 		forwar("jsp/template.jsp", request, response);

@@ -31,4 +31,8 @@ public class LogicaFichero {
 		FicheroService ser=new FicheroServiceImpl();
 		return ser.RutaVerPDF(id_fichero);
 	}
+	public FicheroDoc Download(int id_fichero) {
+		FicheroService ser=new FicheroServiceImpl();
+		return ser.Download(id_fichero);
+	}
 }

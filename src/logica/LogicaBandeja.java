@@ -21,10 +21,10 @@ public class LogicaBandeja {
 	}
 	// PATRON SINGLETON FIN
 
-	public List<Bandeja> ListarBandeja(int estadoBandeja) {
+	public List<Bandeja> ListarBandeja(int estadoBandeja,int id_unidad_destino) {
 		BandejaService serv = new BandejaServiceImpl();
 		List<Bandeja> bandeja = null;
-		bandeja = serv.listaBandeja(estadoBandeja);
+		bandeja = serv.listaBandeja(estadoBandeja,id_unidad_destino);
 		return bandeja;
 	}
 }

@@ -6,15 +6,43 @@ public class Bandeja {
 	int id_movimiento;
 	int id_hoja_tramite;
 	int id_documento;
+	int id_usuario_registro;
+	int id_unidad_registro;
+	int id_oficina_registro;
 	int id_fichero;
 	int id_prioridad;
 	int id_documento_ini;
+	int id_fichero_ini;
 	String asunto;
 	String estado_mov;
 	String observaciones;
 	String documento;
 	Date fecha_doc;
 	Date fecha_reg;
+
+	public int getId_usuario_registro() {
+		return id_usuario_registro;
+	}
+
+	public void setId_usuario_registro(int id_usuario_registro) {
+		this.id_usuario_registro = id_usuario_registro;
+	}
+
+	public int getId_unidad_registro() {
+		return id_unidad_registro;
+	}
+
+	public void setId_unidad_registro(int id_unidad_registro) {
+		this.id_unidad_registro = id_unidad_registro;
+	}
+
+	public int getId_oficina_registro() {
+		return id_oficina_registro;
+	}
+
+	public void setId_oficina_registro(int id_ofcina_registro) {
+		this.id_oficina_registro = id_ofcina_registro;
+	}
 
 	public int getId_movimiento() {
 		return id_movimiento;
@@ -110,6 +138,14 @@ public class Bandeja {
 
 	public void setId_documento_ini(int id_documento_ini) {
 		this.id_documento_ini = id_documento_ini;
+	}
+
+	public int getId_fichero_ini() {
+		return id_fichero_ini;
+	}
+
+	public void setId_fichero_ini(int id_fichero_ini) {
+		this.id_fichero_ini = id_fichero_ini;
 	}
 
 }

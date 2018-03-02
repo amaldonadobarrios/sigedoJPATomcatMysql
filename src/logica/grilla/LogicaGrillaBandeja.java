@@ -21,7 +21,13 @@ public class LogicaGrillaBandeja {
 	private LogicaGrillaBandeja() {
 	}
 	// PATRON SINGLETON FIN
-    private String INI_TABLA = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
+    private String INI_TABLA0 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
+    private String INI_TABLA1 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable1\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
+    private String INI_TABLA2 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable2\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
+    private String INI_TABLA3 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable3\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
+    private String INI_TABLA4 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable4\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
+    private String INI_TABLA5 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable5\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
+    private String INI_TABLA6 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable6\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
     private String INI_THEAD = "<thead>";
     private String INI_TR = "<tr>";
     private String INI_TRBody = "<tr>";
@@ -35,14 +41,14 @@ public class LogicaGrillaBandeja {
     private String INI_TD = "<td nowrap>";
     private String FIN_TD = "</td>";
     
-	public String BandejaRecibido (int estado_movimiento)
+	public String BandejaRecibido (int estado_movimiento,int id_unidad_destino)
 	{
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		List<Bandeja> lista=null;
-		lista=LogicaBandeja.getInstance().ListarBandeja(estado_movimiento);
+		lista=LogicaBandeja.getInstance().ListarBandeja(estado_movimiento, id_unidad_destino);
 		StringBuilder str = new StringBuilder();
-		str.append("<div id =\"trecibido\" class=\"table-responsive\">");
-		str.append(INI_TABLA);
+		str.append("<div id =\"trecibido\">");
+		str.append(INI_TABLA0);
 		StringBuilder cabecera = new StringBuilder();
 		cabecera.append(INI_THEAD);
 		cabecera.append(INI_TR);
@@ -53,18 +59,85 @@ public class LogicaGrillaBandeja {
 		cabecera.append(INI_TH);	cabecera.append("Documento");			cabecera.append(FINI_TH);
 		cabecera.append(INI_TH);	cabecera.append("Fecha Documento");			cabecera.append(FINI_TH);
 		cabecera.append(INI_TH);	cabecera.append("F.Origen");			cabecera.append(FINI_TH);
-		cabecera.append(INI_TH);	cabecera.append("F.Actual");			cabecera.append(FINI_TH);
-		cabecera.append(INI_TH);	cabecera.append("Operaciones");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("F.Recibido");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Derivar");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Archivar");			cabecera.append(FINI_TH);
 		cabecera.append(FINI_TR);
 		cabecera.append(FIN_THEAD);
-		
+		int i=0;
 		str.append(cabecera.toString());
 		str.append(INI_TBODY);
 		if(  lista!=null && lista.size()>0 )
 		{
-                    int i=1;
+                    
 			for(Bandeja fila : lista  )
 			{
+				i++;
+				if (fila.getId_prioridad()==3 ||  fila.getId_prioridad()==2 ) {
+					INI_TRBody = "<tr bgcolor=\"#fdbba4\">";	
+				}else {
+					INI_TRBody = "<tr bgcolor= \"#cbfcb0\">";	
+				}
+				
+				str.append(INI_TRBody);
+				str.append(INI_TD);	str.append( i );			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( df.format(fila.getFecha_reg()));				str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getId_hoja_tramite());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getAsunto());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getDocumento());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append(  df.format(fila.getFecha_doc()));		str.append(FIN_TD);
+				str.append(INI_TD);	str.append("<img\r\n" + 
+						"					alt=\"Brand\" class=\"img\"\r\n" + 
+						"					src=\"images/pdf.jpg\" width=\"25\"\r\n" + 
+						"					height=\"20\" onclick=\"fnVerPDF('"+fila.getId_fichero_ini()+"')\">");		str.append(FIN_TD);
+				str.append(INI_TD);	str.append("<img\r\n" + 
+								"					alt=\"Brand\" class=\"img\"\r\n" + 
+								"					src=\"images/pdf.jpg\" width=\"25\"\r\n" + 
+								"					height=\"20\" onclick=\"fnVerPDF('"+fila.getId_fichero()+"')\">");		str.append(FIN_TD);
+				str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Derivar\" onclick=\"fnderivar('"+fila.getId_hoja_tramite()+"','"+fila.getId_unidad_registro()+"','"+fila.getId_oficina_registro()+"','"+fila.getId_usuario_registro()+"','"+fila.getId_documento()+"')\" />");		str.append(FIN_TD);
+				str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Archivar\" onclick=\"fnarchivar('"+fila.getId_hoja_tramite()+"','"+fila.getId_unidad_registro()+"','"+fila.getId_oficina_registro()+"','"+fila.getId_usuario_registro()+"','"+fila.getId_documento()+"')\" />");		str.append(FIN_TD);
+				str.append(FINI_TR);	
+				
+			}
+			
+			
+		}
+		str.append(FIN_TBODY);
+		str.append(FIN_TABLA);
+		str.append("</div>");
+		return str.toString()+"||"+i;
+	}
+	public String BandejaPendiente (int estado_movimiento,int id_unidad_destino)
+	{
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		List<Bandeja> lista=null;
+		lista=LogicaBandeja.getInstance().ListarBandeja(estado_movimiento, id_unidad_destino);
+		StringBuilder str = new StringBuilder();
+		str.append("<div id =\"tpendiente\">");
+		str.append(INI_TABLA1);
+		StringBuilder cabecera = new StringBuilder();
+		cabecera.append(INI_THEAD);
+		cabecera.append(INI_TR);
+		cabecera.append(INI_TH);	cabecera.append("N°");	cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Fecha de Registro");	cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("N° HT");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Asunto");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Documento");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Fecha Documento");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("F.Origen");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("F.Pendiente");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Operaciones");			cabecera.append(FINI_TH);
+		cabecera.append(FINI_TR);
+		cabecera.append(FIN_THEAD);
+		int i=0;
+		str.append(cabecera.toString());
+		str.append(INI_TBODY);
+		if(  lista!=null && lista.size()>0 )
+		{
+                    
+			for(Bandeja fila : lista  )
+			{
+				i++;
 				if (fila.getId_prioridad()==3 ||  fila.getId_prioridad()==2 ) {
 					INI_TRBody = "<tr bgcolor=\"#fdbba4\">";	
 				}else {
@@ -81,11 +154,13 @@ public class LogicaGrillaBandeja {
 				str.append(INI_TD);	str.append("<img\r\n" + 
 						"					alt=\"Brand\" class=\"img\"\r\n" + 
 						"					src=\"images/pdf.jpg\" width=\"25\"\r\n" + 
-						"					height=\"20\" onclick=\"fnVerPDF('"+fila.getId_fichero()+"')\">");		str.append(FIN_TD);
-				str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Seleccionar\" onclick=\"fnSeleccionarCliente('"+fila.getAsunto()+"','"+fila.getDocumento()+"','"+fila.getId_fichero()+"')\" />");		str.append(FIN_TD);
-				str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Seleccionar\" onclick=\"fnSeleccionarCliente('"+fila.getAsunto()+"','"+fila.getDocumento()+"','"+fila.getId_fichero()+"')\" />");		str.append(FIN_TD);
+						"					height=\"20\" onclick=\"fnVerPDF('"+fila.getId_fichero_ini()+"')\">");		str.append(FIN_TD);
+						str.append(INI_TD);	str.append("<img\r\n" + 
+								"					alt=\"Brand\" class=\"img\"\r\n" + 
+								"					src=\"images/pdf.jpg\" width=\"25\"\r\n" + 
+								"					height=\"20\" onclick=\"fnVerPDF('"+fila.getId_fichero()+"')\">");		str.append(FIN_TD);
+				str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Recibir\" onclick=\"fnrecibir('"+fila.getId_hoja_tramite()+"','"+fila.getId_unidad_registro()+"','"+fila.getId_oficina_registro()+"','"+fila.getId_usuario_registro()+"','"+fila.getId_documento()+"')\" />");		str.append(FIN_TD);
 				str.append(FINI_TR);
-			i++;	
 			}
 			
 			
@@ -93,16 +168,16 @@ public class LogicaGrillaBandeja {
 		str.append(FIN_TBODY);
 		str.append(FIN_TABLA);
 		str.append("</div>");
-		return str.toString();
+		return str.toString()+"||"+i;
 	}
-	public String BandejaPendiente (int estado_movimiento)
+	public String BandejaDerivado (int estado_movimiento,int id_unidad_destino)
 	{
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		List<Bandeja> lista=null;
-		lista=LogicaBandeja.getInstance().ListarBandeja(estado_movimiento);
+		lista=LogicaBandeja.getInstance().ListarBandeja(estado_movimiento, id_unidad_destino);
 		StringBuilder str = new StringBuilder();
-		str.append("<div id =\"trecibido\" class=\"table-responsive\">");
-		str.append(INI_TABLA);
+		str.append("<div id =\"tderivado\">");
+		str.append(INI_TABLA2);
 		StringBuilder cabecera = new StringBuilder();
 		cabecera.append(INI_THEAD);
 		cabecera.append(INI_TR);
@@ -115,14 +190,68 @@ public class LogicaGrillaBandeja {
 		cabecera.append(INI_TH);	cabecera.append("Operaciones");			cabecera.append(FINI_TH);
 		cabecera.append(FINI_TR);
 		cabecera.append(FIN_THEAD);
-		
+		int i=0;
 		str.append(cabecera.toString());
 		str.append(INI_TBODY);
 		if(  lista!=null && lista.size()>0 )
 		{
-                    int i=1;
+                    
 			for(Bandeja fila : lista  )
 			{
+				i++;
+				if (fila.getId_prioridad()==3 ||  fila.getId_prioridad()==2 ) {
+					INI_TRBody = "<tr bgcolor=\"#fdbba4\">";	
+				}else {
+					INI_TRBody = "<tr bgcolor= \"#cbfcb0\">";	
+				}
+			
+				str.append(INI_TRBody);
+				str.append(INI_TD);	str.append( i );			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( df.format(fila.getFecha_reg()));				str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getId_hoja_tramite());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getAsunto());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getDocumento());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append(  df.format(fila.getFecha_doc()));		str.append(FIN_TD);
+				str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Seleccionar\" onclick=\"fnSeleccionarCliente('"+fila.getAsunto()+"','"+fila.getDocumento()+"','"+fila.getId_fichero()+"')\" />");		str.append(FIN_TD);
+				str.append(FINI_TR);	
+			}
+			
+			
+		}
+		str.append(FIN_TBODY);
+		str.append(FIN_TABLA);
+		str.append("</div>");
+		return str.toString()+"||"+i;
+	}
+	public String BandejaRespondido (int estado_movimiento,int id_unidad_destino)
+	{
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		List<Bandeja> lista=null;
+		lista=LogicaBandeja.getInstance().ListarBandeja(estado_movimiento, id_unidad_destino);
+		StringBuilder str = new StringBuilder();
+		str.append("<div id =\"trespondido\" >");
+		str.append(INI_TABLA0);
+		StringBuilder cabecera = new StringBuilder();
+		cabecera.append(INI_THEAD);
+		cabecera.append(INI_TR);
+		cabecera.append(INI_TH);	cabecera.append("N°");	cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Fecha de Registro");	cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("N° HT");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Asunto");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Documento");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Fecha Documento");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Operaciones");			cabecera.append(FINI_TH);
+		cabecera.append(FINI_TR);
+		cabecera.append(FIN_THEAD);
+		int i=0;
+		str.append(cabecera.toString());
+		str.append(INI_TBODY);
+		if(  lista!=null && lista.size()>0 )
+		{
+                    
+			for(Bandeja fila : lista  )
+			{
+				i++;
 				if (fila.getId_prioridad()==3 ||  fila.getId_prioridad()==2 ) {
 					INI_TRBody = "<tr bgcolor=\"#fdbba4\">";	
 				}else {
@@ -138,7 +267,7 @@ public class LogicaGrillaBandeja {
 				str.append(INI_TD);	str.append(  df.format(fila.getFecha_doc()));		str.append(FIN_TD);
 				str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Seleccionar\" onclick=\"fnSeleccionarCliente('"+fila.getAsunto()+"','"+fila.getDocumento()+"','"+fila.getId_fichero()+"')\" />");		str.append(FIN_TD);
 				str.append(FINI_TR);
-			i++;	
+				
 			}
 			
 			
@@ -146,16 +275,16 @@ public class LogicaGrillaBandeja {
 		str.append(FIN_TBODY);
 		str.append(FIN_TABLA);
 		str.append("</div>");
-		return str.toString();
+		return str.toString()+"||"+i;
 	}
-	public String BandejaDerivado (int estado_movimiento)
-	{
+
+	public String BandejaAprobado(int estado_movimiento,int id_unidad_destino) {
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		List<Bandeja> lista=null;
-		lista=LogicaBandeja.getInstance().ListarBandeja(estado_movimiento);
+		lista=LogicaBandeja.getInstance().ListarBandeja(estado_movimiento, id_unidad_destino);
 		StringBuilder str = new StringBuilder();
-		str.append("<div id =\"trecibido\" class=\"table-responsive\">");
-		str.append(INI_TABLA);
+		str.append("<div id =\"taprobado\" >");
+		str.append(INI_TABLA4);
 		StringBuilder cabecera = new StringBuilder();
 		cabecera.append(INI_THEAD);
 		cabecera.append(INI_TR);
@@ -168,14 +297,121 @@ public class LogicaGrillaBandeja {
 		cabecera.append(INI_TH);	cabecera.append("Operaciones");			cabecera.append(FINI_TH);
 		cabecera.append(FINI_TR);
 		cabecera.append(FIN_THEAD);
-		
+		int i=0;
 		str.append(cabecera.toString());
 		str.append(INI_TBODY);
 		if(  lista!=null && lista.size()>0 )
 		{
-                    int i=1;
+                    
 			for(Bandeja fila : lista  )
 			{
+				i++;
+				if (fila.getId_prioridad()==3 ||  fila.getId_prioridad()==2 ) {
+					INI_TRBody = "<tr bgcolor=\"#fdbba4\">";	
+				}else {
+					INI_TRBody = "<tr bgcolor= \"#cbfcb0\">";	
+				}
+			
+				str.append(INI_TRBody);
+				str.append(INI_TD);	str.append( i );			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( df.format(fila.getFecha_reg()));				str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getId_hoja_tramite());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getAsunto());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getDocumento());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append(  df.format(fila.getFecha_doc()));		str.append(FIN_TD);
+				str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Seleccionar\" onclick=\"fnSeleccionarCliente('"+fila.getAsunto()+"','"+fila.getDocumento()+"','"+fila.getId_fichero()+"')\" />");		str.append(FIN_TD);
+				str.append(FINI_TR);	
+			}
+			
+			
+		}
+		str.append(FIN_TBODY);
+		str.append(FIN_TABLA);
+		str.append("</div>");
+		return str.toString()+"||"+i;
+	}
+
+	public String BandejaDesestimado(int estado_movimiento,int id_unidad_destino) {
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		List<Bandeja> lista=null;
+		lista=LogicaBandeja.getInstance().ListarBandeja(estado_movimiento, id_unidad_destino);
+		StringBuilder str = new StringBuilder();
+		str.append("<div id =\"tdesestimado\" >");
+		str.append(INI_TABLA2);
+		StringBuilder cabecera = new StringBuilder();
+		cabecera.append(INI_THEAD);
+		cabecera.append(INI_TR);
+		cabecera.append(INI_TH);	cabecera.append("N°");	cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Fecha de Registro");	cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("N° HT");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Asunto");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Documento");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Fecha Documento");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Operaciones");			cabecera.append(FINI_TH);
+		cabecera.append(FINI_TR);
+		cabecera.append(FIN_THEAD);
+		int i=0;
+		str.append(cabecera.toString());
+		str.append(INI_TBODY);
+		if(  lista!=null && lista.size()>0 )
+		{
+                    
+			for(Bandeja fila : lista  )
+			{
+				i++;
+				if (fila.getId_prioridad()==3 ||  fila.getId_prioridad()==2 ) {
+					INI_TRBody = "<tr bgcolor=\"#fdbba4\">";	
+				}else {
+					INI_TRBody = "<tr bgcolor= \"#cbfcb0\">";	
+				}
+			
+				str.append(INI_TRBody);
+				str.append(INI_TD);	str.append( i );			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( df.format(fila.getFecha_reg()));				str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getId_hoja_tramite());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getAsunto());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getDocumento());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append(  df.format(fila.getFecha_doc()));		str.append(FIN_TD);
+				str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Seleccionar\" onclick=\"fnSeleccionarCliente('"+fila.getAsunto()+"','"+fila.getDocumento()+"','"+fila.getId_fichero()+"')\" />");		str.append(FIN_TD);
+				str.append(FINI_TR);	
+			}
+			
+			
+		}
+		str.append(FIN_TBODY);
+		str.append(FIN_TABLA);
+		str.append("</div>");
+		return str.toString()+"||"+i;
+	}
+
+	public String BandejaDevuelto(int estado_movimiento,int id_unidad_destino)  {
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		List<Bandeja> lista=null;
+		lista=LogicaBandeja.getInstance().ListarBandeja(estado_movimiento, id_unidad_destino);
+		StringBuilder str = new StringBuilder();
+		str.append("<div id =\"tdevuelto\" >");
+		str.append(INI_TABLA3);
+		StringBuilder cabecera = new StringBuilder();
+		cabecera.append(INI_THEAD);
+		cabecera.append(INI_TR);
+		cabecera.append(INI_TH);	cabecera.append("N°");	cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Fecha de Registro");	cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("N° HT");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Asunto");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Documento");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Fecha Documento");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Operaciones");			cabecera.append(FINI_TH);
+		cabecera.append(FINI_TR);
+		cabecera.append(FIN_THEAD);
+		int i=0;
+		str.append(cabecera.toString());
+		str.append(INI_TBODY);
+		if(  lista!=null && lista.size()>0 )
+		{
+                    
+			for(Bandeja fila : lista  )
+			{
+				i++;
 				if (fila.getId_prioridad()==3 ||  fila.getId_prioridad()==2 ) {
 					INI_TRBody = "<tr bgcolor=\"#fdbba4\">";	
 				}else {
@@ -191,7 +427,6 @@ public class LogicaGrillaBandeja {
 				str.append(INI_TD);	str.append(  df.format(fila.getFecha_doc()));		str.append(FIN_TD);
 				str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Seleccionar\" onclick=\"fnSeleccionarCliente('"+fila.getAsunto()+"','"+fila.getDocumento()+"','"+fila.getId_fichero()+"')\" />");		str.append(FIN_TD);
 				str.append(FINI_TR);
-			i++;	
 			}
 			
 			
@@ -199,6 +434,112 @@ public class LogicaGrillaBandeja {
 		str.append(FIN_TBODY);
 		str.append(FIN_TABLA);
 		str.append("</div>");
-		return str.toString();
+		return str.toString()+"||"+i;
+	}
+
+	public String BandejaContestado(int estado_movimiento,int id_unidad_destino) {
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		List<Bandeja> lista=null;
+		lista=LogicaBandeja.getInstance().ListarBandeja(estado_movimiento, id_unidad_destino);
+		StringBuilder str = new StringBuilder();
+		str.append("<div id =\"tcontestado\" >");
+		str.append(INI_TABLA5);
+		StringBuilder cabecera = new StringBuilder();
+		cabecera.append(INI_THEAD);
+		cabecera.append(INI_TR);
+		cabecera.append(INI_TH);	cabecera.append("N°");	cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Fecha de Registro");	cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("N° HT");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Asunto");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Documento");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Fecha Documento");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Operaciones");			cabecera.append(FINI_TH);
+		cabecera.append(FINI_TR);
+		cabecera.append(FIN_THEAD);
+		 int i=0;
+		str.append(cabecera.toString());
+		str.append(INI_TBODY);
+		if(  lista!=null && lista.size()>0 )
+		{
+                   
+			for(Bandeja fila : lista  )
+			{
+				i++;
+				if (fila.getId_prioridad()==3 ||  fila.getId_prioridad()==2 ) {
+					INI_TRBody = "<tr bgcolor=\"#fdbba4\">";	
+				}else {
+					INI_TRBody = "<tr bgcolor= \"#cbfcb0\">";	
+				}
+			
+				str.append(INI_TRBody);
+				str.append(INI_TD);	str.append( i );			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( df.format(fila.getFecha_reg()));				str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getId_hoja_tramite());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getAsunto());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getDocumento());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append(  df.format(fila.getFecha_doc()));		str.append(FIN_TD);
+				str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Seleccionar\" onclick=\"fnSeleccionarCliente('"+fila.getAsunto()+"','"+fila.getDocumento()+"','"+fila.getId_fichero()+"')\" />");		str.append(FIN_TD);
+				str.append(FINI_TR);	
+			}
+			
+			
+		}
+		str.append(FIN_TBODY);
+		str.append(FIN_TABLA);
+		str.append("</div>");
+		return str.toString()+"||"+i;
+	}
+
+	public String BandejaArchivado(int estado_movimiento,int id_unidad_destino)  {
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		List<Bandeja> lista=null;
+		lista=LogicaBandeja.getInstance().ListarBandeja(estado_movimiento, id_unidad_destino);
+		StringBuilder str = new StringBuilder();
+		str.append("<div id =\"tarchivado\">");
+		str.append(INI_TABLA6);
+		StringBuilder cabecera = new StringBuilder();
+		cabecera.append(INI_THEAD);
+		cabecera.append(INI_TR);
+		cabecera.append(INI_TH);	cabecera.append("N°");	cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Fecha de Registro");	cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("N° HT");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Asunto");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Documento");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Fecha Documento");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Operaciones");			cabecera.append(FINI_TH);
+		cabecera.append(FINI_TR);
+		cabecera.append(FIN_THEAD);
+		 int i=0;
+		str.append(cabecera.toString());
+		str.append(INI_TBODY);
+		if(  lista!=null && lista.size()>0 )
+		{
+                   
+			for(Bandeja fila : lista  )
+			{
+				i++;
+				if (fila.getId_prioridad()==3 ||  fila.getId_prioridad()==2 ) {
+					INI_TRBody = "<tr bgcolor=\"#fdbba4\">";	
+				}else {
+					INI_TRBody = "<tr bgcolor= \"#cbfcb0\">";	
+				}
+			
+				str.append(INI_TRBody);
+				str.append(INI_TD);	str.append( i );			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( df.format(fila.getFecha_reg()));				str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getId_hoja_tramite());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getAsunto());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getDocumento());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append(  df.format(fila.getFecha_doc()));		str.append(FIN_TD);
+				str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Seleccionar\" onclick=\"fnSeleccionarCliente('"+fila.getAsunto()+"','"+fila.getDocumento()+"','"+fila.getId_fichero()+"')\" />");		str.append(FIN_TD);
+				str.append(FINI_TR);	
+			}
+			
+			
+		}
+		str.append(FIN_TBODY);
+		str.append(FIN_TABLA);
+		str.append("</div>");
+		return str.toString()+"||"+i;
 	}
 }

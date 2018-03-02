@@ -81,24 +81,7 @@
 	</div>
 </div>
 <script>
-	function alerta(msg) {
-		var texto = msg;
-		$.notify({
-			title : '<strong>Mensaje:</strong>',
-			message : texto
-		}, {
-			type : 'success'
-		});
-	}
-	function danger(msg) {
-		var texto = msg;
-		$.notify({
-			title : '<strong>Alerta:</strong>',
-			message : texto
-		}, {
-			type : 'danger'
-		});
-	}
+
 
 	function seleccionarUnidad(msg, uni, id) {
 		$('#txtunidad').val(uni);
