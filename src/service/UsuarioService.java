@@ -2,8 +2,10 @@ package service;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 import entity.Usuario;
+import entity.lista.Administrativo;
 
 public interface UsuarioService {
 	public Usuario validar(String usu,String pas) throws SQLException;
@@ -12,4 +14,5 @@ public interface UsuarioService {
 	public Usuario ModificarUsuario(Usuario usu);
 	public Usuario ModificarClave(Usuario usu);
 	public Usuario BuscarxIdPersona(int id_persona);
+	public List<Administrativo> ListarAdministrativoActivos(int unidad,int oficina);
 }

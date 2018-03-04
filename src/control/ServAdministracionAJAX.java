@@ -19,6 +19,7 @@ import entity.CentroTrabajo;
 import entity.Oficina;
 import entity.Persona;
 import entity.Usuario;
+import entity.lista.Administrativo;
 import logica.LogicaCentroTrabajo;
 import logica.LogicaOficina;
 import logica.LogicaPersona;
@@ -64,6 +65,11 @@ public class ServAdministracionAJAX extends HttpServlet {
 							System.out.println("hdEvento :  CONSULTAR_USUARIO");
 							ConsultarUsuarioCip(request, response);
 							break;
+						case "COMBO_ADMINISTRATIVO":
+							System.out.println("hdEvento :  COMBO_ADMINISTRATIVO");
+							ComboAdministrativo(request, response);
+							break;
+							
 						default:
 							break;
 						}
@@ -88,6 +94,37 @@ public class ServAdministracionAJAX extends HttpServlet {
 
 		}
 
+	}
+
+	private void ComboAdministrativo(HttpServletRequest request, HttpServletResponse response) {
+		String id_unidad = request.getParameter("id_unidad");
+		String id_oficina = request.getParameter("id_oficina");
+		System.out.println("LA UNIDAD ES: "+id_unidad + " La Oficina es : "+id_oficina);
+		JsonArray array = null;
+		List<Administrativo> usu = null;
+		if (id_unidad != null) {
+			try {
+				usu = LogicaUsuario.getInstance().listaAdministrativosActivos(Integer.parseInt(id_unidad), Integer.parseInt(id_oficina));
+			} catch (Exception e) {
+				System.out.println("NO hay oficinas");
+			}
+
+		}
+		if (usu != null) {
+			array = new JsonArray();
+			for (Administrativo Administrativo : usu) {
+				JsonObject object = new JsonObject();
+				object.addProperty("id", Administrativo.getId_usuario());
+				object.addProperty("detalle", Administrativo.getDetalle());
+				array.add(object);
+			}
+		}
+		if (array != null) {
+			HtmlUtil.getInstance().escrituraHTML(response, array.toString());
+		} else {
+			HtmlUtil.getInstance().escrituraHTML(response, "VACIO");
+		}
+		
 	}
 
 	private void ConsultarUsuarioCip(HttpServletRequest request, HttpServletResponse response) {
@@ -143,6 +180,7 @@ public class ServAdministracionAJAX extends HttpServlet {
 
 	private void ComboOficina(HttpServletRequest request, HttpServletResponse response) {
 		String id_unidad = request.getParameter("id_unidad");
+		System.out.println("LA UNIDAD ES: "+id_unidad);
 		JsonArray array = null;
 		List<Oficina> ofi = null;
 		if (id_unidad != null) {

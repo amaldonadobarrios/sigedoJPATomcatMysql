@@ -1,8 +1,10 @@
 package logica;
 
 import java.io.IOException;
+import java.util.List;
 
 import entity.Usuario;
+import entity.lista.Administrativo;
 import service.UsuarioService;
 import service.impl.UsuarioServiceImpl;
 
@@ -64,4 +66,11 @@ public class LogicaUsuario {
 		}
 		return null;
 	}
+	public List<Administrativo> listaAdministrativosActivos(int unidad,int oficina){
+		UsuarioService serv = new UsuarioServiceImpl();
+		List<Administrativo> lista=null;
+		lista=serv.ListarAdministrativoActivos(unidad, oficina);
+		return lista;
+	}
+	
 }

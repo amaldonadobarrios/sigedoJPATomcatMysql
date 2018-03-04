@@ -103,6 +103,14 @@ public class ServBandejaAJAX extends HttpServlet {
 							System.out.println("hdEvento :  RECIBIR");
 							Recibir(request, response);
 							break;
+						case "DERIVAR":
+							System.out.println("hdEvento :  DERIVAR");
+							Derivar(request, response);
+							break;
+						case "ARCHIVAR":
+							System.out.println("hdEvento :  ARCHIVAR");
+							Archivar(request, response);
+							break;
 						default:
 							break;
 						}
@@ -129,6 +137,76 @@ public class ServBandejaAJAX extends HttpServlet {
 
 	}
 
+	private void Archivar(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("Archivar");
+		int i=0;
+		String  idht=request.getParameter("id_ht");
+		String  iddoc=request.getParameter("id_doc");
+		String  id_usuario_destino=request.getParameter("id_usuario_destino");
+		String  id_unidad_destino=request.getParameter("id_unidad_destino");
+		String  id_oficina_destino=request.getParameter("id_oficina_destino");
+		String  observaciones=request.getParameter("observaciones");
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Usuario user = (Usuario) SesionUsuario.get(0);
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		Oficina ofi = (Oficina) SesionUsuario.get(4);
+		MovimientoHt mov=new MovimientoHt();
+		mov.setFechaRegistro(new Date());
+		mov.setId_usuarioDestino(Integer.parseInt(id_usuario_destino));
+		mov.setIdDocumento(Integer.parseInt(iddoc));
+		mov.setIdEstadoMovimientoHt(9);//archivado
+		mov.setIdHojaTramite(Integer.parseInt(idht));
+		mov.setIdOficinaDestino(Integer.parseInt(id_oficina_destino));
+		mov.setIdOficinaRegistro(ofi.getIdOficina());
+		mov.setIdUnidadDestino(Integer.parseInt(id_unidad_destino));
+		mov.setIdUnidadRegistro(uni.getIdUnidad());
+		mov.setIdUsuarioRegistro(user.getIdUsuario());
+		mov.setObservaciones(observaciones.toUpperCase());
+		try {
+		i=LogicaMovimientoHT.getInstance().grabarMovimientoHT(mov);	
+		} catch (Exception e) {
+			System.out.println("ServBandejaAJAX.Archivar()"+e.getMessage());
+		}
+	HtmlUtil.getInstance().escritura(response, String.valueOf(i));
+		
+	}
+
+	private void Derivar(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("Derivar");
+		int i=0;
+		String  idht=request.getParameter("id_ht");
+		String  iddoc=request.getParameter("id_doc");
+		String  id_usuario_destino=request.getParameter("id_usuario_destino");
+		String  id_unidad_destino=request.getParameter("id_unidad_destino");
+		String  id_oficina_destino=request.getParameter("id_oficina_destino");
+		String  observaciones=request.getParameter("observaciones");
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Usuario user = (Usuario) SesionUsuario.get(0);
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		Oficina ofi = (Oficina) SesionUsuario.get(4);
+		MovimientoHt mov=new MovimientoHt();
+		mov.setFechaRegistro(new Date());
+		mov.setId_usuarioDestino(Integer.parseInt(id_usuario_destino));
+		mov.setIdDocumento(Integer.parseInt(iddoc));
+		mov.setIdEstadoMovimientoHt(3);//derivado
+		mov.setIdHojaTramite(Integer.parseInt(idht));
+		mov.setIdOficinaDestino(Integer.parseInt(id_oficina_destino));
+		mov.setIdOficinaRegistro(ofi.getIdOficina());
+		mov.setIdUnidadDestino(Integer.parseInt(id_unidad_destino));
+		mov.setIdUnidadRegistro(uni.getIdUnidad());
+		mov.setIdUsuarioRegistro(user.getIdUsuario());
+		mov.setObservaciones(observaciones.toUpperCase());
+		try {
+		i=LogicaMovimientoHT.getInstance().grabarMovimientoHT(mov);	
+		} catch (Exception e) {
+			System.out.println("ServBandejaAJAX.Derivar()"+e.getMessage());
+		}
+	HtmlUtil.getInstance().escritura(response, String.valueOf(i));
+		
+	}
+
 	private void Recibir(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("Recibir");
 		int i=0;
@@ -150,7 +228,7 @@ public class ServBandejaAJAX extends HttpServlet {
 		mov.setIdUnidadDestino(uni.getIdUnidad());
 		mov.setIdUnidadRegistro(uni.getIdUnidad());
 		mov.setIdUsuarioRegistro(user.getIdUsuario());
-		mov.setObservaciones(DirTexto.getInstance().cambiarFormatoUTF8("Hoja de tramite Recibida").toUpperCase());
+		mov.setObservaciones("Hoja de tramite Recibida".toUpperCase());
 		try {
 		i=LogicaMovimientoHT.getInstance().grabarMovimientoHT(mov);	
 		} catch (Exception e) {

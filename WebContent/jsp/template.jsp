@@ -222,9 +222,10 @@
 			var contexto = document.getElementById("contexto").value;
 			var vservlet = contexto + '/ServBandejaAJAX';
 			var txtevento = evento;
-			var jqdata={
-			hdEvento : txtevento};
-			
+			var jqdata = {
+				hdEvento : txtevento
+			};
+
 			fnEjecutarPeticion(vservlet, jqdata, txtevento);
 		}
 	}
@@ -251,65 +252,89 @@
 			} else {
 				if (vevento == 'BANDEJA_RECIBIDO') {
 					var respuesta = v_resultado.split('||');
-    				var tabla = respuesta[0];
-    				var numero = respuesta[1];
+					var tabla = respuesta[0];
+					var numero = respuesta[1];
 					$('#trecibido').html(tabla);
 					$('#lblrecibido').html(numero);
 					$('#dataTable').DataTable();
 				}
 				if (vevento == 'BANDEJA_PENDIENTE') {
 					var respuesta = v_resultado.split('||');
-    				var tabla = respuesta[0];
-    				var numero = respuesta[1];
+					var tabla = respuesta[0];
+					var numero = respuesta[1];
 					$('#lblpendiente').html(numero);
 					$('#tpendiente').html(tabla);
 					$('#dataTable1').DataTable();
 				}
 				if (vevento == 'BANDEJA_DERIVADO') {
 					var respuesta = v_resultado.split('||');
-    				var tabla = respuesta[0];
-    				var numero = respuesta[1];
+					var tabla = respuesta[0];
+					var numero = respuesta[1];
 					$('#lblderivado').html(numero);
 					$('#tderivado').html(tabla);
 					$('#dataTable2').DataTable();
 				}
 				if (vevento == 'BANDEJA_DEVUELTO') {
 					var respuesta = v_resultado.split('||');
-    				var tabla = respuesta[0];
-    				var numero = respuesta[1];
+					var tabla = respuesta[0];
+					var numero = respuesta[1];
 					$('#lbldevuelto').html(numero);
 					$('#tdevuelto').html(tabla);
 					$('#dataTable3').DataTable();
 				}
 				if (vevento == 'BANDEJA_APROBADO') {
 					var respuesta = v_resultado.split('||');
-    				var tabla = respuesta[0];
-    				var numero = respuesta[1];
+					var tabla = respuesta[0];
+					var numero = respuesta[1];
 					$('#lblaprobado').html(numero);
 					$('#taprobado').html(tabla);
 					$('#dataTable4').DataTable();
 				}
 				if (vevento == 'BANDEJA_CONTESTADO') {
 					var respuesta = v_resultado.split('||');
-    				var tabla = respuesta[0];
-    				var numero = respuesta[1];
+					var tabla = respuesta[0];
+					var numero = respuesta[1];
 					$('#lblcontestado').html(numero);
 					$('#tcontestado').html(tabla);
 					$('#dataTable5').DataTable();
 				}
 				if (vevento == 'BANDEJA_ARCHIVADO') {
 					var respuesta = v_resultado.split('||');
-    				var tabla = respuesta[0];
-    				var numero = respuesta[1];
+					var tabla = respuesta[0];
+					var numero = respuesta[1];
 					$('#lblarchivado').html(numero);
 					$('#tarchivado').html(tabla);
 					$('#dataTable6').DataTable();
 				}
+				if (vevento == 'DERIVAR') {
+					if (v_resultado!='0') {
+					 	$('#modDerivar').modal('hide');
+						alerta('Correcto, se derivo la Hoja de trámite!');
+						fnlistarBandeja('BANDEJA_RECIBIDO');
+						fnlistarBandeja('BANDEJA_DERIVADO');
+						fnlistarBandeja('BANDEJA_DEVUELTO');
+					} else {
+						danger('Error, No se derivo la Hoja de trámite!');
+					}
+				}
+				if (vevento == 'ARCHIVAR') {
+					if (v_resultado!='0') {
+					 	$('#modArchivar').modal('hide');
+						alerta('Correcto, se Archivó la Hoja de trámite!');
+						fnlistarBandeja('BANDEJA_RECIBIDO');
+						fnlistarBandeja('BANDEJA_ARCHIVADO');
+						fnlistarBandeja('BANDEJA_DEVUELTO');
+					} else {
+						danger('Error, No se Archivó Hoja de trámite!');
+					}
+				}
 				
+
 			}
 		}
 	}
 </script>
+
 <script>
 	function alerta(msg) {
 		var texto = msg;

@@ -2,10 +2,12 @@ package service.impl;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 import dao.UsuarioDAO;
 import dao.impl.UsuarioDAOImpl;
 import entity.Usuario;
+import entity.lista.Administrativo;
 import service.UsuarioService;
 
 public class UsuarioServiceImpl implements UsuarioService {
@@ -44,6 +46,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public Usuario BuscarxIdPersona(int id_persona) {
 		// TODO Auto-generated method stub
 		return dao.BuscarxIdPersona(id_persona);
+	}
+
+	@Override
+	public List<Administrativo> ListarAdministrativoActivos(int unidad, int oficina) {
+		// TODO Auto-generated method stub
+		return dao.ListarAdministrativoActivos(unidad, oficina);
 	}
 
 }

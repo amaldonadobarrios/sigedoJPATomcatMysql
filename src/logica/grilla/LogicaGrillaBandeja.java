@@ -94,8 +94,8 @@ public class LogicaGrillaBandeja {
 								"					alt=\"Brand\" class=\"img\"\r\n" + 
 								"					src=\"images/pdf.jpg\" width=\"25\"\r\n" + 
 								"					height=\"20\" onclick=\"fnVerPDF('"+fila.getId_fichero()+"')\">");		str.append(FIN_TD);
-				str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Derivar\" onclick=\"fnderivar('"+fila.getId_hoja_tramite()+"','"+fila.getId_unidad_registro()+"','"+fila.getId_oficina_registro()+"','"+fila.getId_usuario_registro()+"','"+fila.getId_documento()+"')\" />");		str.append(FIN_TD);
-				str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Archivar\" onclick=\"fnarchivar('"+fila.getId_hoja_tramite()+"','"+fila.getId_unidad_registro()+"','"+fila.getId_oficina_registro()+"','"+fila.getId_usuario_registro()+"','"+fila.getId_documento()+"')\" />");		str.append(FIN_TD);
+				str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Derivar\" onclick=\"fnlistarOficinax('1');fnderivar('"+fila.getId_hoja_tramite()+"','"+fila.getAsunto()+"','"+fila.getDocumento()+"','"+fila.getId_unidad_registro()+"','"+fila.getId_documento()+"')\" />");		str.append(FIN_TD);
+				str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Archivar\" onclick=\"fnarchivar('"+fila.getId_hoja_tramite()+"','"+fila.getAsunto()+"','"+fila.getDocumento()+"','"+fila.getId_usuario_registro()+"','"+fila.getId_documento()+"')\" />");		str.append(FIN_TD);
 				str.append(FINI_TR);	
 				
 			}
@@ -400,7 +400,10 @@ public class LogicaGrillaBandeja {
 		cabecera.append(INI_TH);	cabecera.append("Asunto");			cabecera.append(FINI_TH);
 		cabecera.append(INI_TH);	cabecera.append("Documento");			cabecera.append(FINI_TH);
 		cabecera.append(INI_TH);	cabecera.append("Fecha Documento");			cabecera.append(FINI_TH);
-		cabecera.append(INI_TH);	cabecera.append("Operaciones");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("F.Origen");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("F.Recibido");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Derivar");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Archivar");			cabecera.append(FINI_TH);
 		cabecera.append(FINI_TR);
 		cabecera.append(FIN_THEAD);
 		int i=0;
@@ -425,7 +428,16 @@ public class LogicaGrillaBandeja {
 				str.append(INI_TD);	str.append( fila.getAsunto());			str.append(FIN_TD);
 				str.append(INI_TD);	str.append( fila.getDocumento());			str.append(FIN_TD);
 				str.append(INI_TD);	str.append(  df.format(fila.getFecha_doc()));		str.append(FIN_TD);
-				str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Seleccionar\" onclick=\"fnSeleccionarCliente('"+fila.getAsunto()+"','"+fila.getDocumento()+"','"+fila.getId_fichero()+"')\" />");		str.append(FIN_TD);
+				str.append(INI_TD);	str.append("<img\r\n" + 
+						"					alt=\"Brand\" class=\"img\"\r\n" + 
+						"					src=\"images/pdf.jpg\" width=\"25\"\r\n" + 
+						"					height=\"20\" onclick=\"fnVerPDF('"+fila.getId_fichero_ini()+"')\">");		str.append(FIN_TD);
+				str.append(INI_TD);	str.append("<img\r\n" + 
+								"					alt=\"Brand\" class=\"img\"\r\n" + 
+								"					src=\"images/pdf.jpg\" width=\"25\"\r\n" + 
+								"					height=\"20\" onclick=\"fnVerPDF('"+fila.getId_fichero()+"')\">");		str.append(FIN_TD);
+				str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Derivar\" onclick=\"fnlistarOficinax('1');fnderivar('"+fila.getId_hoja_tramite()+"','"+fila.getAsunto()+"','"+fila.getDocumento()+"','"+fila.getId_unidad_registro()+"','"+fila.getId_documento()+"')\" />");		str.append(FIN_TD);
+				str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Archivar\" onclick=\"fnarchivar('"+fila.getId_hoja_tramite()+"','"+fila.getAsunto()+"','"+fila.getDocumento()+"','"+fila.getId_usuario_registro()+"','"+fila.getId_documento()+"')\" />");		str.append(FIN_TD);
 				str.append(FINI_TR);
 			}
 			

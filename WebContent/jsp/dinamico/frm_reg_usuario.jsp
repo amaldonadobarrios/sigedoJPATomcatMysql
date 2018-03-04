@@ -11,10 +11,10 @@
 		var contexto = document.getElementById("contexto").value;
 		var vservlet = contexto + '/ServAdministracionAJAX';
 		var txtevento = 'COMBO_OFICINA';
-		fn_ajax(vservlet, txtevento, x);
+		fn_ajax_ofi(vservlet, txtevento, x);
 	}
 
-	function fn_ajax(servlet, evento, id) {
+	function fn_ajax_ofi(servlet, evento, id) {
 		$.ajax({
 			url : servlet,
 			data : {
