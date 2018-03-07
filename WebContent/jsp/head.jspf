@@ -54,7 +54,7 @@
 			</a></li>
 			<li class="nav-item" data-toggle="tooltip" data-placement="right"
 				title="Bandeja de Archivador"><a class="nav-link"
-				href="SPage?action=BandArchiv"> <i class="fa fa-fw fa-book"></i>
+				href="SPage?action=BandAdministrativo"> <i class="fa fa-fw fa-book"></i>
 					<span class="nav-link-text">Bandeja de Administrativo</span>
 			</a></li>
 			<li class="nav-item" data-toggle="tooltip" data-placement="right"

@@ -14,5 +14,10 @@ BandejaDAO dao=new BandejaDAOImpl();
 		// TODO Auto-generated method stub
 		return dao.listaBandeja(id_estado_movimiento, id_unidad_destino);
 	}
+	@Override
+	public List<Bandeja> listaBandejaAdministrativo(int id_unidad_destino, int id_usuario) {
+		// TODO Auto-generated method stub
+		return dao.listaBandejaAdministrativo(id_unidad_destino, id_usuario);
+	}
 
 }

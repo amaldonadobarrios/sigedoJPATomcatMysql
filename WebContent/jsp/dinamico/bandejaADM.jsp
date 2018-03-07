@@ -12,28 +12,10 @@
 	<div class="container-fluid">
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs" role="tablist">
-			<li class="nav-item" onclick="fnlistarBandeja('BANDEJA_PENDIENTE')">
+			<li class="nav-item" onclick="fnlistarBandeja('BANDEJA_ADMINISTRATIVO')">
 				<a class="nav-link active primary" data-toggle="tab"
-				href="#Pendiente" role="tab">Pendiente <span
-					class="badge badge-pill badge-primary"><div
-							id="lblpendiente"></div></span></a>
-			</li>
-			<li class="nav-item" onclick="fnlistarBandeja('BANDEJA_RECIBIDO')">
-				<a class="nav-link" data-toggle="tab" href="#Recibido" role="tab">Recibido
-					<span class="badge badge-pill badge-primary"><div
-							id="lblrecibido"></div></span>
-			</a>
-			</li>
-			<li class="nav-item" onclick="fnlistarBandeja('BANDEJA_DEVUELTO')">
-				<a class="nav-link" data-toggle="tab" href="#Devuelto" role="tab">Devuelto
-					<span class="badge badge-pill badge-primary"><div
-							id="lbldevuelto"></div></span>
-			</a>
-			</li>
-			<li class="nav-item" onclick="fnlistarBandeja('BANDEJA_DERIVADO')">
-				<a class="nav-link" data-toggle="tab" href="#Derivados" role="tab">Derivado
-					<span class="badge badge-pill badge-info"><div
-							id="lblderivado"></div></span>
+				href="#Administrativo" role="tab">Recibido <span
+					class="badge badge-pill badge-primary"><div id="lbladministrativo"></div></span>
 			</a>
 			</li>
 			<li class="nav-item" onclick="fnlistarBandeja('BANDEJA_APROBADO')">
@@ -42,69 +24,15 @@
 							id="lblaprobado"></div></span>
 			</a>
 			</li>
-			<li class="nav-item" onclick="fnlistarBandeja('BANDEJA_CONTESTADO')">
-				<a class="nav-link" data-toggle="tab" href="#Contestado" role="tab">Contestado
-					<span class="badge badge-pill badge-info"><div
-							id="lblcontestado"></div></span>
-			</a>
-			</li>
-			<li class="nav-item" onclick="fnlistarBandeja('BANDEJA_ARCHIVADO')">
-				<a class="nav-link" data-toggle="tab" href="#Archivado" role="tab">Archivado
-					<span class="badge badge-pill badge-info"><div
-							id="lblarchivado"></div></span>
-			</a>
-			</li>
 		</ul>
 
 		<!-- Tab panes -->
 		<div class="tab-content">
-			<div class="tab-pane active" id="Pendiente" role="tabpanel">
+			<div class="tab-pane active" id="Administrativo" role="tabpanel">
 				<div class="card mb-3">
 					<div class="card-body">
 						<div class="table-responsive">
-							<div id="tpendiente"></div>
-						</div>
-					</div>
-					<div class="card-footer small text-muted">
-						Actualizado al
-						<fmt:formatDate type="both" dateStyle="short" timeStyle="short"
-							value="${now}" />
-					</div>
-				</div>
-			</div>
-			<div class="tab-pane" id="Recibido" role="tabpanel">
-				<div class="card mb-3">
-					<div class="card-body">
-						<div class="table-responsive">
-							<div id="trecibido"></div>
-						</div>
-					</div>
-					<div class="card-footer small text-muted">
-						Actualizado al
-						<fmt:formatDate type="both" dateStyle="short" timeStyle="short"
-							value="${now}" />
-					</div>
-				</div>
-			</div>
-			<div class="tab-pane" id="Devuelto" role="tabpanel">
-				<div class="card mb-3">
-					<div class="card-body">
-						<div class="table-responsive">
-							<div id="tdevuelto"></div>
-						</div>
-					</div>
-					<div class="card-footer small text-muted">
-						Actualizado al
-						<fmt:formatDate type="both" dateStyle="short" timeStyle="short"
-							value="${now}" />
-					</div>
-				</div>
-			</div>
-			<div class="tab-pane" id="Derivados" role="tabpanel">
-				<div class="card mb-3">
-					<div class="card-body">
-						<div class="table-responsive">
-							<div id="tderivado"></div>
+							<div id="tadministrativo"></div>
 						</div>
 					</div>
 					<div class="card-footer small text-muted">
@@ -128,35 +56,6 @@
 					</div>
 				</div>
 			</div>
-			<div class="tab-pane" id="Contestado" role="tabpanel">
-				<div class="card mb-3">
-					<div class="card-body">
-						<div class="table-responsive">
-							<div id="tcontestado"></div>
-						</div>
-					</div>
-					<div class="card-footer small text-muted">
-						Actualizado al
-						<fmt:formatDate type="both" dateStyle="short" timeStyle="short"
-							value="${now}" />
-					</div>
-				</div>
-			</div>
-			<div class="tab-pane" id="Archivado" role="tabpanel">
-				<div class="card mb-3">
-					<div class="card-body">
-						<div class="table-responsive">
-							<div id="tarchivado"></div>
-						</div>
-					</div>
-					<div class="card-footer small text-muted">
-						Actualizado al
-						<fmt:formatDate type="both" dateStyle="short" timeStyle="short"
-							value="${now}" />
-					</div>
-				</div>
-			</div>
-
 		</div>
 	</div>
 </ol>
@@ -214,13 +113,13 @@
 		</div>
 	</div>
 </div>
-<div class="modal fade" id="modArchivar" tabindex="-1" role="dialog"
+<div class="modal fade" id="modDEVOLVER" tabindex="-1" role="dialog"
 	aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="exampleModalLabel">
-					ARCHIVAR HOJA DE TRÁMITE N° <label id="lblhtArchiv"></label>
+					DEVOLVER HOJA DE TRÁMITE N° <label id="lblhtArchiv"></label>
 				</h5>
 				<button class="close" type="button" data-dismiss="modal"
 					aria-label="Close">
@@ -241,7 +140,41 @@
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-primary" type="button"
-					onclick="fnreg_archivar();">Aceptar</button>
+					onclick="fnreg_Devolver();">Aceptar</button>
+				<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="modRESPONDER" tabindex="-1" role="dialog"
+	aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">
+					RESPONDER HOJA DE TRÁMITE N° <label id="lblhtArchiv"></label>
+				</h5>
+				<button class="close" type="button" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body" align="justify">
+				<label id="lblasuntoArchiv">Asunto: </label><br> <label
+					id="lbldocumentoArchiv">Asunto: </label> <input type="hidden"
+					id="id_htArchiv"> <input type="hidden" id="id_docArchiv">
+				<input type="hidden" id="id_unidadArchiv">
+				<div class="form-group">
+					<label id="lblobsArchiv">OBSERVACIONES</label>
+					<textarea class="form-control" rows="4" cols="50"
+						id="txtobservacionesArchiv" name="txtobservaciones" required></textarea>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" type="button"
+					onclick="fnreg_Devolver();">Aceptar</button>
 				<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
 
 			</div>
@@ -250,32 +183,33 @@
 </div>
 
 <script type="text/javascript">
-//----ARCHIVAR-------------------------------------------------------------
-	function fnreg_archivar() {
-		var id_unidad_destino = document.getElementById("id_unidadArchiv").value;
-		var observaciones = document.getElementById("txtobservacionesArchiv").value;
-		var id_ht = document.getElementById("id_htArchiv").value;
-		var id_doc = document.getElementById("id_docArchiv").value;
-		if (validarARCHIVAR()) {
-			var contexto = document.getElementById("contexto").value;
-			var vservlet = contexto + '/ServBandejaAJAX';
-			var txtevento = 'ARCHIVAR';
-			var jqdata = {
-				hdEvento : txtevento,
-				id_ht : id_ht,
-				id_doc : id_doc,
-				id_usuario_destino : '0',
-				id_unidad_destino : id_unidad_destino,
-				id_oficina_destino : '0',
-				observaciones : observaciones
-			};
-			if (confirm('Esta seguro de Archivar la Hoja de Trámite N°' + id_ht)) {
-				fnEjecutarPeticion(vservlet, jqdata, txtevento);
-			}
-		}
-
+function fnResponder(idht, asu, doc, idunireg, iddoc) {
+		$('#lblhtArchiv').html(idht);
+		$('#lblasuntoArchiv').html('Asunto: ' + asu);
+		$('#lbldocumentoArchiv').html('Documento: ' + doc);
+		document.getElementById("id_htArchiv").value = idht;
+		document.getElementById("id_docArchiv").value = iddoc;
+		document.getElementById("id_unidadArchiv").value = idunireg;
+		document.getElementById("txtobservacionesArchiv").value = '';
+		$('#lblobsArchiv').css("color", "black");
+		$('#modRESPONDER').modal();
 	}
-	function validarARCHIVAR() {
+
+
+//---------------------------DEVOLVER----------------
+
+ function fnDevolver(idht, asu, doc, idunireg, iddoc) {
+		$('#lblhtArchiv').html(idht);
+		$('#lblasuntoArchiv').html('Asunto: ' + asu);
+		$('#lbldocumentoArchiv').html('Documento: ' + doc);
+		document.getElementById("id_htArchiv").value = idht;
+		document.getElementById("id_docArchiv").value = iddoc;
+		document.getElementById("id_unidadArchiv").value = idunireg;
+		document.getElementById("txtobservacionesArchiv").value = '';
+		$('#lblobsArchiv').css("color", "black");
+		$('#modDEVOLVER').modal();
+	}
+	function validardevolver() {
 		var validar = true;
 		var txtobservacionesArchiv = document
 				.getElementById('txtobservacionesArchiv').value;
@@ -286,6 +220,113 @@
 		}
 		return validar;
 	}
+function fnreg_Devolver() {
+		var id_unidad_destino = document.getElementById("id_unidadArchiv").value;
+		var observaciones = document.getElementById("txtobservacionesArchiv").value;
+		var id_ht = document.getElementById("id_htArchiv").value;
+		var id_doc = document.getElementById("id_docArchiv").value;
+		if (validardevolver()) {
+			var contexto = document.getElementById("contexto").value;
+			var vservlet = contexto + '/ServBandejaAJAX';
+			var txtevento = 'DEVOLVER';
+			var jqdata = {
+				hdEvento : txtevento,
+				id_ht : id_ht,
+				id_doc : id_doc,
+				id_usuario_destino : '0',
+				id_unidad_destino : id_unidad_destino,
+				id_oficina_destino : '0',
+				observaciones : observaciones
+			};
+			if (confirm('Esta seguro de Devolver la Hoja de Trámite N°' + id_ht)) {
+				fnEjecutarPeticion(vservlet, jqdata, txtevento);
+			}
+		}
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+	function fnreg_validar(val) {
+		var id_usuario_reg = document.getElementById("id_usuregval").value;
+		var id_unidad_destino = document.getElementById("id_unidadval").value;
+		var observaciones = document.getElementById("txtobservacionesval").value;
+		var id_doc = document.getElementById("id_docval").value;
+		var idht = document.getElementById("id_htval").value;
+		var valor = val;
+		if (validarRESPUESTA()) {
+			var contexto = document.getElementById("contexto").value;
+			var vservlet = contexto + '/ServBandejaAJAX';
+			var txtevento = 'VALIDAR RESPUESTA';
+			if (valor == '1') {
+				var jqdata = {
+					hdEvento : txtevento,
+					id_ht : idht,
+					id_uni : id_unidad_destino,
+					id_usu : id_usuario_reg,
+					id_doc : id_doc,
+					observaciones: observaciones,
+					id_estado_validacion : '5'
+				};
+				if (confirm('Esta seguro de Aprobar la respuesta a  la Hoja de Trámite N°'
+						+ idht)) {
+					fnEjecutarPeticion(vservlet, jqdata, txtevento);
+				}
+			} else {
+				var jqdata = {
+					hdEvento : txtevento,
+					id_ht : idht,
+					id_uni : id_unidad_destino,
+					id_usu : id_usuario_reg,
+					id_doc : id_doc,
+					observaciones: observaciones,
+					id_estado_validacion : '6'
+				};
+				if (confirm('Esta seguro de Desaprobar la respuesta a  la  Hoja de Trámite N°'
+						+ idht)) {
+					fnEjecutarPeticion(vservlet, jqdata, txtevento);
+				}
+
+			}
+		}
+	}
+
+	function validarRESPUESTA() {
+		var validar = true;
+		var txtobservacionesval = document
+				.getElementById('txtobservacionesval').value;
+		$('#lblobsval').css("color", "black");
+		if (txtobservacionesval == '') {
+			$('#lblobsval').css("color", "red");
+			validar = false;
+		}
+		return validar;
+	}
+	function fnvalidar(idht, asu, doc, idunireg, iddoc, idusureg) {
+		$('#lblhtval').html(idht);
+		$('#lblasuntoval').html('Asunto: ' + asu);
+		$('#lbldocumentoval').html('Documento: ' + doc);
+		document.getElementById("id_htval").value = idht;
+		document.getElementById("id_docval").value = iddoc;
+		document.getElementById("id_unidadval").value = idunireg;
+		document.getElementById("id_usuregval").value = idusureg;
+		document.getElementById("txtobservacionesval").value = '';
+		$('#lblobsval').css("color", "black");
+		$("#modValidar").modal();
+	}
+
+	//----ARCHIVAR-------------------------------------------------------------
+	
+	
 	function fnarchivar(idht, asu, doc, idunireg, iddoc) {
 		$('#lblhtArchiv').html(idht);
 		$('#lblasuntoArchiv').html('Asunto: ' + asu);
@@ -477,13 +518,7 @@
 </script>
 <script type="text/javascript">
 	window.onload = function() {
-		fnlistarBandeja('BANDEJA_PENDIENTE');
-		fnlistarBandeja('BANDEJA_RECIBIDO');
-		fnlistarBandeja('BANDEJA_DERIVADO');
-		fnlistarBandeja('BANDEJA_DEVUELTO');
-		fnlistarBandeja('BANDEJA_APROBADO');
-		fnlistarBandeja('BANDEJA_CONTESTADO');
-		fnlistarBandeja('BANDEJA_ARCHIVADO');
+		fnlistarBandeja('BANDEJA_ADMINISTRATIVO')
 	}
 </script>
 

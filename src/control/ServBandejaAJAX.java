@@ -13,15 +13,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import entity.Archivo;
 import entity.FicheroDoc;
 import entity.MovimientoHt;
 import entity.Oficina;
 import entity.Unidad;
 import entity.Usuario;
+import logica.LogicaArchivo;
 import logica.LogicaFichero;
 import logica.LogicaMovimientoHT;
 import logica.grilla.LogicaGrillaBandeja;
-import util.DirTexto;
 import util.HtmlUtil;
 
 /**
@@ -67,8 +68,8 @@ public class ServBandejaAJAX extends HttpServlet {
 							System.out.println("hdEvento :  BANDEJA_DERIVADO");
 							BandejaDerivado(request, response);
 							break;
-						case "RESPONDIDO":
-							System.out.println("hdEvento :  RESPONDIDO");
+						case "BANDEJA_RESPONDIDO":
+							System.out.println("hdEvento :  BANDEJA_RESPONDIDO");
 							BandejaRespondido(request, response);
 							break;
 						case "BANDEJA_APROBADO":
@@ -91,6 +92,10 @@ public class ServBandejaAJAX extends HttpServlet {
 							System.out.println("hdEvento :  BANDEJA_ARCHIVADO");
 							BandejaArchivado(request, response);
 							break;
+						case "BANDEJA_ADMINISTRATIVO":
+							System.out.println("hdEvento :  BANDEJA_ADMINISTRATIVO");
+							BandejaAdministrativo(request, response);
+							break;
 						case "VER_PDF":
 							System.out.println("hdEvento :  VER_PDF");
 							VerPdf(request, response);
@@ -110,6 +115,14 @@ public class ServBandejaAJAX extends HttpServlet {
 						case "ARCHIVAR":
 							System.out.println("hdEvento :  ARCHIVAR");
 							Archivar(request, response);
+							break;
+						case "VALIDAR RESPUESTA":
+							System.out.println("hdEvento :  VALIDAR RESPUESTA");
+							ValidarRespuesta(request, response);
+							break;
+						case "DEVOLVER":
+							System.out.println("hdEvento :  DEVOLVER");
+							Devolver(request, response);
 							break;
 						default:
 							break;
@@ -135,6 +148,91 @@ public class ServBandejaAJAX extends HttpServlet {
 
 		}
 
+	}
+
+	private void Devolver(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("Devolver");
+		int i=0;
+		String  idht=request.getParameter("id_ht");
+		String  iddoc=request.getParameter("id_doc");
+		String  id_usuario_destino=request.getParameter("id_usuario_destino");
+		String  id_unidad_destino=request.getParameter("id_unidad_destino");
+		String  id_oficina_destino=request.getParameter("id_oficina_destino");
+		String  observaciones=request.getParameter("observaciones");
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Usuario user = (Usuario) SesionUsuario.get(0);
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		Oficina ofi = (Oficina) SesionUsuario.get(4);
+		MovimientoHt mov=new MovimientoHt();
+		mov.setFechaRegistro(new Date());
+		mov.setId_usuarioDestino(Integer.parseInt(id_usuario_destino));
+		mov.setIdDocumento(Integer.parseInt(iddoc));
+		mov.setIdEstadoMovimientoHt(7);//archivado
+		mov.setIdHojaTramite(Integer.parseInt(idht));
+		mov.setIdOficinaDestino(Integer.parseInt(id_oficina_destino));
+		mov.setIdOficinaRegistro(ofi.getIdOficina());
+		mov.setIdUnidadDestino(Integer.parseInt(id_unidad_destino));
+		mov.setIdUnidadRegistro(uni.getIdUnidad());
+		mov.setIdUsuarioRegistro(user.getIdUsuario());
+		mov.setObservaciones(observaciones.toUpperCase());
+		try {
+		i=LogicaMovimientoHT.getInstance().grabarMovimientoHT(mov);	
+		} catch (Exception e) {
+			System.out.println("ServBandejaAJAX.Archivar()"+e.getMessage());
+		}
+		
+	HtmlUtil.getInstance().escritura(response, String.valueOf(i));
+		
+	}
+
+	private void BandejaAdministrativo(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("BandejaAdministrativo");
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		Usuario usu= (Usuario)SesionUsuario.get(0);
+		String tabla=LogicaGrillaBandeja.getInstance().BandejaAdministrativo(uni.getIdUnidad(),usu.getIdUsuario());
+		HtmlUtil.getInstance().escritura(response, tabla);
+		
+	}
+
+	private void ValidarRespuesta(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("ValidarRespuesta");
+		int i=0;
+		String  idht=request.getParameter("id_ht");
+		String  iddoc=request.getParameter("id_doc");
+		String  id_usuario_destino=request.getParameter("id_usu");
+		String  id_unidad_destino=request.getParameter("id_uni");
+		String  id_estado_validacion=request.getParameter("id_estado_validacion");
+		String  observaciones=request.getParameter("observaciones");
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Usuario user = (Usuario) SesionUsuario.get(0);
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		Oficina ofi = (Oficina) SesionUsuario.get(4);
+		MovimientoHt mov=new MovimientoHt();
+		mov.setFechaRegistro(new Date());
+		if (id_estado_validacion.equals("5")) {
+			mov.setId_usuarioDestino(0);
+		}else {
+			mov.setId_usuarioDestino(Integer.parseInt(id_usuario_destino));
+		}
+		mov.setIdDocumento(Integer.parseInt(iddoc));
+		mov.setIdEstadoMovimientoHt(Integer.parseInt(id_estado_validacion));//Aprobado - Desaprobado
+		mov.setIdHojaTramite(Integer.parseInt(idht));
+		mov.setIdOficinaDestino(0);
+		mov.setIdOficinaRegistro(ofi.getIdOficina());
+		mov.setIdUnidadDestino(Integer.parseInt(id_unidad_destino));
+		mov.setIdUnidadRegistro(uni.getIdUnidad());
+		mov.setIdUsuarioRegistro(user.getIdUsuario());
+		mov.setObservaciones(observaciones.toUpperCase());
+		try {
+		i=LogicaMovimientoHT.getInstance().grabarMovimientoHT(mov);	
+		} catch (Exception e) {
+			System.out.println("ServBandejaAJAX.Archivar()"+e.getMessage());
+		}
+		HtmlUtil.getInstance().escritura(response, String.valueOf(i));
 	}
 
 	private void Archivar(HttpServletRequest request, HttpServletResponse response) {
@@ -167,6 +265,17 @@ public class ServBandejaAJAX extends HttpServlet {
 		i=LogicaMovimientoHT.getInstance().grabarMovimientoHT(mov);	
 		} catch (Exception e) {
 			System.out.println("ServBandejaAJAX.Archivar()"+e.getMessage());
+		}
+		if (i>0) {
+			Archivo archiv=new Archivo();
+			archiv.setEstado(0);
+			archiv.setFechaReg(new Date());
+			archiv.setIdDocumento(Integer.parseInt(iddoc));
+			archiv.setIdHojaTramite(Integer.parseInt(idht));
+			archiv.setIdMovimiento(i);
+			archiv.setUsuarioReg(user.getIdUsuario());
+			archiv.setIdUnidad(uni.getIdUnidad());	
+			LogicaArchivo.getInstance().insertArchivo(archiv);
 		}
 	HtmlUtil.getInstance().escritura(response, String.valueOf(i));
 		

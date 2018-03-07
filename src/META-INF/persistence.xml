@@ -19,6 +19,8 @@
 		<class>entity.Unidad</class>
 		<class>entity.Usuario</class>
 		<class>entity.Codeqr</class>
+		<class>entity.AlmacenArchivo</class>
+		<class>entity.Archivo</class>
 		<properties>
 			<property name="eclipselink.jdbc.batch-writing" value="JDBC"/>
 			<property name="javax.persistence.jdbc.user" value="root"/>

@@ -177,6 +177,10 @@
 
 <script type="text/javascript">
 	$(".chosen-select").chosen()
+	
+	function downloadfile(id_fichero){
+	window.open("ServBandejaAJAX?hdEvento=DOWNLOAD&id="+id_fichero, '_blank');
+	}
 
 	function fnVerPDF(idfichero) {
 		$("#verPdf").modal();
@@ -210,7 +214,7 @@
 									'src',
 									'data:application/pdf;base64,'
 											+ v_resultado);
-							//window.open("ServBandejaAJAX?hdEvento=DOWNLOAD&id=70", '_blank');
+							
 						}
 					}
 				});
@@ -306,6 +310,22 @@
 					$('#tarchivado').html(tabla);
 					$('#dataTable6').DataTable();
 				}
+				if (vevento == 'BANDEJA_RESPONDIDO') {
+					var respuesta = v_resultado.split('||');
+					var tabla = respuesta[0];
+					var numero = respuesta[1];
+					$('#lblrespuesta').html(numero);
+					$('#trespuesta').html(tabla);
+					$('#dataTable7').DataTable();
+				}
+				if (vevento == 'BANDEJA_ADMINISTRATIVO') {
+					var respuesta = v_resultado.split('||');
+					var tabla = respuesta[0];
+					var numero = respuesta[1];
+					$('#lbladministrativo').html(numero);
+					$('#tadministrativo').html(tabla);
+					$('#dataTable8').DataTable();
+				}
 				if (vevento == 'DERIVAR') {
 					if (v_resultado!='0') {
 					 	$('#modDerivar').modal('hide');
@@ -324,6 +344,25 @@
 						fnlistarBandeja('BANDEJA_RECIBIDO');
 						fnlistarBandeja('BANDEJA_ARCHIVADO');
 						fnlistarBandeja('BANDEJA_DEVUELTO');
+					} else {
+						danger('Error, No se Archivó Hoja de trámite!');
+					}
+				}
+					if (vevento == 'VALIDAR RESPUESTA') {
+					if (v_resultado!='0') {
+					 	$('#modValidar').modal('hide');
+						alerta('Correcto, se Validó la respuesta a la Hoja de trámite!');
+						fnlistarBandeja('BANDEJA_RESPONDIDO');
+						fnlistarBandeja('BANDEJA_APROBADO');
+					} else {
+						danger('Error, No se Archivó Hoja de trámite!');
+					}
+				}
+				if (vevento == 'DEVOLVER') {
+					if (v_resultado!='0') {
+					 	$('#modDEVOLVER').modal('hide');
+						alerta('Correcto, se Devolvió la Hoja de trámite!');
+					fnlistarBandeja('BANDEJA_ADMINISTRATIVO')
 					} else {
 						danger('Error, No se Archivó Hoja de trámite!');
 					}

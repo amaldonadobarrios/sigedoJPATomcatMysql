@@ -77,6 +77,9 @@ public class SPage extends HttpServlet {
 					case "BandArchiv":
 						this.pageBandArchiv(request, response);
 						break;
+					case "BandAdministrativo":
+						this.pageBandAdministrativo(request, response);
+						break;
 					case "GestCenTrabajo":
 						this.GestCenTrabajo(request, response);
 						break;
@@ -117,6 +120,13 @@ public class SPage extends HttpServlet {
 			System.out.println("DESTINO:" + "index.jsp");
 			forwar("index.jsp", request, response);
 		}
+	}
+
+	private void pageBandAdministrativo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("breadcrumb", "Bandeja de Administrativo");
+		request.setAttribute("body", "bandejaADM");
+		forwar("jsp/template.jsp", request, response);
+		
 	}
 
 	private void RegUni(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

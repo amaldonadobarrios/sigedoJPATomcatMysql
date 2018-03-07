@@ -19,6 +19,61 @@ public class Bandeja {
 	String documento;
 	Date fecha_doc;
 	Date fecha_reg;
+	int id_usuario_destino;
+	int id_oficina_destino;
+	int id_unidad_destino;
+	String ofi_destino;
+	String uni_destino;
+	String persona_destino;
+	
+
+	public int getId_usuario_destino() {
+		return id_usuario_destino;
+	}
+
+	public void setId_usuario_destino(int id_usuario_destino) {
+		this.id_usuario_destino = id_usuario_destino;
+	}
+
+	public int getId_oficina_destino() {
+		return id_oficina_destino;
+	}
+
+	public void setId_oficina_destino(int id_oficina_destino) {
+		this.id_oficina_destino = id_oficina_destino;
+	}
+
+	public int getId_unidad_destino() {
+		return id_unidad_destino;
+	}
+
+	public void setId_unidad_destino(int id_unidad_destino) {
+		this.id_unidad_destino = id_unidad_destino;
+	}
+
+	public String getOfi_destino() {
+		return ofi_destino;
+	}
+
+	public void setOfi_destino(String ofi_destino) {
+		this.ofi_destino = ofi_destino;
+	}
+
+	public String getUni_destino() {
+		return uni_destino;
+	}
+
+	public void setUni_destino(String uni_destino) {
+		this.uni_destino = uni_destino;
+	}
+
+	public String getPersona_destino() {
+		return persona_destino;
+	}
+
+	public void setPersona_destino(String persona_destino) {
+		this.persona_destino = persona_destino;
+	}
 
 	public int getId_usuario_registro() {
 		return id_usuario_registro;
