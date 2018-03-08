@@ -14,12 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import entity.Archivo;
+import entity.Documento;
 import entity.FicheroDoc;
 import entity.MovimientoHt;
 import entity.Oficina;
 import entity.Unidad;
 import entity.Usuario;
 import logica.LogicaArchivo;
+import logica.LogicaDocumento;
 import logica.LogicaFichero;
 import logica.LogicaMovimientoHT;
 import logica.grilla.LogicaGrillaBandeja;
@@ -124,6 +126,10 @@ public class ServBandejaAJAX extends HttpServlet {
 							System.out.println("hdEvento :  DEVOLVER");
 							Devolver(request, response);
 							break;
+						case "RESPONDER":
+							System.out.println("hdEvento :  RESPONDER");
+							Responder(request, response);
+							break;
 						default:
 							break;
 						}
@@ -148,6 +154,60 @@ public class ServBandejaAJAX extends HttpServlet {
 
 		}
 
+	}
+
+	private void Responder(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("Responder");
+		int i=0;
+		String  idht=request.getParameter("id_ht");
+		String  iddoc=request.getParameter("id_doc");
+		String  id_usuario_destino=request.getParameter("id_usuario_destino");
+		String  id_unidad_destino=request.getParameter("id_unidad_destino");
+		String  id_oficina_destino=request.getParameter("id_oficina_destino");
+		String  observaciones=request.getParameter("observaciones");
+		String id_fichero=request.getParameter("id_fichero");
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Usuario user = (Usuario) SesionUsuario.get(0);
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		Oficina ofi = (Oficina) SesionUsuario.get(4);
+		//Genero documento Respuesta
+		Documento docresp=new Documento();
+		docresp.setAsunto("Documento Respuesta");
+		docresp.setFecha(new Date());
+		docresp.setFechaReg(new Date());
+		docresp.setIdClasContenidoDoc(1);
+		docresp.setIdClasFuncionDoc(1);
+		docresp.setIdEstadoDoc(2);
+		docresp.setIdFicheroDoc(Integer.parseInt(id_fichero));
+		docresp.setIdPrioridadDoc(1);
+		docresp.setIdTipoDoc(7);
+		docresp.setNumero("S/N");
+		docresp.setIdUnidad(Integer.parseInt(id_unidad_destino));
+		docresp.setIdUnidadReg(uni.getIdUnidad());
+		docresp.setSiglas("");
+		docresp.setUsuReg(user.getIdUsuario());
+		int iddocumento=LogicaDocumento.getInstance().grabarDocumento(docresp);
+		if (iddocumento>0) {
+			MovimientoHt mov=new MovimientoHt();
+			mov.setFechaRegistro(new Date());
+			mov.setId_usuarioDestino(Integer.parseInt(id_usuario_destino));
+			mov.setIdDocumento(iddocumento);
+			mov.setIdEstadoMovimientoHt(4);//respondido
+			mov.setIdHojaTramite(Integer.parseInt(idht));
+			mov.setIdOficinaDestino(Integer.parseInt(id_oficina_destino));
+			mov.setIdOficinaRegistro(ofi.getIdOficina());
+			mov.setIdUnidadDestino(Integer.parseInt(id_unidad_destino));
+			mov.setIdUnidadRegistro(uni.getIdUnidad());
+			mov.setIdUsuarioRegistro(user.getIdUsuario());
+			mov.setObservaciones(observaciones.toUpperCase());
+			try {
+			i=LogicaMovimientoHT.getInstance().grabarMovimientoHT(mov);	
+			} catch (Exception e) {
+				System.out.println("ServBandejaAJAX.Archivar()"+e.getMessage());
+			}
+		}
+	HtmlUtil.getInstance().escritura(response, String.valueOf(i));	
 	}
 
 	private void Devolver(HttpServletRequest request, HttpServletResponse response) {
@@ -381,7 +441,8 @@ public class ServBandejaAJAX extends HttpServlet {
 		HttpSession sesion = request.getSession();
 		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
 		Unidad uni = (Unidad) SesionUsuario.get(3);
-		String tabla=LogicaGrillaBandeja.getInstance().BandejaDesestimado(6,uni.getIdUnidad());
+		Usuario usu= (Usuario)SesionUsuario.get(0);
+		String tabla=LogicaGrillaBandeja.getInstance().BandejaDesestimado(uni.getIdUnidad(),usu.getIdUsuario());
 		HtmlUtil.getInstance().escritura(response, tabla);
 		
 	}

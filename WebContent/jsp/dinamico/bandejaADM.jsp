@@ -8,6 +8,60 @@
 %>
 <jsp:useBean id="now" class="java.util.Date" scope="request" />
 <input type="hidden" id="contexto" name="contexto" value="<%=sWS%>">
+<script type="text/javascript">
+function fn_subirFichero(){
+    var file = $('[name="myPDF"]');
+    var filename = $.trim(file.val());
+    if (filename !== '') {
+    	 if (updateSize('uploadPDF') < 5000000) {
+    		 var contexto = document.getElementById("contexto").value;
+    			var vservlet = contexto + '/ServFicheroDoc';
+    	 		var load='<img  height="100px" width="100px" src="'+contexto+'/images/reloj.gif">';
+    	 	     	$('#msjPDF').html(load);
+    	 	     	fn_upload_ajax(vservlet);
+         } else {
+        	 var contexto = document.getElementById("contexto").value;
+         	 $('#viewer').attr('src', 'about:blank');
+              $('#uploadPDF').val('');
+              var load='<img  height="50px" width="50px" src="'+contexto+'/images/error.png">';
+             document.getElementById("msjPDF").innerHTML =  load+' ERROR, ARCHIVO SUPERA LOS 5MB';
+         }
+    	
+    	
+    }
+}
+function fn_upload_ajax(vservlet){
+	$.ajax({
+        url: vservlet,
+        type: "POST",
+        data: new FormData(document.getElementById("fileForm")),
+        enctype: 'multipart/form-data',
+        processData: false,
+        contentType: false,
+      }).done(function(data) {
+    	//alert(data);
+    	if (data!=null) {
+    		if (data=='0') {
+    			var contexto = document.getElementById("contexto").value;
+            	 $('#viewer').attr('src', 'about:blank');
+                 $('#uploadPDF').val('');
+                 var load='<img  height="50px" width="50px" src="'+contexto+'/images/error.png">';
+                document.getElementById("msjPDF").innerHTML =  load+' ERROR, NOMBRE MUY EXTENSO';	
+			}else{
+				var contexto = document.getElementById("contexto").value;
+	    		var load ='<img  height="50px" width="50px" src="'+contexto+'/images/check.jpg">';
+	    		$('#msjPDF').html(load);
+	    		document.getElementById("id_fichero").value=data;		
+			}
+    		
+    		
+		}
+      }).fail(function(jqXHR, textStatus) {
+    	  //alert(jqXHR.responseText);
+    	  alert('File upload failed ...');
+      });
+}
+</script>
 <ol class="breadcrumb">
 	<div class="container-fluid">
 		<!-- Nav tabs -->
@@ -18,10 +72,10 @@
 					class="badge badge-pill badge-primary"><div id="lbladministrativo"></div></span>
 			</a>
 			</li>
-			<li class="nav-item" onclick="fnlistarBandeja('BANDEJA_APROBADO')">
-				<a class="nav-link" data-toggle="tab" href="#Aprobado" role="tab">Aprobado
+			<li class="nav-item" onclick="fnlistarBandeja('BANDEJA_DESESTIMADO')">
+				<a class="nav-link" data-toggle="tab" href="#Desaprobado" role="tab">Desaprobado
 					<span class="badge badge-pill badge-primary"><div
-							id="lblaprobado"></div></span>
+							id="lbldesaprobado"></div></span>
 			</a>
 			</li>
 		</ul>
@@ -42,11 +96,11 @@
 					</div>
 				</div>
 			</div>
-			<div class="tab-pane" id="Aprobado" role="tabpanel">
+			<div class="tab-pane" id="Desaprobado" role="tabpanel">
 				<div class="card mb-3">
 					<div class="card-body">
 						<div class="table-responsive">
-							<div id="taprobado"></div>
+							<div id="tdesaprobado"></div>
 						</div>
 					</div>
 					<div class="card-footer small text-muted">
@@ -77,7 +131,7 @@
 					id="lbldocumento">Asunto: </label> <input type="hidden" id="id_ht">
 				<input type="hidden" id="id_doc"> <input type="hidden"
 					id="id_unidad">
-
+				
 				<div class="form-group">
 					<label id="lbloficina">Oficina</label> <select
 						class="selectpicker form-control" data-live-search="true"
@@ -153,7 +207,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="exampleModalLabel">
-					RESPONDER HOJA DE TRÁMITE N° <label id="lblhtArchiv"></label>
+					RESPONDER HOJA DE TRÁMITE N° <label id="lblhtRESPONDER"></label>
 				</h5>
 				<button class="close" type="button" data-dismiss="modal"
 					aria-label="Close">
@@ -161,20 +215,41 @@
 				</button>
 			</div>
 			<div class="modal-body" align="justify">
-				<label id="lblasuntoArchiv">Asunto: </label><br> <label
-					id="lbldocumentoArchiv">Asunto: </label> <input type="hidden"
-					id="id_htArchiv"> <input type="hidden" id="id_docArchiv">
-				<input type="hidden" id="id_unidadArchiv">
+				<label id="lblasuntoRESPONDER">Asunto: </label><br> <label
+					id="lbldocumentoRESPONDER">Asunto: </label> <input type="hidden"
+					id="id_htRESPONDER"> <input type="hidden" id="id_docRESPONDER">
+				<input type="hidden" id="id_unidadRESPONDER">
+				<input id="id_fichero" name="id_fichero" type="hidden" required>
 				<div class="form-group">
-					<label id="lblobsArchiv">OBSERVACIONES</label>
-					<textarea class="form-control" rows="4" cols="50"
-						id="txtobservacionesArchiv" name="txtobservaciones" required></textarea>
+				<div class="card">
+					<div class="card-header">Subir Archivo respuesta</div>
+					<div class="card-body" align="center">
+						<div class="form-group">
+							<label id="lblobsResponder">OBSERVACIONES</label>
+							<textarea class="form-control" rows="4" cols="50"
+								id="txtobservacionesRESPONDER" name="txtobservacionesRESPONDER" required></textarea>
+						</div>
+
+						<form id="fileForm">
+							<div class="form-group" align="center">
+								<input id="uploadPDF" type="file" name="myPDF"
+									onchange="PreviewImage();" />&nbsp;
+								<button type="button" onclick="fn_subirFichero();">
+									<img src="<%=sWS %>/images/save.png" width="20" height="20">
+									Guardar fichero
+								</button>
+								<div id="msjPDF"></div>
+							</div>
+						</form>
+
+					</div>
 				</div>
+			</div>
 
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-primary" type="button"
-					onclick="fnreg_Devolver();">Aceptar</button>
+					onclick="fnreg_RESPONDER();">Aceptar</button>
 				<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
 
 			</div>
@@ -183,15 +258,61 @@
 </div>
 
 <script type="text/javascript">
+function fnreg_RESPONDER(){
+	var id_ht= document.getElementById("id_htRESPONDER").value;
+	var id_doc=document.getElementById("id_docRESPONDER").value;
+	var id_unidad=document.getElementById("id_unidadRESPONDER").value;
+	var observaciones=document.getElementById("txtobservacionesRESPONDER").value;
+	var id_fichero=document.getElementById("id_fichero").value;
+if (validarRESPONDER()) {
+	var contexto = document.getElementById("contexto").value;
+	var vservlet = contexto + '/ServBandejaAJAX';
+	var txtevento = 'RESPONDER';
+	var jqdata = {
+		hdEvento : txtevento,
+		id_ht : id_ht,
+		id_doc : id_doc,
+		id_usuario_destino : '0',
+		id_unidad_destino : id_unidad,
+		id_oficina_destino : '0',
+		observaciones : observaciones,
+		id_fichero: id_fichero
+	};
+	if (confirm('Esta seguro de Responder la Hoja de Trámite N°' + id_ht)) {
+		fnEjecutarPeticion(vservlet, jqdata, txtevento);
+	}	
+}	
+}
+function validarRESPONDER() {
+	var validar = true;
+	var txtobservacionesRESPONDER = document
+			.getElementById('txtobservacionesRESPONDER').value;
+	var id_fichero=document.getElementById('id_fichero').value;
+	$('#lblobsResponder').css("color", "black");
+	$('#uploadPDF').css("color", "black");
+	if (txtobservacionesRESPONDER == '') {
+		$('#lblobsResponder').css("color", "red");
+		validar = false;
+	}
+	if (id_fichero == '') {
+		$('#uploadPDF').css("color", "red");
+		validar = false;
+	}
+	return validar;
+}
 function fnResponder(idht, asu, doc, idunireg, iddoc) {
-		$('#lblhtArchiv').html(idht);
-		$('#lblasuntoArchiv').html('Asunto: ' + asu);
-		$('#lbldocumentoArchiv').html('Documento: ' + doc);
-		document.getElementById("id_htArchiv").value = idht;
-		document.getElementById("id_docArchiv").value = iddoc;
-		document.getElementById("id_unidadArchiv").value = idunireg;
-		document.getElementById("txtobservacionesArchiv").value = '';
-		$('#lblobsArchiv').css("color", "black");
+		$('#lblhtRESPONDER').html(idht);
+		$('#lblasuntoRESPONDER').html('Asunto: ' + asu);
+		$('#lbldocumentoRESPONDER').html('Documento: ' + doc);
+		document.getElementById("id_htRESPONDER").value = idht;
+		document.getElementById("id_docRESPONDER").value = iddoc;
+		document.getElementById("id_unidadRESPONDER").value = idunireg;
+		document.getElementById("txtobservacionesRESPONDER").value = '';
+		document.getElementById("id_fichero").value = '';
+		 $('#uploadPDF').val('');
+		 document.getElementById("msjPDF").innerHTML ='';
+		$('#lblobsResponder').css("color", "black");
+		$('#uploadPDF').css("color", "black");
 		$('#modRESPONDER').modal();
 	}
 
@@ -245,280 +366,33 @@ function fnreg_Devolver() {
 
 	}
 
+</script>
+<script type="text/javascript">
 
+    
+    function updateSize(elementId) {
+        var nBytes = 0,
+                oFiles = document.getElementById(elementId).files,
+                nFiles = oFiles.length;
 
+        for (var nFileId = 0; nFileId < nFiles; nFileId++) {
+            nBytes += oFiles[nFileId].size;
+        }
+        var sOutput = nBytes + " bytes";
+        // optional code for multiples approximation
+        for (var aMultiples = ["K", "M", "G", "T", "P", "E", "Z", "Y"], nMultiple = 0, nApprox = nBytes / 1024; nApprox > 1; nApprox /= 1024, nMultiple++) {
+            sOutput = " (" + nApprox.toFixed(3) + aMultiples[nMultiple] + ")";
+        }
 
-
-
-
-
-
-
-
-
-	function fnreg_validar(val) {
-		var id_usuario_reg = document.getElementById("id_usuregval").value;
-		var id_unidad_destino = document.getElementById("id_unidadval").value;
-		var observaciones = document.getElementById("txtobservacionesval").value;
-		var id_doc = document.getElementById("id_docval").value;
-		var idht = document.getElementById("id_htval").value;
-		var valor = val;
-		if (validarRESPUESTA()) {
-			var contexto = document.getElementById("contexto").value;
-			var vservlet = contexto + '/ServBandejaAJAX';
-			var txtevento = 'VALIDAR RESPUESTA';
-			if (valor == '1') {
-				var jqdata = {
-					hdEvento : txtevento,
-					id_ht : idht,
-					id_uni : id_unidad_destino,
-					id_usu : id_usuario_reg,
-					id_doc : id_doc,
-					observaciones: observaciones,
-					id_estado_validacion : '5'
-				};
-				if (confirm('Esta seguro de Aprobar la respuesta a  la Hoja de Trámite N°'
-						+ idht)) {
-					fnEjecutarPeticion(vservlet, jqdata, txtevento);
-				}
-			} else {
-				var jqdata = {
-					hdEvento : txtevento,
-					id_ht : idht,
-					id_uni : id_unidad_destino,
-					id_usu : id_usuario_reg,
-					id_doc : id_doc,
-					observaciones: observaciones,
-					id_estado_validacion : '6'
-				};
-				if (confirm('Esta seguro de Desaprobar la respuesta a  la  Hoja de Trámite N°'
-						+ idht)) {
-					fnEjecutarPeticion(vservlet, jqdata, txtevento);
-				}
-
-			}
-		}
-	}
-
-	function validarRESPUESTA() {
-		var validar = true;
-		var txtobservacionesval = document
-				.getElementById('txtobservacionesval').value;
-		$('#lblobsval').css("color", "black");
-		if (txtobservacionesval == '') {
-			$('#lblobsval').css("color", "red");
-			validar = false;
-		}
-		return validar;
-	}
-	function fnvalidar(idht, asu, doc, idunireg, iddoc, idusureg) {
-		$('#lblhtval').html(idht);
-		$('#lblasuntoval').html('Asunto: ' + asu);
-		$('#lbldocumentoval').html('Documento: ' + doc);
-		document.getElementById("id_htval").value = idht;
-		document.getElementById("id_docval").value = iddoc;
-		document.getElementById("id_unidadval").value = idunireg;
-		document.getElementById("id_usuregval").value = idusureg;
-		document.getElementById("txtobservacionesval").value = '';
-		$('#lblobsval').css("color", "black");
-		$("#modValidar").modal();
-	}
-
-	//----ARCHIVAR-------------------------------------------------------------
-	
-	
-	function fnarchivar(idht, asu, doc, idunireg, iddoc) {
-		$('#lblhtArchiv').html(idht);
-		$('#lblasuntoArchiv').html('Asunto: ' + asu);
-		$('#lbldocumentoArchiv').html('Documento: ' + doc);
-		document.getElementById("id_htArchiv").value = idht;
-		document.getElementById("id_docArchiv").value = iddoc;
-		document.getElementById("id_unidadArchiv").value = idunireg;
-		document.getElementById("txtobservacionesArchiv").value = '';
-		$('#lblobsArchiv').css("color", "black");
-		$("#modArchivar").modal();
-	}
-	// DERIVAR-----------------------------------------------------------------------------------------------------
-	function fnreg_derivar() {
-		var id_oficina_destino = document.getElementById("cbxoficina").value;
-		var id_unidad_destino = document.getElementById("id_unidad").value;
-		var id_usuario_destino = document.getElementById("cbxusuario").value;
-		var observaciones = document.getElementById("txtobservaciones").value;
-		var id_ht = document.getElementById("id_ht").value;
-		var id_doc = document.getElementById("id_doc").value;
-		if (validar()) {
-			var contexto = document.getElementById("contexto").value;
-			var vservlet = contexto + '/ServBandejaAJAX';
-			var txtevento = 'DERIVAR';
-			var jqdata = {
-				hdEvento : txtevento,
-				id_ht : id_ht,
-				id_doc : id_doc,
-				id_usuario_destino : id_usuario_destino,
-				id_unidad_destino : id_unidad_destino,
-				id_oficina_destino : id_oficina_destino,
-				observaciones : observaciones
-			};
-			if (confirm('Esta seguro de Derivar la Hoja de Trámite N°' + id_ht)) {
-				fnEjecutarPeticion(vservlet, jqdata, txtevento);
-			}
-		}
-	}
-	function validar() {
-		var validar = true;
-		var ofi = document.getElementById('cbxoficina').value;
-		var usu = document.getElementById('cbxusuario').value;
-		$('#lbloficina').css("color", "black");
-		$('#lblusuario').css("color", "black");
-		if (ofi == '') {
-			$('#lbloficina').css("color", "red");
-			validar = false;
-		}
-		if (usu == '') {
-			$('#lblusuario').css("color", "red");
-			validar = false;
-		}
-		return validar;
-	}
-	function fn_listar_administrativos() {
-		var id_oficina = document.getElementById("cbxoficina").value;
-		var id_unidad = document.getElementById("id_unidad").value;
-		if (id_oficina != '' && id_unidad != '') {
-			var contexto = document.getElementById("contexto").value;
-			var vservlet = contexto + '/ServAdministracionAJAX';
-			var txtevento = 'COMBO_ADMINISTRATIVO';
-			fn_ajax_administrativos(vservlet, txtevento, id_unidad, id_oficina);
-		}
-		function fn_ajax_administrativos(servlet, evento, unidad, oficina) {
-			$.ajax({
-				url : servlet,
-				data : {
-					hdEvento : evento,
-					id_unidad : unidad,
-					id_oficina : oficina
-				},
-				success : function(responseText) {
-					var v_resultado = responseText + "";
-					if (v_resultado == 'NOSESION') {
-						window.location = 'SPage?action=login';
-					} else if (v_resultado == 'VACIO') {
-						$("#cbxusuario").empty();
-					} else {
-						//alert(v_resultado);
-						$("#cbxusuario").empty();
-						var arr = JSON.parse(v_resultado);
-						ShareInfoLength = arr.length;
-						//alert(ShareInfoLength);
-						$("<option/>").attr("value", '').text('Seleccione')
-								.appendTo("#cbxusuario");
-						for (var i = 0; i < ShareInfoLength; i++) {
-							$("<option/>").attr("value", arr[i].id).text(
-									arr[i].detalle).appendTo("#cbxusuario");
-						}
-					}
-				}
-			});
-
-		}
-
-	}
-	function fnlistarOficinax(id) {
-		var x = id;
-		var contexto = document.getElementById("contexto").value;
-		var vservlet = contexto + '/ServAdministracionAJAX';
-		var txtevento = 'COMBO_OFICINA';
-		fn_ajax_ofix(vservlet, txtevento, x);
-	}
-
-	function fn_ajax_ofix(servlet, evento, id) {
-		$.ajax({
-			url : servlet,
-			data : {
-				hdEvento : evento,
-				id_unidad : id
-			},
-			success : function(responseText) {
-				var v_resultado = responseText + "";
-				if (v_resultado == 'NOSESION') {
-					window.location = 'SPage?action=login';
-				} else if (v_resultado == 'VACIO') {
-					$("#cbxoficina").empty();
-				} else {
-					//alert(v_resultado);
-					$("#cbxoficina").empty();
-					var arr = JSON.parse(v_resultado);
-					ShareInfoLength = arr.length;
-					//alert(ShareInfoLength);
-					$("<option/>").attr("value", '').text('Seleccione')
-							.appendTo("#cbxoficina");
-					for (var i = 0; i < ShareInfoLength; i++) {
-						$("<option/>").attr("value", arr[i].id).text(
-								arr[i].detalle).appendTo("#cbxoficina");
-					}
-				}
-			}
-		});
-	}
-	function fnderivar(idht, asu, doc, idunireg, iddoc) {
-		$('#lblht').html(idht);
-		$('#lblasunto').html('Asunto: ' + asu);
-		$('#lbldocumento').html('Documento: ' + doc);
-		document.getElementById("id_ht").value = idht;
-		document.getElementById("id_doc").value = iddoc;
-		document.getElementById("id_unidad").value = idunireg;
-		document.getElementById("txtobservaciones").value = '';
-		$("#cbxusuario").empty();
-		$("#modDerivar").modal();
-		$('#lbloficina').css("color", "black");
-		$('#lblusuario').css("color", "black");
-
-	}
-	// RECIBIR-----------------------------------------------------------------------------------------------------
-	function fnrecibir(idht, iduni, idofi, idusu, iddoc) {
-		if (idht != '' && iduni != '' && idofi != '' && idusu != ''
-				&& iddoc != '') {
-			var contexto = document.getElementById("contexto").value;
-			var vservlet = contexto + '/ServBandejaAJAX';
-			var txtevento = 'RECIBIR';
-			var jdata = {
-				hdEvento : txtevento,
-				id_ht : idht,
-				id_uni : iduni,
-				id_ofi : idofi,
-				id_usu : idusu,
-				id_doc : iddoc
-			};
-			if (confirm('Esta seguro de recibir la Hoja de Trámite N°' + idht)) {
-				fnrecibir_ajax(vservlet, txtevento, jdata);
-			}
-
-		}
-	}
-
-	function fnrecibir_ajax(servlet, evento, jdata) {
-		$.ajax({
-			url : servlet,
-			data : jdata,
-			success : function(responseText) {
-				var v_resultado = responseText + "";
-				if (v_resultado == 'NOSESION') {
-					window.location = 'SPage?action=login';
-				} else if (v_resultado == '0') {
-					//error	
-					danger('Error, no se recibio la Hoja de Trámite');
-				} else {
-					alert(v_resultado);
-					//ok
-					alerta('Correcto, se recibio la Hoja de trámite');
-
-				}
-			}
-		});
-	}
+        return nBytes;
+    }
+ 
+    
 </script>
 <script type="text/javascript">
 	window.onload = function() {
-		fnlistarBandeja('BANDEJA_ADMINISTRATIVO')
+		fnlistarBandeja('BANDEJA_ADMINISTRATIVO');
+		fnlistarBandeja('BANDEJA_DESESTIMADO');
 	}
 </script>
 

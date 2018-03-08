@@ -248,8 +248,230 @@
 		</div>
 	</div>
 </div>
+<div class="modal fade animated bounceIn" id="modCONTESTAR" tabindex="-1" role="dialog"
+	aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">
+					CONTESTAR HOJA DE TRÁMITE N° <label id="lblhtCONTESTAR"></label>
+				</h5>
+				<button class="close" type="button" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body" align="justify">
+				<label id="lblasuntoCONTESTAR">Asunto: </label><br> <label
+					id="lbldocumentoCONTESTAR">Asunto: </label> <input type="hidden"
+					id="id_htCONTESTAR"> <input type="hidden" id="id_docCONTESTAR">
+				<input type="hidden" id="id_unidadCONTESTAR">
+
+
+
+
+
+
+
+
+
+<div class="row">
+			<div class="col-md-6">
+
+				<div class="card">
+					<div class="card-header">Registrar un Documento</div>
+					<div class="card-body">
+						<form data-toggle="validator" role="form"
+							action="<%=sWS %>/ServGestionDocumento" method="post" id="form1"
+							name="form1">
+							<input type="hidden" id="contexto" name="contexto"
+								value="<%=sWS%>"> <input id="id_fichero"
+								name="id_fichero" type="text" required class="hideme"> <input
+								type="hidden" id="hdEvento" name="hdEvento"
+								value="REGISTRAR_DOCUMENTO_MP">
+							<!-- PRIMERA COLUMNA -->
+							<div class="form-group">
+								<label id="lbldocumento">TIPO DE DOCUMENTO</label> <select
+									id="cbxdocumento" name="cbxdocumento"
+									data-placeholder="Seleccion el tipo de documento"
+									class=" form-control" tabindex="2" required>
+									<option value="" selected>Seleccione</option>
+									<c:forEach var="tipo" items="${combotipo}" varStatus="loop">
+										<option data-tokens="ketchup mustard"
+											value="${tipo.idTipoDoc}">${tipo.descripcion}</option>
+									</c:forEach>
+								</select> <input id="hdntipodocumento" type="hidden" value="">
+
+							</div>
+							<div class="form-group">
+								<label id="lblnumero">NUMERO DEL DOCUMENTO</label> <input
+									class="form-control"
+									placeholder="INGRESAR NUMERO DEL DOCUMENTO"
+									onkeypress="return solonumeritos(event)" MaxLength="10"
+									id="txtnumero" name="txtnumero" value="" required>
+							</div>
+							<div class="form-group">
+								<label id="lblsiglas">SIGLAS DEL DOCUMENTO</label> <input
+									class="form-control"
+									placeholder="INGRESAR SIGLAS DEL DOCUMENTO" MaxLength="50"
+									id="txtsiglas" name="txtsiglas" value="" required>
+							</div>
+
+							<div class="form-group">
+								<label id="lblfecha">FECHA DEL DOCUMENTO</label>
+								<div class="input-group date datepicker">
+									<input type="date" data-format="dd/mm/yyyy"
+										class="form-control" id="txtfechadoc" name="txtfechadoc"
+										required>
+									<!-- 									<span -->
+									<!-- 									class="input-group-addon"> <i -->
+									<!-- 									class="fa fa-calendar bigger-110"></i> -->
+									<!-- 								</span>	 -->
+								</div>
+							</div>
+
+
+							<div class="form-group">
+								<label id="lblcontenido">CLASIFICACION POR CONTENIDO</label> <select
+									data-placeholder="Seleccione el tipo de contenido del documento"
+									class="form-control" tabindex="2" id="cbxcontenido"
+									name="cbxcontenido" required>
+									<option value="" selected>Seleccione</option>
+									<c:forEach var="cont" items="${combocont}" varStatus="loop">
+										<option data-tokens="ketchup mustard"
+											value="${cont.idClasContenidoDoc}">${cont.descripcion}
+										</option>
+									</c:forEach>
+
+								</select> <input id="hdncontenido" type="hidden" value="">
+
+							</div>
+							<div class="form-group">
+								<label id="lblfuncion">CLASIFICACION POR FUNCION</label> <select
+									data-placeholder="Seleccione el tipo de función del documento"
+									class="form-control" tabindex="2" id="cbxfuncion"
+									name="cbxfuncion" required>
+									<option value="" selected>Seleccione</option>
+									<c:forEach var="fun" items="${combofunc}" varStatus="loop">
+										<option data-tokens="ketchup mustard"
+											value="${fun.idClasFuncionDoc}">${fun.descripcion}</option>
+									</c:forEach>
+								</select> <input id="hdnfuncion" type="hidden" value="">
+							</div>
+							<div class="form-group">
+								<label id="lblprioridad">PRIORIDAD</label> <select
+									data-placeholder="Seleccione la prioridad del documento"
+									class="form-control" tabindex="2" id="cbxprioridad"
+									name="cbxprioridad" required>
+									<option value="" selected>Seleccione</option>
+									<c:forEach var="pri" items="${comboprio}" varStatus="loop">
+										<option data-tokens="ketchup mustard"
+											value="${pri.idPrioridadDoc}">${pri.descripcion}</option>
+									</c:forEach>
+								</select> <input id="hdnprioridad" type="hidden" value="">
+							</div>
+							<div class="form-group">
+								<input id="hdnremitente" type="hidden" value=""> <label
+									id="lblremitente">REMITENTE</label> <select id="cbxremitente"
+									name="cbxremitente" data-placeholder="Seleccion el remitente"
+									class="form-control" tabindex="2" onchange="fn_remitente();"
+									required>
+									<option value="" selected>Seleccione</option>
+									<c:forEach var="uni" items="${combounid}" varStatus="loop">
+										<option data-tokens="ketchup mustard" value="${uni.idUnidad}">${uni.descripcion}
+										</option>
+									</c:forEach>
+								</select>
+							</div>
+							<div class="form-group">
+								<label id="lblasunto">ASUNTO</label>
+								<textarea class="form-control" rows="4" cols="50" id="txtasunto"
+									name="txtasunto" required></textarea>
+							</div>
+					</div>
+				</div>
+
+
+
+
+
+			</div>
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-header">Subir Pdf</div>
+					<div class="card-body" align="center">
+						<div class="form-group">
+							<label id="lblasunto">OBSERVACIONES</label>
+							<textarea class="form-control" rows="4" cols="50"
+								id="txtobservaciones" name="txtobservaciones" required></textarea>
+						</div>
+						<input type="submit" value="REGISTRAR"
+							class="btn btn-success btn-lg">
+
+
+
+
+						</form>
+						<form id="fileForm">
+							<div class="form-group" align="center">
+								<input id="uploadPDF" type="file" name="myPDF"
+									onchange="PreviewImage();" />&nbsp;
+								<button type="button" onclick="fn_subirFichero();">
+									<img src="<%=sWS %>/images/save.png" width="20" height="20">
+									Guardar fichero
+								</button>
+								<div id="msjPDF"></div>
+							</div>
+							<div style="clear: both" align="center">
+								<iframe id="viewer" frameborder="0" scrolling="no" width="400"
+									height="600"></iframe>
+							</div>
+						</form>
+
+					</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" type="button"
+					onclick="fnreg_archivar();">Aceptar</button>
+				<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+
 
 <script type="text/javascript">
+//-----CONTESTAR-----------------------------------------------------------
+function fnContestar(idht, asu, doc, idunireg, iddoc, idusureg) {
+		$('#lblhtCONTESTAR').html(idht);
+		$('#lblasuntoCONTESTAR').html('Asunto: ' + asu);
+		$('#lbldocumentoCONTESTAR').html('Documento: ' + doc);
+		document.getElementById("id_htCONTESTAR").value = idht;
+		document.getElementById("id_docCONTESTAR").value = iddoc;
+		document.getElementById("id_unidadCONTESTAR").value = idunireg;
+		
+		$('#lblobsCONTESTAR').css("color", "black");
+		$("#modCONTESTAR").modal();
+	}
+
+
+
 //----ARCHIVAR-------------------------------------------------------------
 	function fnreg_archivar() {
 		var id_unidad_destino = document.getElementById("id_unidadArchiv").value;
@@ -486,6 +708,4 @@
 		fnlistarBandeja('BANDEJA_ARCHIVADO');
 	}
 </script>
-
-
 

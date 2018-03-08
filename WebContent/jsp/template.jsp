@@ -326,6 +326,15 @@
 					$('#tadministrativo').html(tabla);
 					$('#dataTable8').DataTable();
 				}
+				if (vevento == 'BANDEJA_DESESTIMADO') {
+					var respuesta = v_resultado.split('||');
+					var tabla = respuesta[0];
+					var numero = respuesta[1];
+					$('#lbldesaprobado').html(numero);
+					$('#tdesaprobado').html(tabla);
+					$('#dataTable9').DataTable();
+				}
+				
 				if (vevento == 'DERIVAR') {
 					if (v_resultado!='0') {
 					 	$('#modDerivar').modal('hide');
@@ -362,11 +371,23 @@
 					if (v_resultado!='0') {
 					 	$('#modDEVOLVER').modal('hide');
 						alerta('Correcto, se Devolvió la Hoja de trámite!');
-					fnlistarBandeja('BANDEJA_ADMINISTRATIVO')
+					fnlistarBandeja('BANDEJA_ADMINISTRATIVO');
+					fnlistarBandeja('BANDEJA_DESESTIMADO');
 					} else {
 						danger('Error, No se Archivó Hoja de trámite!');
 					}
 				}
+				if (vevento == 'RESPONDER') {
+					if (v_resultado!='0') {
+					 	$('#modRESPONDER').modal('hide');
+						alerta('Correcto, se Respondió la Hoja de trámite!');
+					fnlistarBandeja('BANDEJA_ADMINISTRATIVO');
+					fnlistarBandeja('BANDEJA_DESESTIMADO');
+					} else {
+						danger('Error, No se Archivó Hoja de trámite!');
+					}
+				}
+				
 				
 
 			}
