@@ -177,9 +177,10 @@
 
 <script type="text/javascript">
 	$(".chosen-select").chosen()
-	
-	function downloadfile(id_fichero){
-	window.open("ServBandejaAJAX?hdEvento=DOWNLOAD&id="+id_fichero, '_blank');
+
+	function downloadfile(id_fichero) {
+		window.open("ServBandejaAJAX?hdEvento=DOWNLOAD&id=" + id_fichero,
+				'_blank');
 	}
 
 	function fnVerPDF(idfichero) {
@@ -214,7 +215,7 @@
 									'src',
 									'data:application/pdf;base64,'
 											+ v_resultado);
-							
+
 						}
 					}
 				});
@@ -334,10 +335,10 @@
 					$('#tdesaprobado').html(tabla);
 					$('#dataTable9').DataTable();
 				}
-				
+
 				if (vevento == 'DERIVAR') {
-					if (v_resultado!='0') {
-					 	$('#modDerivar').modal('hide');
+					if (v_resultado != '0') {
+						$('#modDerivar').modal('hide');
 						alerta('Correcto, se derivo la Hoja de trámite!');
 						fnlistarBandeja('BANDEJA_RECIBIDO');
 						fnlistarBandeja('BANDEJA_DERIVADO');
@@ -347,8 +348,8 @@
 					}
 				}
 				if (vevento == 'ARCHIVAR') {
-					if (v_resultado!='0') {
-					 	$('#modArchivar').modal('hide');
+					if (v_resultado != '0') {
+						$('#modArchivar').modal('hide');
 						alerta('Correcto, se Archivó la Hoja de trámite!');
 						fnlistarBandeja('BANDEJA_RECIBIDO');
 						fnlistarBandeja('BANDEJA_ARCHIVADO');
@@ -357,9 +358,9 @@
 						danger('Error, No se Archivó Hoja de trámite!');
 					}
 				}
-					if (vevento == 'VALIDAR RESPUESTA') {
-					if (v_resultado!='0') {
-					 	$('#modValidar').modal('hide');
+				if (vevento == 'VALIDAR RESPUESTA') {
+					if (v_resultado != '0') {
+						$('#modValidar').modal('hide');
 						alerta('Correcto, se Validó la respuesta a la Hoja de trámite!');
 						fnlistarBandeja('BANDEJA_RESPONDIDO');
 						fnlistarBandeja('BANDEJA_APROBADO');
@@ -368,27 +369,35 @@
 					}
 				}
 				if (vevento == 'DEVOLVER') {
-					if (v_resultado!='0') {
-					 	$('#modDEVOLVER').modal('hide');
+					if (v_resultado != '0') {
+						$('#modDEVOLVER').modal('hide');
 						alerta('Correcto, se Devolvió la Hoja de trámite!');
-					fnlistarBandeja('BANDEJA_ADMINISTRATIVO');
-					fnlistarBandeja('BANDEJA_DESESTIMADO');
+						fnlistarBandeja('BANDEJA_ADMINISTRATIVO');
+						fnlistarBandeja('BANDEJA_DESESTIMADO');
 					} else {
 						danger('Error, No se Archivó Hoja de trámite!');
 					}
 				}
 				if (vevento == 'RESPONDER') {
-					if (v_resultado!='0') {
-					 	$('#modRESPONDER').modal('hide');
+					if (v_resultado != '0') {
+						$('#modRESPONDER').modal('hide');
 						alerta('Correcto, se Respondió la Hoja de trámite!');
-					fnlistarBandeja('BANDEJA_ADMINISTRATIVO');
-					fnlistarBandeja('BANDEJA_DESESTIMADO');
+						fnlistarBandeja('BANDEJA_ADMINISTRATIVO');
+						fnlistarBandeja('BANDEJA_DESESTIMADO');
 					} else {
 						danger('Error, No se Archivó Hoja de trámite!');
 					}
 				}
-				
-				
+				if (vevento == 'CONTESTAR') {
+					if (v_resultado != '0') {
+						$('#modCONTESTAR').modal('hide');
+						alerta('Correcto, se Contestó la Hoja de trámite!');
+						fnlistarBandeja('BANDEJA_APROBADO');
+						fnlistarBandeja('BANDEJA_CONTESTADO');
+					} else {
+						danger('Error, No se Contestó Hoja de trámite!');
+					}
+				}
 
 			}
 		}

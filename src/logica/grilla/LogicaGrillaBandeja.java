@@ -436,7 +436,7 @@ public class LogicaGrillaBandeja {
 								"					alt=\"Brand\" class=\"img\"\r\n" + 
 								"					src=\"images/doc.png\" width=\"25\"\r\n" + 
 								"					height=\"20\" onclick=\"downloadfile('"+fila.getId_fichero()+"')\">");		str.append(FIN_TD);
-								str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Contestar\" onclick=\"fnContestar('"+fila.getId_hoja_tramite()+"','"+fila.getAsunto()+"','"+fila.getDocumento()+"','"+fila.getId_unidad_registro()+"','"+fila.getId_documento()+"','"+fila.getId_usuario_registro()+"')\" />");		str.append(FIN_TD);
+								str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Contestar\" onclick=\"fn_combocontestar();fnContestar('"+fila.getId_hoja_tramite()+"','"+fila.getAsunto()+"','"+fila.getDocumento()+"','"+fila.getId_unidad_registro()+"','"+fila.getId_documento()+"','"+fila.getId_usuario_registro()+"');\" />");		str.append(FIN_TD);
 				str.append(INI_TD);	str.append( fila.getObservaciones());			str.append(FIN_TD);
 				str.append(FINI_TR);	
 			}	
@@ -581,10 +581,10 @@ public class LogicaGrillaBandeja {
 		return str.toString()+"||"+i;
 	}
 
-	public String BandejaContestado(int estado_movimiento,int id_unidad_destino) {
+	public String BandejaContestado(int estado_movimiento,int id_unidad_registro) {
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		List<Bandeja> lista=null;
-		lista=LogicaBandeja.getInstance().ListarBandeja(estado_movimiento, id_unidad_destino);
+		lista=LogicaBandeja.getInstance().ListarBandejaContestados(estado_movimiento, id_unidad_registro);
 		StringBuilder str = new StringBuilder();
 		str.append("<div id =\"tcontestado\" >");
 		str.append(INI_TABLA5);
@@ -597,7 +597,9 @@ public class LogicaGrillaBandeja {
 		cabecera.append(INI_TH);	cabecera.append("Asunto");			cabecera.append(FINI_TH);
 		cabecera.append(INI_TH);	cabecera.append("Documento");			cabecera.append(FINI_TH);
 		cabecera.append(INI_TH);	cabecera.append("Fecha Documento");			cabecera.append(FINI_TH);
-		cabecera.append(INI_TH);	cabecera.append("Operaciones");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("F.Origen");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("F.Contestado");			cabecera.append(FINI_TH);
+		
 		cabecera.append(INI_TH);	cabecera.append("Observaciones");			cabecera.append(FINI_TH);
 		cabecera.append(FINI_TR);
 		cabecera.append(FIN_THEAD);
@@ -623,7 +625,15 @@ public class LogicaGrillaBandeja {
 				str.append(INI_TD);	str.append( fila.getAsunto());			str.append(FIN_TD);
 				str.append(INI_TD);	str.append( fila.getDocumento());			str.append(FIN_TD);
 				str.append(INI_TD);	str.append(  df.format(fila.getFecha_doc()));		str.append(FIN_TD);
-				str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Seleccionar\" onclick=\"fnSeleccionarCliente('"+fila.getAsunto()+"','"+fila.getDocumento()+"','"+fila.getId_fichero()+"')\" />");		str.append(FIN_TD);
+				str.append(INI_TD);	str.append("<img\r\n" + 
+						"					alt=\"Brand\" class=\"img\"\r\n" + 
+						"					src=\"images/pdf.jpg\" width=\"25\"\r\n" + 
+						"					height=\"20\" onclick=\"fnVerPDF('"+fila.getId_fichero_ini()+"')\">");		str.append(FIN_TD);
+						str.append(INI_TD);	str.append("<img\r\n" + 
+								"					alt=\"Brand\" class=\"img\"\r\n" + 
+								"					src=\"images/pdf.jpg\" width=\"25\"\r\n" + 
+								"					height=\"20\" onclick=\"fnVerPDF('"+fila.getId_fichero()+"')\">");		str.append(FIN_TD);
+				
 				str.append(INI_TD);	str.append( fila.getObservaciones());			str.append(FIN_TD);
 				str.append(FINI_TR);	
 			}
@@ -652,7 +662,7 @@ public class LogicaGrillaBandeja {
 		cabecera.append(INI_TH);	cabecera.append("Asunto");			cabecera.append(FINI_TH);
 		cabecera.append(INI_TH);	cabecera.append("Documento");			cabecera.append(FINI_TH);
 		cabecera.append(INI_TH);	cabecera.append("Fecha Documento");			cabecera.append(FINI_TH);
-		cabecera.append(INI_TH);	cabecera.append("Operaciones");			cabecera.append(FINI_TH);
+		
 		cabecera.append(INI_TH);	cabecera.append("Observaciones");			cabecera.append(FINI_TH);
 		cabecera.append(FINI_TR);
 		cabecera.append(FIN_THEAD);
@@ -678,7 +688,7 @@ public class LogicaGrillaBandeja {
 				str.append(INI_TD);	str.append( fila.getAsunto());			str.append(FIN_TD);
 				str.append(INI_TD);	str.append( fila.getDocumento());			str.append(FIN_TD);
 				str.append(INI_TD);	str.append(  df.format(fila.getFecha_doc()));		str.append(FIN_TD);
-				str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Seleccionar\" onclick=\"fnSeleccionarCliente('"+fila.getAsunto()+"','"+fila.getDocumento()+"','"+fila.getId_fichero()+"')\" />");		str.append(FIN_TD);
+				
 				str.append(INI_TD);	str.append( fila.getObservaciones());			str.append(FIN_TD);
 				str.append(FINI_TR);	
 			}

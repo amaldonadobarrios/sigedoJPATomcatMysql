@@ -2,6 +2,7 @@ package control;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -25,6 +26,7 @@ import logica.LogicaDocumento;
 import logica.LogicaFichero;
 import logica.LogicaMovimientoHT;
 import logica.grilla.LogicaGrillaBandeja;
+import util.DirTexto;
 import util.HtmlUtil;
 
 /**
@@ -130,6 +132,10 @@ public class ServBandejaAJAX extends HttpServlet {
 							System.out.println("hdEvento :  RESPONDER");
 							Responder(request, response);
 							break;
+						case "CONTESTAR":
+							System.out.println("hdEvento :  CONTESTAR");
+							Contestar(request, response);
+							break;
 						default:
 							break;
 						}
@@ -156,11 +162,87 @@ public class ServBandejaAJAX extends HttpServlet {
 
 	}
 
+	private void Contestar(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("Contestar");
+		int i=0;
+		Date FECHA_DOC = null;
+		String  idht=request.getParameter("id_ht");
+		String  cbxdocumentoContestar=request.getParameter("cbxdocumentoContestar");
+		String  txtnumero=request.getParameter("txtnumero");
+		String  txtsiglas=request.getParameter("txtsiglas");
+		String  txtfechadoc=request.getParameter("txtfechadoc");
+		String  cbxcontenido=request.getParameter("cbxcontenido");
+		String  cbxfuncion=request.getParameter("cbxfuncion");
+		String  cbxprioridad=request.getParameter("cbxprioridad");
+		String  cbxdestino=request.getParameter("cbxdestino");
+		String  txtasuntoContestar=request.getParameter("txtasuntoContestar");
+		String  txtobservacionesContestar=request.getParameter("txtobservacionesContestar");
+		String  id_fichero=request.getParameter("id_fichero");
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Usuario user = (Usuario) SesionUsuario.get(0);
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		Oficina ofi = (Oficina) SesionUsuario.get(4);
+		//Genero documento Contestar
+		Documento doc=new Documento();
+		doc.setIdClasContenidoDoc(Integer.parseInt(cbxcontenido));
+		doc.setIdClasFuncionDoc(Integer.parseInt(cbxfuncion));
+		doc.setIdEstadoDoc(1);
+		doc.setIdFicheroDoc(Integer.parseInt(id_fichero));
+		doc.setIdPrioridadDoc(Integer.parseInt(cbxprioridad));
+		doc.setIdTipoDoc(Integer.parseInt(cbxdocumentoContestar));
+		doc.setAsunto(DirTexto.getInstance().cambiarFormatoUTF8(txtasuntoContestar).toUpperCase());
+		doc.setSiglas(DirTexto.getInstance().cambiarFormatoUTF8(txtsiglas).toUpperCase());
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			FECHA_DOC = formatter.parse(txtfechadoc);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		doc.setFecha(FECHA_DOC);
+		doc.setNumero(txtnumero);
+		doc.setIdUnidad(Integer.parseInt(cbxdestino));
+		doc.setUsuReg(user.getIdUsuario());
+		doc.setIdUnidadReg(uni.getIdUnidad());
+		int iddocumento=LogicaDocumento.getInstance().grabarDocumento(doc);
+		if (iddocumento>0) {
+			MovimientoHt mov=new MovimientoHt();
+			mov.setFechaRegistro(new Date());
+			mov.setId_usuarioDestino(0);
+			mov.setIdDocumento(iddocumento);
+			mov.setIdEstadoMovimientoHt(8);//contestado
+			mov.setIdHojaTramite(Integer.parseInt(idht));
+			mov.setIdOficinaDestino(0);
+			mov.setIdOficinaRegistro(ofi.getIdOficina());
+			mov.setIdUnidadDestino(Integer.parseInt(cbxdestino));
+			mov.setIdUnidadRegistro(uni.getIdUnidad());
+			mov.setIdUsuarioRegistro(user.getIdUsuario());
+			mov.setObservaciones(txtobservacionesContestar.toUpperCase());
+			try {
+			i=LogicaMovimientoHT.getInstance().grabarMovimientoHT(mov);	
+			} catch (Exception e) {
+				System.out.println("ServBandejaAJAX.Contestar()"+e.getMessage());
+			}
+			if (i>0) {
+				Archivo archiv=new Archivo();
+				archiv.setEstado(0);
+				archiv.setFechaReg(new Date());
+				archiv.setIdDocumento(iddocumento);
+				archiv.setIdHojaTramite(Integer.parseInt(idht));
+				archiv.setIdMovimiento(i);
+				archiv.setUsuarioReg(user.getIdUsuario());
+				archiv.setIdUnidad(uni.getIdUnidad());	
+				LogicaArchivo.getInstance().insertArchivo(archiv);
+			}
+		}
+	HtmlUtil.getInstance().escritura(response, String.valueOf(i));	
+		
+	}
+
 	private void Responder(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("Responder");
 		int i=0;
 		String  idht=request.getParameter("id_ht");
-		String  iddoc=request.getParameter("id_doc");
 		String  id_usuario_destino=request.getParameter("id_usuario_destino");
 		String  id_unidad_destino=request.getParameter("id_unidad_destino");
 		String  id_oficina_destino=request.getParameter("id_oficina_destino");
@@ -228,7 +310,7 @@ public class ServBandejaAJAX extends HttpServlet {
 		mov.setFechaRegistro(new Date());
 		mov.setId_usuarioDestino(Integer.parseInt(id_usuario_destino));
 		mov.setIdDocumento(Integer.parseInt(iddoc));
-		mov.setIdEstadoMovimientoHt(7);//archivado
+		mov.setIdEstadoMovimientoHt(7);//devolver
 		mov.setIdHojaTramite(Integer.parseInt(idht));
 		mov.setIdOficinaDestino(Integer.parseInt(id_oficina_destino));
 		mov.setIdOficinaRegistro(ofi.getIdOficina());
@@ -239,7 +321,7 @@ public class ServBandejaAJAX extends HttpServlet {
 		try {
 		i=LogicaMovimientoHT.getInstance().grabarMovimientoHT(mov);	
 		} catch (Exception e) {
-			System.out.println("ServBandejaAJAX.Archivar()"+e.getMessage());
+			System.out.println("ServBandejaAJAX.Devolver()"+e.getMessage());
 		}
 		
 	HtmlUtil.getInstance().escritura(response, String.valueOf(i));
@@ -290,7 +372,7 @@ public class ServBandejaAJAX extends HttpServlet {
 		try {
 		i=LogicaMovimientoHT.getInstance().grabarMovimientoHT(mov);	
 		} catch (Exception e) {
-			System.out.println("ServBandejaAJAX.Archivar()"+e.getMessage());
+			System.out.println("ServBandejaAJAX.ValidarRespuesta()"+e.getMessage());
 		}
 		HtmlUtil.getInstance().escritura(response, String.valueOf(i));
 	}
@@ -482,7 +564,7 @@ public class ServBandejaAJAX extends HttpServlet {
 		HttpSession sesion = request.getSession();
 		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
 		Unidad uni = (Unidad) SesionUsuario.get(3);
-		String tabla=LogicaGrillaBandeja.getInstance().BandejaPendiente(1,uni.getIdUnidad());
+		String tabla=LogicaGrillaBandeja.getInstance().BandejaPendiente(8,uni.getIdUnidad());
 		HtmlUtil.getInstance().escritura(response, tabla);
 		
 	}

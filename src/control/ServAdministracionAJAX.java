@@ -16,11 +16,17 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import entity.CentroTrabajo;
+import entity.ClasContenidoDoc;
+import entity.ClasFuncionDoc;
 import entity.Oficina;
 import entity.Persona;
+import entity.PrioridadDoc;
+import entity.TipoDoc;
+import entity.Unidad;
 import entity.Usuario;
 import entity.lista.Administrativo;
 import logica.LogicaCentroTrabajo;
+import logica.LogicaCombos;
 import logica.LogicaOficina;
 import logica.LogicaPersona;
 import logica.LogicaUsuario;
@@ -69,7 +75,10 @@ public class ServAdministracionAJAX extends HttpServlet {
 							System.out.println("hdEvento :  COMBO_ADMINISTRATIVO");
 							ComboAdministrativo(request, response);
 							break;
-							
+						case "COMBOS_CONTESTAR":
+							System.out.println("hdEvento :  COMBOS_CONTESTAR");
+							CombosContestar(request, response);
+							break;
 						default:
 							break;
 						}
@@ -94,6 +103,87 @@ public class ServAdministracionAJAX extends HttpServlet {
 
 		}
 
+	}
+
+	
+	
+	
+	private void CombosContestar(HttpServletRequest request, HttpServletResponse response) {
+		String Array=null;
+		JsonArray arrayTipoDoc = null;
+		JsonArray arrayClasConDoc = null;
+		JsonArray arrayClasFunDoc = null;
+		JsonArray arrayPrioridadDoc = null;
+		JsonArray arrayDestinoDoc = null;
+		List<TipoDoc> tdoc = null;
+		List<ClasContenidoDoc> clascon = null;
+		List<ClasFuncionDoc> clasfun = null;
+		List<PrioridadDoc> Prioridad = null;
+		List<Unidad> unidad = null;
+		
+		try {
+			tdoc=LogicaCombos.getInstance().ListaTipoDoc();
+			clascon=LogicaCombos.getInstance().ListaClasContenidoDoc();
+			clasfun=LogicaCombos.getInstance().ListaClasFuncionDoc();
+			Prioridad=LogicaCombos.getInstance().ListaPrioridadDoc();
+			unidad=LogicaCombos.getInstance().ListaUnidad();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		if (tdoc != null) {
+			arrayTipoDoc = new JsonArray();
+			for (TipoDoc t : tdoc) {
+				JsonObject object = new JsonObject();
+				object.addProperty("id", t.getIdTipoDoc());
+				object.addProperty("detalle", t.getDescripcion());
+				arrayTipoDoc.add(object);
+			}
+		}
+		if (clascon != null) {
+			arrayClasConDoc = new JsonArray();
+			for (ClasContenidoDoc t : clascon) {
+				JsonObject object = new JsonObject();
+				object.addProperty("id", t.getIdClasContenidoDoc());
+				object.addProperty("detalle", t.getDescripcion());
+				arrayClasConDoc.add(object);
+			}
+		}
+		if (clasfun != null) {
+			arrayClasFunDoc = new JsonArray();
+			for (ClasFuncionDoc t : clasfun) {
+				JsonObject object = new JsonObject();
+				object.addProperty("id", t.getIdClasFuncionDoc());
+				object.addProperty("detalle", t.getDescripcion());
+				arrayClasFunDoc.add(object);
+			}
+		}
+		if (Prioridad != null) {
+			arrayPrioridadDoc = new JsonArray();
+			for (PrioridadDoc t : Prioridad) {
+				JsonObject object = new JsonObject();
+				object.addProperty("id", t.getIdPrioridadDoc());
+				object.addProperty("detalle", t.getDescripcion());
+				arrayPrioridadDoc.add(object);
+			}
+		}
+		if (unidad != null) {
+			arrayDestinoDoc = new JsonArray();
+			for (Unidad t : unidad) {
+				JsonObject object = new JsonObject();
+				object.addProperty("id", t.getIdUnidad());
+				object.addProperty("detalle", t.getDescripcion());
+				arrayDestinoDoc.add(object);
+			}
+		}
+		
+		Array=arrayTipoDoc.toString()+"||"+
+		arrayClasConDoc+"||"+
+		arrayClasFunDoc+"||"+
+		arrayPrioridadDoc+"||"+
+		arrayDestinoDoc;
+
+		HtmlUtil.getInstance().escrituraHTML(response, Array);	
 	}
 
 	private void ComboAdministrativo(HttpServletRequest request, HttpServletResponse response) {

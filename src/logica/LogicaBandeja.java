@@ -39,4 +39,10 @@ public class LogicaBandeja {
 		bandeja = serv.listaBandejaAdministrativoDesaprobados(id_unidad_destino, id_usuario);
 		return bandeja;
 	}
+	public List<Bandeja> ListarBandejaContestados(int estadoBandeja,int id_unidad_Registro) {
+		BandejaService serv = new BandejaServiceImpl();
+		List<Bandeja> bandeja = null;
+		bandeja = serv.listaBandejaContestados(estadoBandeja,id_unidad_Registro);
+		return bandeja;
+	}
 }

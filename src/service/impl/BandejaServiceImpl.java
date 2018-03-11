@@ -24,5 +24,10 @@ BandejaDAO dao=new BandejaDAOImpl();
 		// TODO Auto-generated method stub
 		return dao.listaBandejaAdministrativoDesaprobados(id_unidad_destino, id_usuario);
 	}
+	@Override
+	public List<Bandeja> listaBandejaContestados(int estadoBandeja, int id_unidad_Registro) {
+		// TODO Auto-generated method stub
+		return dao.listaBandejaContestados(estadoBandeja, id_unidad_Registro);
+	}
 
 }
