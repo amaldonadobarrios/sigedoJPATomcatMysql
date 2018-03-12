@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import entity.lista.Bandeja;
+import entity.lista.BandejaArchivador;
 import logica.LogicaBandeja;
 
 public class LogicaGrillaBandeja {
@@ -31,6 +32,7 @@ public class LogicaGrillaBandeja {
     private String INI_TABLA7 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable7\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
     private String INI_TABLA8 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable8\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
     private String INI_TABLA9 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable9\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
+    private String INI_TABLA10 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable10\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
     private String INI_THEAD = "<thead>";
     private String INI_TR = "<tr>";
     private String INI_TRBody = "<tr>";
@@ -662,7 +664,6 @@ public class LogicaGrillaBandeja {
 		cabecera.append(INI_TH);	cabecera.append("Asunto");			cabecera.append(FINI_TH);
 		cabecera.append(INI_TH);	cabecera.append("Documento");			cabecera.append(FINI_TH);
 		cabecera.append(INI_TH);	cabecera.append("Fecha Documento");			cabecera.append(FINI_TH);
-		
 		cabecera.append(INI_TH);	cabecera.append("Observaciones");			cabecera.append(FINI_TH);
 		cabecera.append(FINI_TR);
 		cabecera.append(FIN_THEAD);
@@ -689,6 +690,60 @@ public class LogicaGrillaBandeja {
 				str.append(INI_TD);	str.append( fila.getDocumento());			str.append(FIN_TD);
 				str.append(INI_TD);	str.append(  df.format(fila.getFecha_doc()));		str.append(FIN_TD);
 				
+				str.append(INI_TD);	str.append( fila.getObservaciones());			str.append(FIN_TD);
+				str.append(FINI_TR);	
+			}
+			
+			
+		}
+		str.append(FIN_TBODY);
+		str.append(FIN_TABLA);
+		str.append("</div>");
+		return str.toString()+"||"+i;
+	}
+
+	public String BandejaUsuarioArchivador(int idUnidad, int estado) {
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		List<BandejaArchivador> lista=null;
+		lista=LogicaBandeja.getInstance().ListarBandejaArchivador(idUnidad, estado);
+		StringBuilder str = new StringBuilder();
+		str.append("<div id =\"tarchivopendiente\">");
+		str.append(INI_TABLA10);
+		StringBuilder cabecera = new StringBuilder();
+		cabecera.append(INI_THEAD);
+		cabecera.append(INI_TR);
+		cabecera.append(INI_TH);	cabecera.append("N°");	cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Fecha de Registro");	cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("N° HT");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Asunto");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Documento");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Fecha Documento");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("F.Archivo");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Digitalizar CARGO");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Observaciones");			cabecera.append(FINI_TH);
+		cabecera.append(FINI_TR);
+		cabecera.append(FIN_THEAD);
+		 int i=0;
+		str.append(cabecera.toString());
+		str.append(INI_TBODY);
+		if(  lista!=null && lista.size()>0 )
+		{
+                   
+			for(BandejaArchivador fila : lista  )
+			{
+				i++;
+				str.append(INI_TRBody);
+				str.append(INI_TD);	str.append( i );			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( df.format(fila.getFecha_reg()));				str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getId_hoja_tramite());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getAsunto());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getDocumento());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append(  df.format(fila.getFecha_doc()));		str.append(FIN_TD);
+				str.append(INI_TD);	str.append("<img\r\n" + 
+								"					alt=\"Brand\" class=\"img\"\r\n" + 
+								"					src=\"images/pdf.jpg\" width=\"25\"\r\n" + 
+								"					height=\"20\" onclick=\"fnVerPDF('"+fila.getId_fichero()+"')\">");		str.append(FIN_TD);
+				str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Digitalizar\" onclick=\"fndigitalizar('"+fila.getId_hoja_tramite()+"','"+fila.getAsunto()+"','"+fila.getDocumento()+"','"+fila.getId_archivo()+"','"+fila.getId_documento()+"')\" />");		str.append(FIN_TD);
 				str.append(INI_TD);	str.append( fila.getObservaciones());			str.append(FIN_TD);
 				str.append(FINI_TR);	
 			}

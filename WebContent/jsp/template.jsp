@@ -335,6 +335,14 @@
 					$('#tdesaprobado').html(tabla);
 					$('#dataTable9').DataTable();
 				}
+				if (vevento == 'BANDEJA_ARCHIVO_PENDIENTE') {
+					var respuesta = v_resultado.split('||');
+					var tabla = respuesta[0];
+					var numero = respuesta[1];
+					$('#lblarchivopendiente').html(numero);
+					$('#tarchivopendiente').html(tabla);
+					$('#dataTable10').DataTable();
+				}
 
 				if (vevento == 'DERIVAR') {
 					if (v_resultado != '0') {

@@ -40,6 +40,20 @@ public class Archivo implements Serializable {
 	@Column(name="usuario_reg")
 	private int usuarioReg;
 
+	@Column(name="id_fichero_archivo")
+	private int id_fichero_archivo;
+	
+	@Column(name="palabras_clave")
+	private String palabras_clave;
+	
+	public String getPalabras_clave() {
+		return palabras_clave;
+	}
+
+	public void setPalabras_clave(String palabras_clave) {
+		this.palabras_clave = palabras_clave;
+	}
+
 	public Archivo() {
 	}
 
@@ -105,6 +119,14 @@ public class Archivo implements Serializable {
 
 	public void setUsuarioReg(int usuarioReg) {
 		this.usuarioReg = usuarioReg;
+	}
+
+	public int getId_fichero_archivo() {
+		return id_fichero_archivo;
+	}
+
+	public void setId_fichero_archivo(int id_fichero_archivo) {
+		this.id_fichero_archivo = id_fichero_archivo;
 	}
 
 }

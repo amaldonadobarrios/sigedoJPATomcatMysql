@@ -3,6 +3,7 @@ package logica;
 import java.util.List;
 
 import entity.lista.Bandeja;
+import entity.lista.BandejaArchivador;
 import service.BandejaService;
 import service.impl.BandejaServiceImpl;
 
@@ -43,6 +44,12 @@ public class LogicaBandeja {
 		BandejaService serv = new BandejaServiceImpl();
 		List<Bandeja> bandeja = null;
 		bandeja = serv.listaBandejaContestados(estadoBandeja,id_unidad_Registro);
+		return bandeja;
+	}
+	public List<BandejaArchivador> ListarBandejaArchivador(int id_unidad,int estado_archivo) {
+		BandejaService serv = new BandejaServiceImpl();
+		List<BandejaArchivador> bandeja = null;
+		bandeja = serv.listaBandejaArchivador(id_unidad, estado_archivo);
 		return bandeja;
 	}
 }

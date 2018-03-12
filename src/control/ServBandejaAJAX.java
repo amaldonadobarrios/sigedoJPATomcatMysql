@@ -100,6 +100,10 @@ public class ServBandejaAJAX extends HttpServlet {
 							System.out.println("hdEvento :  BANDEJA_ADMINISTRATIVO");
 							BandejaAdministrativo(request, response);
 							break;
+						case "BANDEJA_ARCHIVO_PENDIENTE":
+							System.out.println("hdEvento :  BANDEJA_ARCHIVO_PENDIENTE");
+							BandejaUsuarioArchivador(request, response);
+							break;
 						case "VER_PDF":
 							System.out.println("hdEvento :  VER_PDF");
 							VerPdf(request, response);
@@ -160,6 +164,16 @@ public class ServBandejaAJAX extends HttpServlet {
 
 		}
 
+	}
+
+	private void BandejaUsuarioArchivador(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("BandejaUsuarioArchivador");
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		String tabla=LogicaGrillaBandeja.getInstance().BandejaUsuarioArchivador(uni.getIdUnidad(),0);
+		HtmlUtil.getInstance().escritura(response, tabla);
+		
 	}
 
 	private void Contestar(HttpServletRequest request, HttpServletResponse response) {

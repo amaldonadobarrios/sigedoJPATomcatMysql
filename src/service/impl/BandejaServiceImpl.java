@@ -5,6 +5,7 @@ import java.util.List;
 import dao.BandejaDAO;
 import dao.impl.BandejaDAOImpl;
 import entity.lista.Bandeja;
+import entity.lista.BandejaArchivador;
 import service.BandejaService;
 
 public class BandejaServiceImpl implements BandejaService {
@@ -28,6 +29,11 @@ BandejaDAO dao=new BandejaDAOImpl();
 	public List<Bandeja> listaBandejaContestados(int estadoBandeja, int id_unidad_Registro) {
 		// TODO Auto-generated method stub
 		return dao.listaBandejaContestados(estadoBandeja, id_unidad_Registro);
+	}
+	@Override
+	public List<BandejaArchivador> listaBandejaArchivador(int id_unidad, int estado_archivo) {
+		// TODO Auto-generated method stub
+		return dao.listaBandejaArchivador(id_unidad, estado_archivo);
 	}
 
 }

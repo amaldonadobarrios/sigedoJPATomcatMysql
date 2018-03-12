@@ -13,6 +13,7 @@ import javax.persistence.Persistence;
 import dao.BandejaDAO;
 import entity.CentroTrabajo;
 import entity.lista.Bandeja;
+import entity.lista.BandejaArchivador;
 
 public class BandejaDAOImpl implements BandejaDAO {
 
@@ -367,6 +368,75 @@ public class BandejaDAOImpl implements BandejaDAO {
 						temp.setId_fichero_ini(rs.getInt(15));
 						temp.setId_documento_ini(rs.getInt(16));
 						lista.add(temp);
+					}
+				}
+
+			} catch (SQLException e) {
+				System.out.println("Excepcion en query obtenercodigo de unidad: " + e.toString());
+			} finally {
+				em.getTransaction().commit();
+				em.close();
+				emf.close();
+			}
+		}
+		return lista;
+	}
+
+	@Override
+	public List<BandejaArchivador> listaBandejaArchivador(int id_unidad, int estado_archivo) {
+		BandejaArchivador temp = null;
+		List<BandejaArchivador> lista = null;
+		PreparedStatement ps =null;
+		String query="SELECT ar.id_archivo,\r\n" + 
+				"ar.id_hoja_tramite, \r\n" + 
+				"ar.id_documento, \r\n" + 
+				"ar.id_movimiento, \r\n" + 
+				"ar.fecha_reg,\r\n" + 
+				"ar.usuario_reg,\r\n" + 
+				"ar.estado,\r\n" + 
+				"ar.id_unidad,\r\n" + 
+				"ar.id_fichero_archivo,\r\n" + 
+				"doc.asunto,\r\n" + 
+				"doc.fecha_doc as fechadoc,\r\n" + 
+				"mov.observaciones,\r\n" + 
+				"doc.id_fichero_doc,\r\n" + 
+				"concat(tdoc.descripcion,\" N°\",doc.numero,\" \",doc.siglas) as documento\r\n" + 
+				"FROM archivo ar \r\n" + 
+				"inner join documento doc on doc.id_documento=ar.id_documento\r\n" + 
+				"join tipo_doc tdoc on tdoc.id_tipo_doc=doc.id_tipo_doc\r\n" + 
+				"join movimiento_ht mov on mov.id_movimiento_ht=ar.id_movimiento\r\n" + 
+				"where ar.id_unidad=? and  ar.estado=? ";
+		
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		java.sql.Connection cn = em.unwrap(java.sql.Connection.class);
+		if (cn != null) {
+			try {
+				ps = cn.prepareStatement(query);
+				ps.setInt(1, id_unidad);
+				ps.setInt(2, estado_archivo);
+				ResultSet rs = ps.executeQuery();
+				if (rs.next()) {
+					lista = new ArrayList<BandejaArchivador>();
+					rs.beforeFirst();
+					while (rs.next()) {
+						temp = new BandejaArchivador();
+			temp.setId_archivo(rs.getInt(1));
+			temp.setId_hoja_tramite(rs.getInt(2));
+			temp.setId_documento(rs.getInt(3));
+			temp.setId_movimiento(rs.getInt(4));
+			temp.setFecha_reg(rs.getDate(5));
+			temp.setId_usuario_reg(rs.getInt(6));
+			temp.setId_estado(rs.getInt(7));
+			temp.setId_unidad_reg(rs.getInt(8));
+			temp.setId_fichero_archivo(rs.getInt(9));
+			temp.setAsunto(rs.getString(10));
+			temp.setFecha_doc(rs.getDate(11));
+			temp.setObservaciones(rs.getString(12));
+			temp.setId_fichero(rs.getInt(13));
+			temp.setDocumento(rs.getString(14));
+			lista.add(temp);
 					}
 				}
 
