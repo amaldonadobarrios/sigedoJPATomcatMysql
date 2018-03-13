@@ -1,0 +1,7 @@
+shell
+mysql -u root -p
+C:\xampp\mysql\bin\my.cfg
+cambiar:
+max_allowed_packet = 100M
+verificar:
+SHOW VARIABLES LIKE 'max_allowed_packet';

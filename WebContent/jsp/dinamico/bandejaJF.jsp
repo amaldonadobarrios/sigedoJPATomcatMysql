@@ -565,7 +565,6 @@
 </script>
 <script type="text/javascript">
 	window.onload = function() {
-
 		fnlistarBandeja('BANDEJA_RECIBIDO');
 		fnlistarBandeja('BANDEJA_DERIVADO');
 		fnlistarBandeja('BANDEJA_DEVUELTO');
@@ -574,6 +573,3 @@
 		fnlistarBandeja('BANDEJA_RESPONDIDO');
 	}
 </script>
-
-
-

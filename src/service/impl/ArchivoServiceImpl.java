@@ -12,5 +12,10 @@ ArchivoDAO dao=new ArchivoDAOImpl();
 		// TODO Auto-generated method stub
 		return dao.save(obj);
 	}
+	@Override
+	public int Update(Archivo obj) {
+		// TODO Auto-generated method stub
+		return dao.Update(obj);
+	}
 
 }

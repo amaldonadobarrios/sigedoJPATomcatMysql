@@ -46,6 +46,17 @@ public class Archivo implements Serializable {
 	@Column(name="palabras_clave")
 	private String palabras_clave;
 	
+	@Column(name="observaciones")
+	private String observaciones;
+	
+	public String getObservaciones() {
+		return observaciones;
+	}
+
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
+	}
+
 	public String getPalabras_clave() {
 		return palabras_clave;
 	}

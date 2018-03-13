@@ -25,4 +25,10 @@ public class LogicaArchivo {
 		i=serv.save(obj);
 		return i;
 	}
+	public int updateArchivo(Archivo obj) {
+		int i=0;
+		ArchivoService serv= new ArchivoServiceImpl();
+		i=serv.Update(obj);
+		return i;
+	}
 }

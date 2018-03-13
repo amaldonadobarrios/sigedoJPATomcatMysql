@@ -219,6 +219,13 @@ function fn_upload_ajax2(vservlet){
 					class="badge badge-pill badge-primary"><div
 							id="lblarchivopendiente"></div></span>
 			</a></li>
+			<li class="nav-item"
+				onclick="fnlistarBandeja('BANDEJA_ARCHIVO_DIGITALIZADO')"><a
+				class="nav-link primary" data-toggle="tab"
+				href="#ArchivoDigitalizado" role="tab">Archivo Digitalizado <span
+					class="badge badge-pill badge-primary"><div
+							id="lblarchivodigitalizado"></div></span>
+			</a></li>
 		</ul>
 
 		<!-- Tab panes -->
@@ -237,8 +244,26 @@ function fn_upload_ajax2(vservlet){
 					</div>
 				</div>
 			</div>
+			<div class="tab-pane" id="ArchivoDigitalizado" role="tabpanel">
+				<div class="card mb-3">
+					<div class="card-body">
+						<div class="table-responsive">
+							<div id="tarchivodigitalizado"></div>
+						</div>
+					</div>
+					<div class="card-footer small text-muted">
+						Actualizado al
+						<fmt:formatDate type="both" dateStyle="short" timeStyle="short"
+							value="${now}" />
+					</div>
+				</div>
+			</div>
 
 		</div>
+		
+			
+
+		
 	</div>
 </ol>
 <div class="modal fade animated bounceIn" id="modDigitalizar"
@@ -249,7 +274,7 @@ function fn_upload_ajax2(vservlet){
 			<div class="modal-header">
 				<h5 class="modal-title" id="exampleModalLabel">
 					DIGITALIZAR CARGO ASIGNADO A LA HOJA DE TRÁMITE N° <label
-						id="lblhtCONTESTAR"></label>
+						id="lblhtDigitalizar"></label>
 				</h5>
 				<button class="close" type="button" data-dismiss="modal"
 					aria-label="Close">
@@ -257,11 +282,11 @@ function fn_upload_ajax2(vservlet){
 				</button>
 			</div>
 			<div class="modal-body" align="justify">
-				<label id="lblasuntoCONTESTAR">Asunto: </label><br> <label
-					id="lbldocumentoCONTESTAR">Asunto: </label> <input type="hidden"
-					id="id_htCONTESTAR"> <input type="hidden"
-					id="id_docCONTESTAR"> <input type="hidden"
-					id="id_unidadCONTESTAR">
+				<label id="lblasuntoDigitalizar">Asunto: </label><br> <label
+					id="lbldocumentoDigitalizar">Asunto: </label> <input type="hidden"
+					id="id_htDigitalizar"> <input type="hidden"
+					id="id_docDigitalizar"> <input type="hidden"
+					id="id_archivo">
 				<div class="row">
 					<div class="col-md-6">
 
@@ -273,18 +298,18 @@ function fn_upload_ajax2(vservlet){
 									class="hideme">
 								<!-- PRIMERA COLUMNA -->
 								<div class="form-group">
-									<label id="lblcontenido">ARCHIBADOR</label> <select
+									<label id="lblarchivador">ARCHIBADOR</label> <select
 										class="form-control" tabindex="2" id="cbxarchivador"
 										name="cbxarchivador" required>
 									</select>
 
 								</div>
 								<div class="form-group">
-									<label id="lbldestino">AÑO ARCHIVO</label> <select
-										name="seleccionaAnyo" class="fecha form-control"
+									<label id="lblanio">AÑO ARCHIVO</label> <select
+										name="seleccionaAnyo" id="seleccionaAnyo" class="fecha form-control"
 										onchange="asignaDias()">
 										<script language="JavaScript" type="text/javascript">
-										document.write(rellenaAnyos(50));
+										document.write(rellenaAnyos(5));
     									</script>
 									</select>
 								</div>
@@ -293,9 +318,9 @@ function fn_upload_ajax2(vservlet){
 									<input id="secuencia" name="secuencia" class="fecha form-control">
 								</div>
 								<div class="form-group">
-									<label id="lblasuntoContestar">PALABRAS CLAVE</label>
+									<label id="lblpalabras">PALABRAS CLAVE</label>
 									<textarea class="form-control" rows="4" cols="50"
-										id="txtasuntoContestar" name="txtasuntoContestar" required></textarea>
+										id="txtpalabras" name="txtpalabras" required></textarea>
 								</div>
 							</div>
 						</div>
@@ -310,10 +335,10 @@ function fn_upload_ajax2(vservlet){
 							<div class="card-header">Subir Pdf</div>
 							<div class="card-body" align="center">
 								<div class="form-group">
-									<label id="lblobservacionesContestar">OBSERVACIONES</label>
+									<label id="lblobservacionesDigitalizar">OBSERVACIONES</label>
 									<textarea class="form-control" rows="4" cols="50"
-										id="txtobservacionesContestar"
-										name="txtobservacionesContestar" required></textarea>
+										id="txtobservacionesDigitalizar"
+										name="txtobservacionesDigitalizar" required></textarea>
 								</div>
 
 
@@ -341,7 +366,7 @@ function fn_upload_ajax2(vservlet){
 						</div>
 						<div class="modal-footer">
 							<button class="btn btn-primary btn-lg" type="button"
-								onclick="fnreg_contestar();">Registrar</button>
+								onclick="fnreg_digitalizar();">Registrar</button>
 							<button class="btn btn-secondary btn-lg" type="button"
 								data-dismiss="modal">Cancelar</button>
 
@@ -355,15 +380,148 @@ function fn_upload_ajax2(vservlet){
 
 </div>
 <script type="text/javascript">
-	function fndigitalizar(idht, asu, doc, idArchivo, idDoc) {
-		alert(idArchivo);
+function fnreg_digitalizar(){
+	if (validardigitalizar()) {
+		var cbxarchivador = document.getElementById('cbxarchivador').value;
+		var seleccionaAnyo = document.getElementById('seleccionaAnyo').value;
+		var secuencia = document.getElementById('secuencia').value;
+		var txtpalabras = document.getElementById('txtpalabras').value;
+		var txtobservacionesDigitalizar = document.getElementById('txtobservacionesDigitalizar').value;
+		var id_fichero = document.getElementById('id_fichero').value;
+		var idht=document.getElementById("id_htDigitalizar").value;
+		var iddoc=document.getElementById("id_docDigitalizar").value;
+		var id_archivo=document.getElementById("id_archivo").value;
+		var contexto = document.getElementById("contexto").value;
+		var vservlet = contexto + '/ServBandejaAJAX';
+		var txtevento = 'DIGITALIZAR';
+		var jqdata = {
+			hdEvento : txtevento,
+			id_ht : idht,
+			iddoc : iddoc,
+			id_archivo : id_archivo,
+			cbxarchivador: cbxarchivador,
+			seleccionaAnyo: seleccionaAnyo,
+			secuencia: secuencia,
+			txtpalabras: txtpalabras,
+			txtobservaciones: txtobservacionesDigitalizar,
+			id_fichero: id_fichero
+		};
+		if (confirm('Esta seguro de Digitalizar el Cargo relacionado a la Hoja de Trámite N°' + idht)) {
+			fnEjecutarPeticion(vservlet, jqdata, txtevento);
+		}
+	}
+}
+function limpiarDigitalizar(){
+	document.getElementById('secuencia').value='';	
+	document.getElementById('txtpalabras').value='';	
+	document.getElementById('txtobservacionesDigitalizar').value='';	
+	document.getElementById('id_fichero').value='';	
+	document.getElementById('id_fichero').value='';	
+	 $('#viewer2').attr('src', 'about:blank');
+     $('#uploadPDF2').val('');
+    document.getElementById("msjPDF2").innerHTML =  '';
+	$('#lblarchivador').css("color", "black");
+	$('#lblanio').css("color", "black");
+	$('#lblsecuencia').css("color", "black");
+	$('#lblpalabras').css("color", "black");
+	$('#lblobservacionesDigitalizar').css("color", "black");
+	$('#uploadPDF2').css("color", "black");
+}
+function validardigitalizar(){
+	var validar = true;
+	var cbxarchivador = document.getElementById('cbxarchivador').value;
+	var seleccionaAnyo = document.getElementById('seleccionaAnyo').value;
+	var secuencia = document.getElementById('secuencia').value;
+	var txtpalabras = document.getElementById('txtpalabras').value;
+	var txtobservacionesDigitalizar = document.getElementById('txtobservacionesDigitalizar').value;
+	var id_fichero = document.getElementById('id_fichero').value;
+	$('#lblarchivador').css("color", "black");
+	$('#lblanio').css("color", "black");
+	$('#lblsecuencia').css("color", "black");
+	$('#lblpalabras').css("color", "black");
+	$('#lblobservacionesDigitalizar').css("color", "black");
+	$('#uploadPDF2').css("color", "black");
+	if (cbxarchivador == '') {
+		$('#lblarchivador').css("color", "red");
+		validar = false;
+	}
+	if (seleccionaAnyo == '') {
+		$('#lblanio').css("color", "red");
+		validar = false;
+	}
+	if (secuencia == '') {
+		$('#lblsecuencia').css("color", "red");
+		validar = false;
+	}
+	if (txtpalabras == '') {
+		$('#lblpalabras').css("color", "red");
+		validar = false;
+	}
+	if (txtobservacionesDigitalizar == '') {
+		$('#lblobservacionesDigitalizar').css("color", "red");
+		validar = false;
+	}
+	if (id_fichero == '') {
+		$('#uploadPDF2').css("color", "red");
+		validar = false;
+	}
+	
+	return validar;	
+}
+
+	
+function fndigitalizar(idht, asu, doc, idArchivo, idDoc) {
+		limpiarDigitalizar();
+		$('#lblhtDigitalizar').html(idht);
+		$('#lblasuntoDigitalizar').html('Asunto: ' + asu);
+		$('#lbldocumentoDigitalizar').html('Documento: ' + doc);
+		document.getElementById("id_htDigitalizar").value = idht;
+		document.getElementById("id_docDigitalizar").value = idDoc;
+		document.getElementById("id_archivo").value = idArchivo;
 		$("#modDigitalizar").modal();
 
+	}
+	function fnlistarOficinax(id){
+		var x = id;
+		var contexto = document.getElementById("contexto").value;
+		var vservlet = contexto + '/ServAdministracionAJAX';
+		var txtevento = 'COMBO_OFICINA';
+		fn_ajax_ofix(vservlet, txtevento, x);		
+	}
+	function fn_ajax_ofix(servlet, evento, id) {
+		$.ajax({
+			url : servlet,
+			data : {
+				hdEvento : evento,
+				id_unidad : id
+			},
+			success : function(responseText) {
+				var v_resultado = responseText + "";
+				if (v_resultado == 'NOSESION') {
+					window.location = 'SPage?action=login';
+				} else if (v_resultado == 'VACIO') {
+					$("#cbxarchivador").empty();
+				} else {
+					//alert(v_resultado);
+					$("#cbxarchivador").empty();
+					var arr = JSON.parse(v_resultado);
+					ShareInfoLength = arr.length;
+					//alert(ShareInfoLength);
+					$("<option/>").attr("value", '').text('Seleccione')
+							.appendTo("#cbxarchivador");
+					for (var i = 0; i < ShareInfoLength; i++) {
+						$("<option/>").attr("value", arr[i].id).text(
+								arr[i].detalle).appendTo("#cbxarchivador");
+					}
+				}
+			}
+		});
 	}
 </script>
 <script type="text/javascript">
 	window.onload = function() {
 		fnlistarBandeja('BANDEJA_ARCHIVO_PENDIENTE');
+		fnlistarBandeja('BANDEJA_ARCHIVO_DIGITALIZADO');
 	}
 </script>
 

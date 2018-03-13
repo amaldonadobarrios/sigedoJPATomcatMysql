@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import entity.AlmacenArchivo;
 import entity.Archivo;
 import entity.Documento;
 import entity.FicheroDoc;
@@ -21,10 +22,12 @@ import entity.MovimientoHt;
 import entity.Oficina;
 import entity.Unidad;
 import entity.Usuario;
+import logica.LogicaAlmacenArchivo;
 import logica.LogicaArchivo;
 import logica.LogicaDocumento;
 import logica.LogicaFichero;
 import logica.LogicaMovimientoHT;
+import logica.LogicaOficina;
 import logica.grilla.LogicaGrillaBandeja;
 import util.DirTexto;
 import util.HtmlUtil;
@@ -104,6 +107,10 @@ public class ServBandejaAJAX extends HttpServlet {
 							System.out.println("hdEvento :  BANDEJA_ARCHIVO_PENDIENTE");
 							BandejaUsuarioArchivador(request, response);
 							break;
+						case "BANDEJA_ARCHIVO_DIGITALIZADO":
+							System.out.println("hdEvento :  BANDEJA_ARCHIVO_DIGITALIZADO");
+							BandejaUsuarioArchivadorDigitalizado(request, response);
+							break;
 						case "VER_PDF":
 							System.out.println("hdEvento :  VER_PDF");
 							VerPdf(request, response);
@@ -140,6 +147,10 @@ public class ServBandejaAJAX extends HttpServlet {
 							System.out.println("hdEvento :  CONTESTAR");
 							Contestar(request, response);
 							break;
+						case "DIGITALIZAR":
+							System.out.println("hdEvento :  DIGITALIZAR");
+							Digitalizar(request, response);
+							break;
 						default:
 							break;
 						}
@@ -164,6 +175,60 @@ public class ServBandejaAJAX extends HttpServlet {
 
 		}
 
+	}
+
+	private void BandejaUsuarioArchivadorDigitalizado(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("BandejaUsuarioArchivadorDigitalizado");
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		String tabla=LogicaGrillaBandeja.getInstance().BandejaUsuarioArchivador(uni.getIdUnidad(),1);
+		HtmlUtil.getInstance().escritura(response, tabla);
+		
+	}
+
+	private void Digitalizar(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("Digitalizar");
+		int i=0;
+		int id_almacen=0;
+		Date FECHA_DOC = null;
+		String  idht=request.getParameter("id_ht");
+		String  iddoc=request.getParameter("iddoc");
+		String  id_archivo=request.getParameter("id_archivo");
+		String  cbxarchivador=request.getParameter("cbxarchivador");
+		String  seleccionaAnyo=request.getParameter("seleccionaAnyo");
+		String  secuencia=request.getParameter("secuencia");
+		String  txtpalabras=request.getParameter("txtpalabras");
+		String  txtobservaciones=request.getParameter("txtobservaciones");
+		String  id_fichero=request.getParameter("id_fichero");
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Usuario user = (Usuario) SesionUsuario.get(0);
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		Oficina ofi = (Oficina) SesionUsuario.get(4);
+		//Actualiza obj Archivo 
+		Archivo ar =new Archivo();
+		ar.setIdArchivo(Integer.parseInt(id_archivo));
+		ar.setId_fichero_archivo(Integer.parseInt(id_fichero));
+		ar.setEstado(1);
+		ar.setPalabras_clave(DirTexto.getInstance().cambiarFormatoUTF8(txtpalabras).toUpperCase());
+		ar.setObservaciones(DirTexto.getInstance().cambiarFormatoUTF8(txtobservaciones).toUpperCase());
+		ar.setUsuarioReg(user.getIdUsuario());
+		ar.setFechaReg(new Date());
+		i=LogicaArchivo.getInstance().updateArchivo(ar);
+		if (i>0) {
+			//Genera AlmacenArchivo
+			AlmacenArchivo alm=new AlmacenArchivo();
+			Oficina ofic=LogicaOficina.getInstance().BuscarporId(Integer.parseInt(cbxarchivador));
+			alm.setEtiquetaArchivador(ofic.getDescripcion());
+			alm.setIdArchivadorOficina(Integer.parseInt(cbxarchivador));
+			alm.setIdArchivo(i);
+			alm.setObservaciones(txtobservaciones);
+			alm.setSecuenciaArchivador(secuencia);
+			alm.setYearArchivador(seleccionaAnyo);
+			id_almacen=LogicaAlmacenArchivo.getInstance().insertAlmacenArchivo(alm);	
+		}
+		HtmlUtil.getInstance().escritura(response, String.valueOf(id_almacen));	
 	}
 
 	private void BandejaUsuarioArchivador(HttpServletRequest request, HttpServletResponse response) {
@@ -548,7 +613,8 @@ public class ServBandejaAJAX extends HttpServlet {
 		HttpSession sesion = request.getSession();
 		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
 		Unidad uni = (Unidad) SesionUsuario.get(3);
-		String tabla=LogicaGrillaBandeja.getInstance().BandejaAprobado(5,uni.getIdUnidad());
+		Usuario usu= (Usuario)SesionUsuario.get(0);
+		String tabla=LogicaGrillaBandeja.getInstance().BandejaAprobado(5,uni.getIdUnidad(),usu.getIdPerfil());
 		HtmlUtil.getInstance().escritura(response, tabla);
 		
 	}

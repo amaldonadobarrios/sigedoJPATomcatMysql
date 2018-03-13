@@ -343,6 +343,14 @@
 					$('#tarchivopendiente').html(tabla);
 					$('#dataTable10').DataTable();
 				}
+				if (vevento == 'BANDEJA_ARCHIVO_DIGITALIZADO') {
+					var respuesta = v_resultado.split('||');
+					var tabla = respuesta[0];
+					var numero = respuesta[1];
+					$('#lblarchivodigitalizado').html(numero);
+					$('#tarchivodigitalizado').html(tabla);
+					$('#dataTable11').DataTable();
+				}
 
 				if (vevento == 'DERIVAR') {
 					if (v_resultado != '0') {
@@ -404,6 +412,16 @@
 						fnlistarBandeja('BANDEJA_CONTESTADO');
 					} else {
 						danger('Error, No se Contestó Hoja de trámite!');
+					}
+				}
+				if (vevento == 'DIGITALIZAR') {
+					if (v_resultado != '0') {
+						$('#modDigitalizar').modal('hide');
+						alerta('Correcto, se digitalizó el documento!');
+						fnlistarBandeja('BANDEJA_ARCHIVO_PENDIENTE');
+						fnlistarBandeja('BANDEJA_ARCHIVO_DIGITALIZADO');
+					} else {
+						danger('Error, No se digitalizó Hoja de trámite!');
 					}
 				}
 
