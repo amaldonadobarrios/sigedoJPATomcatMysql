@@ -400,7 +400,9 @@ public class BandejaDAOImpl implements BandejaDAO {
 				"doc.fecha_doc as fechadoc,\r\n" + 
 				"mov.observaciones,\r\n" + 
 				"doc.id_fichero_doc,\r\n" + 
-				"concat(tdoc.descripcion,\" N°\",doc.numero,\" \",doc.siglas) as documento\r\n" + 
+				"concat(tdoc.descripcion,\" N°\",doc.numero,\" \",doc.siglas) as documento, "
+				+ " ar.palabras_clave,"
+				+ " ar.observaciones as obsdigitalizacion " + 
 				"FROM archivo ar \r\n" + 
 				"inner join documento doc on doc.id_documento=ar.id_documento\r\n" + 
 				"join tipo_doc tdoc on tdoc.id_tipo_doc=doc.id_tipo_doc\r\n" + 
@@ -436,6 +438,8 @@ public class BandejaDAOImpl implements BandejaDAO {
 			temp.setObservaciones(rs.getString(12));
 			temp.setId_fichero(rs.getInt(13));
 			temp.setDocumento(rs.getString(14));
+			temp.setPalabras(rs.getString(15));
+			temp.setObservacionesDigitalizacion(rs.getString(16));
 			lista.add(temp);
 					}
 				}

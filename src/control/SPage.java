@@ -95,6 +95,9 @@ public class SPage extends HttpServlet {
 					case "RegUni":
 						this.RegUni(request, response);
 						break;
+					case "EnvdocMP":
+						this.EnvdocMP(request, response);
+						break;	
 					default:
 						this.pagelogin(request, response);
 						break;
@@ -120,6 +123,19 @@ public class SPage extends HttpServlet {
 			System.out.println("DESTINO:" + "index.jsp");
 			forwar("index.jsp", request, response);
 		}
+	}
+
+	private void EnvdocMP(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//cargar combos
+				request.setAttribute("combounid", LogicaCombos.getInstance().ListaUnidad());
+				request.setAttribute("combotipo", LogicaCombos.getInstance().ListaTipoDoc());
+				request.setAttribute("combocont", LogicaCombos.getInstance().ListaClasContenidoDoc());
+				request.setAttribute("combofunc", LogicaCombos.getInstance().ListaClasFuncionDoc());
+				request.setAttribute("comboprio", LogicaCombos.getInstance().ListaPrioridadDoc());
+				request.setAttribute("breadcrumb", "Enviar Documento");
+				request.setAttribute("body", "EnvdocMP");
+				forwar("jsp/template.jsp", request, response);
+		
 	}
 
 	private void pageBandAdministrativo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

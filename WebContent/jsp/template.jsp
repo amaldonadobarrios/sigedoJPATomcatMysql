@@ -210,12 +210,14 @@
 									'No Se pudo Procesar Archivo PDF');
 						} else {
 							var frame = '<div style="clear: both" align="center"><iframe id="viewer" Width="600px" height="450px" align="center" scrolling="auto" frameborder="0" allowtransparency="true" border="0"></iframe></div>';
+							var respuesta = v_resultado.split('||');
+							var b64 = respuesta[0];
+							var tipo = respuesta[1];
 							$('#divPdfView').html(frame);
-							$('#viewer').attr(
-									'src',
-									'data:application/pdf;base64,'
-											+ v_resultado);
-
+							$('#viewer').attr('src',
+									//'data:application/pdf;base64,'
+									'data:'+tipo+';base64,'
+											+ b64);
 						}
 					}
 				});

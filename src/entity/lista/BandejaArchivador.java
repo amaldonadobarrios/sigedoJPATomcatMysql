@@ -17,7 +17,21 @@ Date fecha_doc;
 String observaciones;
 int id_fichero;
 String documento;
+String observacionesDigitalizacion;
+String palabras;
 
+public String getObservacionesDigitalizacion() {
+	return observacionesDigitalizacion;
+}
+public void setObservacionesDigitalizacion(String observacionesDigitalizacion) {
+	this.observacionesDigitalizacion = observacionesDigitalizacion;
+}
+public String getPalabras() {
+	return palabras;
+}
+public void setPalabras(String palabras) {
+	this.palabras = palabras;
+}
 public int getId_estado() {
 	return id_estado;
 }

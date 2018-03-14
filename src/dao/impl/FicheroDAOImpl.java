@@ -36,7 +36,7 @@ public class FicheroDAOImpl implements FicheroDAO {
 		emf.close();
 		Base64.Encoder code = Base64.getEncoder();
 		codeB64 = code.encodeToString(u.getBlob());
-		return codeB64;
+		return codeB64+"||"+u.getTipo();
 	}
 
 	@Override

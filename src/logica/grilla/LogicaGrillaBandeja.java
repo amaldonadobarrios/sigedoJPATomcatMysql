@@ -738,6 +738,9 @@ public class LogicaGrillaBandeja {
 			cabecera.append(INI_TH);	cabecera.append("Digitalizar CARGO");			cabecera.append(FINI_TH);	
 		}
 		cabecera.append(INI_TH);	cabecera.append("Observaciones");			cabecera.append(FINI_TH);
+		if (estado==1) {
+			cabecera.append(INI_TH);	cabecera.append("Palabras");			cabecera.append(FINI_TH);	
+		}
 		cabecera.append(FINI_TR);
 		cabecera.append(FIN_THEAD);
 		 int i=0;
@@ -765,11 +768,13 @@ public class LogicaGrillaBandeja {
 							"					alt=\"Brand\" class=\"img\"\r\n" + 
 							"					src=\"images/pdf.jpg\" width=\"25\"\r\n" + 
 							"					height=\"20\" onclick=\"fnVerPDF('"+fila.getId_fichero_archivo()+"')\">");		str.append(FIN_TD);
+					str.append(INI_TD);	str.append( fila.getObservacionesDigitalizacion());			str.append(FIN_TD);
+					str.append(INI_TD);	str.append( fila.getPalabras());			str.append(FIN_TD);
 				}
 				if (estado==0) {
-					str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Digitalizar\" onclick=\"fnlistarOficinax('"+idUnidad+"');fndigitalizar('"+fila.getId_hoja_tramite()+"','"+fila.getAsunto()+"','"+fila.getDocumento()+"','"+fila.getId_archivo()+"','"+fila.getId_documento()+"')\" />");		str.append(FIN_TD);	
+					str.append(INI_TD);	str.append( "<input type=\"button\" value=\"Digitalizar\" onclick=\"fnlistarOficinax('"+idUnidad+"');fndigitalizar('"+fila.getId_hoja_tramite()+"','"+fila.getAsunto()+"','"+fila.getDocumento()+"','"+fila.getId_archivo()+"','"+fila.getId_documento()+"')\" />");		str.append(FIN_TD);
+					str.append(INI_TD);	str.append( fila.getObservaciones());			str.append(FIN_TD);
 				}
-				str.append(INI_TD);	str.append( fila.getObservaciones());			str.append(FIN_TD);
 				str.append(FINI_TR);	
 			}
 			

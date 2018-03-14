@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import entity.Archivo;
 import entity.Codeqr;
 import entity.Documento;
 import entity.HojaTramite;
@@ -28,6 +29,7 @@ import entity.MovimientoHt;
 import entity.Oficina;
 import entity.Unidad;
 import entity.Usuario;
+import logica.LogicaArchivo;
 import logica.LogicaCombos;
 import logica.LogicaDocumento;
 import logica.LogicaHojaTramite;
@@ -76,6 +78,10 @@ public class ServGestionDocumento extends HttpServlet {
 							System.out.println("hdEvento :  REGISTRAR_DOCUMENTO_MP");
 								REGISTRAR_DOCUMENTO_MP(request, response);
 							break;
+						case "ENVIAR_DOCUMENTO_MP":
+							System.out.println("hdEvento :  ENVIAR_DOCUMENTO_MP");
+								ENVIAR_DOCUMENTO_MP(request, response);
+							break;
 						case "VER_REPORTE":
 							System.out.println("hdEvento :  VER_REPORTE");
 							try {
@@ -108,6 +114,117 @@ public class ServGestionDocumento extends HttpServlet {
 			System.out.println("DESTINO:" + "index.jsp");
 			forwar("index.jsp", request, response);
 		}
+	}
+
+	private void ENVIAR_DOCUMENTO_MP(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("void ENVIAR_DOCUMENTO_MP");
+		String Qr=null;
+		Date FECHA_DOC = null;
+		int  id_ht =0;
+		String id_fichero = request.getParameter("id_fichero");
+		String tipo = request.getParameter("cbxdocumento");
+		String txtnumero = request.getParameter("txtnumero");
+		String txtsiglas = request.getParameter("txtsiglas");
+		String txtfechadoc = request.getParameter("txtfechadoc");
+		String cbxcontenido = request.getParameter("cbxcontenido");
+		String cbxfuncion = request.getParameter("cbxfuncion");
+		String cbxprioridad = request.getParameter("cbxprioridad");
+		String cbxremitente = request.getParameter("cbxremitente");
+		String asunto = request.getParameter("txtasunto");
+		String obsservaciones=request.getParameter("txtobservaciones");
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Usuario user = (Usuario) SesionUsuario.get(0);
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		Oficina ofi = (Oficina) SesionUsuario.get(4);
+		Documento doc = new Documento();
+		doc.setIdClasContenidoDoc(Integer.parseInt(cbxcontenido));
+		doc.setIdClasFuncionDoc(Integer.parseInt(cbxfuncion));
+		doc.setIdEstadoDoc(1);
+		doc.setIdFicheroDoc(Integer.parseInt(id_fichero));
+		doc.setIdPrioridadDoc(Integer.parseInt(cbxprioridad));
+		doc.setIdTipoDoc(Integer.parseInt(tipo));
+		doc.setAsunto(DirTexto.getInstance().cambiarFormatoUTF8(asunto).toUpperCase());
+		doc.setSiglas(DirTexto.getInstance().cambiarFormatoUTF8(txtsiglas).toUpperCase());
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			FECHA_DOC = formatter.parse(txtfechadoc);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		doc.setFecha(FECHA_DOC);
+		doc.setNumero(txtnumero);
+		doc.setIdUnidad(Integer.parseInt(cbxremitente));
+		doc.setUsuReg(user.getIdUsuario());
+		doc.setIdUnidadReg(uni.getIdUnidad());
+		// Grabar Documento
+		System.out.println(doc);
+		System.out.println("string :" + txtfechadoc + " date:" + doc.getFecha());
+		int id = LogicaDocumento.getInstance().grabarDocumento(doc);
+		if (id > 0) {
+
+			// Generar HT
+			HojaTramite ht = new HojaTramite();
+			ht.setAsunto(DirTexto.getInstance().cambiarFormatoUTF8(asunto).toUpperCase());
+			ht.setFechaRegistro(new Date());
+			ht.setIdEstadoHt(1);
+			ht.setIdOficinaRegistro(ofi.getIdOficina());
+			ht.setIdUnidadRegistro(uni.getIdUnidad());
+			ht.setIdUsuarioRegistro(user.getIdUsuario());
+			ht.setIdDocumentoInicio(id);
+			ht.setIdUnidadDestino(Integer.parseInt(cbxremitente));
+			 id_ht = LogicaHojaTramite.getInstance().grabarHT(ht);
+			if (id_ht > 0) {
+				Codeqr qr=new Codeqr();
+				qr.setId_Hoja_tramite(id_ht);
+				Qr=LogicaQR.getInstance().GrabarCodeQr(qr);
+				//REGISTRAR MOVIMIENTO HT
+				MovimientoHt mov=new MovimientoHt();
+				mov.setFechaRegistro(new Date());
+				mov.setId_usuarioDestino(user.getIdUsuario());
+				mov.setIdDocumento(id);
+				mov.setIdEstadoMovimientoHt(8);//CONTESTADO
+				mov.setIdHojaTramite(id_ht);
+				mov.setIdOficinaDestino(ofi.getIdOficina());
+				mov.setIdOficinaRegistro(ofi.getIdOficina());
+				mov.setIdUnidadDestino(Integer.parseInt(cbxremitente));
+				mov.setIdUnidadRegistro(uni.getIdUnidad());
+				mov.setIdUsuarioRegistro(user.getIdUsuario());
+				mov.setObservaciones(DirTexto.getInstance().cambiarFormatoUTF8(obsservaciones).toUpperCase());
+				try {
+				int i=LogicaMovimientoHT.getInstance().grabarMovimientoHT(mov);
+				if (i>0) {
+					Archivo archiv=new Archivo();
+					archiv.setEstado(0);
+					archiv.setFechaReg(new Date());
+					archiv.setIdDocumento(id);
+					archiv.setIdHojaTramite(id_ht);
+					archiv.setIdMovimiento(i);
+					archiv.setUsuarioReg(user.getIdUsuario());
+					archiv.setIdUnidad(uni.getIdUnidad());	
+					LogicaArchivo.getInstance().insertArchivo(archiv);
+				}
+				} catch (Exception e) {
+					System.out.println("ServGestionDocumento.ENVIAR_DOCUMENTO_MP()"+e.getMessage());
+				}
+				request.setAttribute("msgok", "DOCUMENTO ENVIADO EXITOSAMENTE - SE GENERO LA HT N° "+id_ht);
+				
+			} else {
+				request.setAttribute("msgnok", "DOCUMENTO NO SE GRABÓ");
+			}
+		}
+		// cargar combos
+		request.setAttribute("combounid", LogicaCombos.getInstance().ListaUnidad());
+		request.setAttribute("combotipo", LogicaCombos.getInstance().ListaTipoDoc());
+		request.setAttribute("combocont", LogicaCombos.getInstance().ListaClasContenidoDoc());
+		request.setAttribute("combofunc", LogicaCombos.getInstance().ListaClasFuncionDoc());
+		request.setAttribute("comboprio", LogicaCombos.getInstance().ListaPrioridadDoc());
+		request.setAttribute("breadcrumb", "Enviar Documento");
+		request.setAttribute("ht",id_ht );
+		request.setAttribute("body", "EnvdocMP");
+		forwar("jsp/template.jsp", request, response);
+		//GenerarReporteHTnew(request, response, id_ht);
+		
 	}
 
 	private void REGISTRAR_DOCUMENTO_MP(HttpServletRequest request, HttpServletResponse response)
