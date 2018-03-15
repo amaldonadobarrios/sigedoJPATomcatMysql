@@ -108,7 +108,7 @@ function fn_upload_ajax(vservlet){
 								<label id="lblnumero">NUMERO DEL DOCUMENTO</label> <input
 									class="form-control"
 									placeholder="INGRESAR NUMERO DEL DOCUMENTO"
-									onkeypress="return solonumeritos(event)" MaxLength="10"
+									 MaxLength="15"
 									id="txtnumero" name="txtnumero" value="" required>
 							</div>
 							<div class="form-group">

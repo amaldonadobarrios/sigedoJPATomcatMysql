@@ -12,13 +12,8 @@
                 <legend class="scheduler-border">Ingrese Datos para Consultar</legend>                                   
                 <div class="form-group">
                     <label for="tipo_documento" class="col-md-6 control-label">Hoja de Trámite [HT]:</label>
-                    <div class="col-md-4 ">
-                        <select class="form-control" name="tipo_documento" id="tipo_documento">
-                            <option value="">Año HT</option>
-                            <option value="2017">2017</option><option value="2016">2016</option><option value="2015">2015</option><option value="2014">2014</option><option value="2013">2013</option><option value="2012">2012</option><option value="2011">2011</option><option value="2010">2010</option><option value="2009">2009</option><option value="2008">2008</option>                                    </select>                                        
-                    </div>   
                      <div class="col-md-4">                                                                                   
-                        <input type="text" class="form-control" maxlength="14" id="numero" name="numero" placeholder="Número de HT" autocomplete="false">
+                        <input type="text" class="form-control" maxlength="14" id="numero" name="numero" placeholder="Número de HT" onkeypress="return solo_numeros(event)" autocomplete="false">
                     </div>
                 </div>
                 <!--</div>-->
@@ -107,7 +102,7 @@
             </fieldset>
             
         </form>
-    </div>
+    </div> 
 </ol>
 <style>
 fieldset {
@@ -183,4 +178,5 @@ fieldset legend {
 	{
 	opacity: .5;
 }
+
 </style>

@@ -23,4 +23,8 @@ public class LogicaHojaTramite {
 		HojaTramiteService serv = new HojaTramiteServiceImpl();
 		return serv.GrabarHT(ht);
 	}
+	public int ArchivarEstadoHT(int id_ht) {
+		HojaTramiteService serv = new HojaTramiteServiceImpl();
+		return serv.ArchivarEstadoHT(id_ht);
+	}
 }

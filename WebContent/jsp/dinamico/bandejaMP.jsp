@@ -140,7 +140,7 @@ function fn_upload_ajax2(vservlet){
 			</a>
 			</li>
 			<li class="nav-item" onclick="fnlistarBandeja('BANDEJA_CONTESTADO')">
-				<a class="nav-link" data-toggle="tab" href="#Contestado" role="tab">Contestado
+				<a class="nav-link" data-toggle="tab" href="#Contestado" role="tab">Enviados
 					<span class="badge badge-pill badge-info"><div
 							id="lblcontestado"></div></span>
 			</a>

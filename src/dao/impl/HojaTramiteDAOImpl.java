@@ -50,4 +50,19 @@ public class HojaTramiteDAOImpl implements HojaTramiteDAO {
 		return String.valueOf(u.getId_codigoQr());
 	}
 
+	@Override
+	public int ArchivarEstadoHT(int id_HT) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		HojaTramite u = null;
+		u = em.getReference(HojaTramite.class, id_HT);
+		u.setIdEstadoHt(2);
+		em.merge(u);
+		em.getTransaction().commit();
+		em.close();
+		emf.close();
+		return u.getIdHojaTramite();
+	}
+
 }

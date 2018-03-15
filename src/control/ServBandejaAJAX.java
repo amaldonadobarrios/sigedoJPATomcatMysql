@@ -26,6 +26,7 @@ import logica.LogicaAlmacenArchivo;
 import logica.LogicaArchivo;
 import logica.LogicaDocumento;
 import logica.LogicaFichero;
+import logica.LogicaHojaTramite;
 import logica.LogicaMovimientoHT;
 import logica.LogicaOficina;
 import logica.grilla.LogicaGrillaBandeja;
@@ -497,6 +498,7 @@ public class ServBandejaAJAX extends HttpServlet {
 			archiv.setUsuarioReg(user.getIdUsuario());
 			archiv.setIdUnidad(uni.getIdUnidad());	
 			LogicaArchivo.getInstance().insertArchivo(archiv);
+			LogicaHojaTramite.getInstance().ArchivarEstadoHT(Integer.parseInt(idht));	
 		}
 	HtmlUtil.getInstance().escritura(response, String.valueOf(i));
 		

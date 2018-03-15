@@ -22,5 +22,10 @@ HojaTramiteDAO dao=new HojaTramiteDAOImpl();
 		// TODO Auto-generated method stub
 		return dao.GrabarImagenQR(qr);
 	}
+	@Override
+	public int ArchivarEstadoHT(int id_HT) {
+		// TODO Auto-generated method stub
+		return dao.ArchivarEstadoHT(id_HT);
+	}
 
 }

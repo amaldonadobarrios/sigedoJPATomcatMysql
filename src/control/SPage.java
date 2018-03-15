@@ -71,9 +71,6 @@ public class SPage extends HttpServlet {
 					case "BandJefe":
 						this.pageBandJefe(request, response);
 						break;
-					case "RegordenJF":
-						this.pageRegordenJF(request, response);
-						break;
 					case "BandArchiv":
 						this.pageBandArchiv(request, response);
 						break;
@@ -260,12 +257,7 @@ public class SPage extends HttpServlet {
 		forwar("jsp/template.jsp", request, response);
 	}
 
-	private void pageRegordenJF(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		request.setAttribute("breadcrumb", "Registrar Orden");
-		request.setAttribute("body", "regordenJF");
-		forwar("jsp/template.jsp", request, response);
-	}
+
 
 	private void pageBandArchiv(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
