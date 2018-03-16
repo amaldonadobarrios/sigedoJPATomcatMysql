@@ -112,6 +112,10 @@ public class ServBandejaAJAX extends HttpServlet {
 							System.out.println("hdEvento :  BANDEJA_ARCHIVO_DIGITALIZADO");
 							BandejaUsuarioArchivadorDigitalizado(request, response);
 							break;
+						case "TRAZABILIDAD":
+							System.out.println("hdEvento :  TRAZABILIDAD");
+							Trazabilidad(request, response);
+							break;
 						case "VER_PDF":
 							System.out.println("hdEvento :  VER_PDF");
 							VerPdf(request, response);
@@ -176,6 +180,17 @@ public class ServBandejaAJAX extends HttpServlet {
 
 		}
 
+	}
+
+	private void Trazabilidad(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("Trazabilidad");
+		String  idht=request.getParameter("numero");
+	//	HttpSession sesion = request.getSession();
+	//	ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+	//	Unidad uni = (Unidad) SesionUsuario.get(3);
+		String tabla=LogicaGrillaBandeja.getInstance().Trazabilidad(Integer.parseInt(idht));
+		HtmlUtil.getInstance().escritura(response, tabla);
+		
 	}
 
 	private void BandejaUsuarioArchivadorDigitalizado(HttpServletRequest request, HttpServletResponse response) {

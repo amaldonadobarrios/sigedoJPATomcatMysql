@@ -6,6 +6,7 @@ import java.util.List;
 
 import entity.lista.Bandeja;
 import entity.lista.BandejaArchivador;
+import entity.lista.Trazabilidad;
 import logica.LogicaBandeja;
 
 public class LogicaGrillaBandeja {
@@ -34,6 +35,7 @@ public class LogicaGrillaBandeja {
     private String INI_TABLA9 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable9\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
     private String INI_TABLA10 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable10\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
     private String INI_TABLA11 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable11\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
+    private String INI_TABLA12 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable12\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
     private String INI_THEAD = "<thead>";
     private String INI_TR = "<tr>";
     private String INI_TRBody = "<tr>";
@@ -776,6 +778,86 @@ public class LogicaGrillaBandeja {
 					str.append(INI_TD);	str.append( fila.getObservaciones());			str.append(FIN_TD);
 				}
 				str.append(FINI_TR);	
+			}
+			
+			
+		}
+		str.append(FIN_TBODY);
+		str.append(FIN_TABLA);
+		str.append("</div>");
+		return str.toString()+"||"+i;
+	}
+
+	public String Trazabilidad(int id_ht) {
+		DateFormat df = new SimpleDateFormat("dd/mm/yyyy hh:mm:ss a");
+		DateFormat df2 = new SimpleDateFormat("dd/MM/yyyy");
+		List<Trazabilidad> lista=null;
+		lista=LogicaBandeja.getInstance().ListarTrazabilidad(id_ht);
+		StringBuilder str = new StringBuilder();
+			str.append("<div id =\"ttrazatalizado\">");
+			str.append(INI_TABLA12);
+		StringBuilder cabecera = new StringBuilder();
+		cabecera.append(INI_THEAD);
+		cabecera.append(INI_TR);
+		cabecera.append(INI_TH);	cabecera.append("N°");	cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Fecha de Registro");	cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Origen");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Oficina Registra");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Usuario Registra");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Motivo");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Documento");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Fecha Documento");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Destino");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Oficina Destino");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Usuario Destino");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Observaciones");			cabecera.append(FINI_TH);
+		cabecera.append(INI_TH);	cabecera.append("Fichero");			cabecera.append(FINI_TH);
+		cabecera.append(FINI_TR);
+		cabecera.append(FIN_THEAD);
+		 int i=0;
+		str.append(cabecera.toString());
+		str.append(INI_TBODY);
+		if(  lista!=null && lista.size()>0 )
+		{
+                   
+			for(Trazabilidad fila : lista  )
+			{
+				i++;
+				str.append(INI_TRBody);
+				str.append(INI_TD);	str.append( i );			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( df2.format(fila.getFecha_reg()));				str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getUni_reg().toUpperCase());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getOfi_reg().toUpperCase());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getUsu_reg().toUpperCase());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getDesc_movimiento().toUpperCase());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getDocumento().toUpperCase());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( df2.format(fila.getFechadoc()));				str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getUni_des().toUpperCase());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getOfi_des().toUpperCase());			str.append(FIN_TD);
+				str.append(INI_TD);	str.append( fila.getUsu_des().toUpperCase());			str.append(FIN_TD);
+				if (fila.getObs_archivo()=="INTERNO") {
+					str.append(INI_TD);	str.append( fila.getObs_movimiento().toUpperCase());			str.append(FIN_TD);	
+				} else {
+					str.append(INI_TD);	str.append( fila.getObs_archivo().toUpperCase());			str.append(FIN_TD);
+				}
+				if (fila.getId_fichero_archivo()>0) {
+					str.append(INI_TD);	str.append("<img\r\n" + 
+							"					alt=\"Brand\" class=\"img\"\r\n" + 
+							"					src=\"images/pdf.jpg\" width=\"25\"\r\n" + 
+							"					height=\"20\" onclick=\"fnVerPDF('"+fila.getId_fichero_archivo()+"')\">");		str.append(FIN_TD);	
+				} else {
+					if (fila.getId_est_mov_ht()==4 ||fila.getId_est_mov_ht()==5 || fila.getId_est_mov_ht()==6) {
+						str.append(INI_TD);	str.append("<img\r\n" + 
+								"					alt=\"Brand\" class=\"img\"\r\n" + 
+								"					src=\"images/doc.png\" width=\"25\"\r\n" + 
+								"					height=\"20\" onclick=\"downloadfile('"+fila.getId_fichero()+"')\">");		str.append(FIN_TD);	
+					}else {
+					str.append(INI_TD);	str.append("<img\r\n" + 
+							"					alt=\"Brand\" class=\"img\"\r\n" + 
+							"					src=\"images/pdf.jpg\" width=\"25\"\r\n" + 
+							"					height=\"20\" onclick=\"fnVerPDF('"+fila.getId_fichero()+"')\">");		str.append(FIN_TD);			
+					}
+				}
 			}
 			
 			

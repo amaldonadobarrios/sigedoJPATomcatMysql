@@ -10,13 +10,7 @@ SHOW VARIABLES LIKE 'max_allowed_packet';
 
 
 SELECT mov.id_movimiento_ht,
-mov.id_unidad_destino, 
-mov.id_oficina_destino, 
-mov.id_usuario_destino, 
 mov.fecha_registro, 
-mov.id_usuario_registro,
-mov.id_unidad_registro, 
-mov.id_oficina_registro, 
 mov.id_hoja_tramite, 
 mov.id_documento, 
 mov.id_estado_movimiento_ht, 
@@ -25,20 +19,29 @@ emov.descripcion ,
 doc.asunto,
 concat(tdoc.descripcion,' N°',doc.numero,' ',doc.siglas) as documento ,
 uniorigen.descripcion as  Origen,
+ofireg.descripcion as oficinaOrigen,
+IFNULL(ofides.descripcion,"INTERNO") as oficinaDestino,
 unidestino.descripcion as Destino,
 eht.descripcion as estadoht,
 concat(perreg.grado,' ', perreg.ape_pat,' ', perreg.ape_mat,' ', perreg.nombres) as usu_registra ,
-IFNULL(concat(perdes.grado,' ', perdes.ape_pat,' ', perdes.ape_mat,' ', perdes.nombres), "NO REGISTRA") AS usu_destino
+IFNULL(concat(perdes.grado,' ', perdes.ape_pat,' ', perdes.ape_mat,' ', perdes.nombres), "INTERNO") AS usu_destino,
+doc.id_fichero_doc,
+IF(arc.estado='1',"DIGITALIZADO","ORIGINAL") as estadoarchivo,
+IFNULL(arc.id_fichero_archivo,"INTERNO") AS id_fichero_archivo,
+IFNULL(arc.observaciones ,"INTERNO")as obsarchivo
 FROM dbsigedo.movimiento_ht mov
 inner join estado_movimiento_ht emov on emov.id_estado_movimiento_ht=mov.id_estado_movimiento_ht
 join documento doc on doc.id_documento=mov.id_documento
 join tipo_doc tdoc on tdoc.id_tipo_doc=doc.id_tipo_doc
 join unidad uniorigen on uniorigen.id_unidad=mov.id_unidad_registro
 join unidad unidestino on unidestino.id_unidad=mov.id_unidad_destino
+join oficina ofireg on ofireg.id_oficina=mov.id_oficina_registro
+left join oficina ofides on ofides.id_oficina=mov.id_oficina_destino                                                                                                                                                                                
 join hoja_tramite ht on ht.id_hoja_tramite = mov.id_hoja_tramite
 join estado_ht eht on eht.id_estado_ht = ht.id_estado_ht
 join usuario usureg on usureg.id_usuario=mov.id_usuario_registro
 join persona perreg on perreg.id_persona=usureg.id_persona
 left join usuario usudes on usudes.id_usuario=mov.id_usuario_destino
 left join persona perdes on perdes.id_persona=usudes.id_persona
+left join archivo arc on arc.id_movimiento=mov.id_movimiento_ht
 where mov.id_hoja_tramite='1' order by 1 asc

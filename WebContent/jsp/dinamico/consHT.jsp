@@ -19,7 +19,7 @@
                 <!--</div>-->
                 <div class="form-group">
                     <div class="col-md-12 text-center">
-                        <button class="btn btn-success" type="submit" name="submit" id="submit"><span class='glyphicon glyphicon-search' aria-hidden='true'></span> Consultar</button>
+                        <button class="btn btn-success" type="button" name="submit" id="btn" onclick="fn_consultar();"><span class='glyphicon glyphicon-search' aria-hidden='true'></span> Consultar</button>
                     </div>
                 </div>
             </fieldset>
@@ -37,63 +37,7 @@
           <i class="fa fa-table"></i> Data Table Example</div>
         <div class="card-body">
           <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Position</th>
-                  <th>Office</th>
-                  <th>Age</th>
-                  <th>Start date</th>
-                  <th>Salary</th>
-                  <th>Salary</th>
-                  <th>Salary</th>
-                </tr>
-              </thead>
-              <tfoot>
-                <tr>
-                  <th>Name</th>
-                  <th>Position</th>
-                  <th>Office</th>
-                  <th>Age</th>
-                  <th>Start date</th>
-                  <th>asasas</th>
-                    <th>dsdsdsd</th>
-                  <th>ererer</th>
-                </tr>
-              </tfoot>
-              <tbody>
-                <tr>
-                  <td>Tiger Nixon</td>
-                  <td>System Architect</td>
-                  <td>Edinburgh</td>
-                  <td>61</td>
-                  <td>2011/04/25</td>
-                  <td>$320,800</td>
-                    <th>2323</th>
-                  <th>232323y</th>
-                </tr>
-                <tr>
-                  <td>Garrett Winters</td>
-                  <td>Accountant</td>
-                  <td>Tokyo</td>
-                  <td>63</td>
-                  <td>2011/07/25</td>
-                  <td>$170,750</td>
-                  <td>$86,000</td>
-                  <td>$86,000</td>
-                </tr>
-                <tr>
-                  <td>Ashton Cox</td>
-                  <td>Junior Technical Author</td>
-                  <td>San Francisco</td>
-                  <td>66</td>
-                  <td>2009/01/12</td>
-                  <td>$86,000</td>
-                  <td>$86,000</td>
-                  <td>$86,000</td>
-                </tr>
-              </tbody>
+            <table class="table table-bordered" id="ttrazabilidad" width="100%" cellspacing="0"> 
             </table>
           </div>
         </div>
@@ -104,6 +48,31 @@
         </form>
     </div> 
 </ol>
+<script>
+function fn_consultar(){
+	var numero = document.getElementById("numero").value;
+	if (numero!='') {
+		
+			var contexto = document.getElementById("contexto").value;
+			var vservlet = contexto + '/ServBandejaAJAX';
+			var txtevento = "TRAZABILIDAD";
+			var jqdata = {
+				hdEvento : txtevento,
+				numero: numero
+			};
+
+			fnEjecutarPeticion(vservlet, jqdata, txtevento);
+		
+		
+		
+	}else{
+		danger("Error, Debe ingresar un número de Hoja de Trámite");
+	}
+	
+}
+
+
+</script>
 <style>
 fieldset {
 	font-family: sans-serif;

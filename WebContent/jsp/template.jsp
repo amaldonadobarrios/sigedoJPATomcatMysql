@@ -426,6 +426,23 @@
 						danger('Error, No se digitalizó Hoja de trámite!');
 					}
 				}
+				if (vevento == 'TRAZABILIDAD') {
+					alert(v_resultado);
+						var respuesta = v_resultado.split('||');
+						var tabla = respuesta[0];
+						var numero = respuesta[1];
+						if (numero=='0') {
+							danger('Error, No se encontró la Hoja de trámite!');	
+						}else{
+							//$('#lblarchivodigitalizado').html(numero);
+							$('#ttrazabilidad').html(tabla);
+							$('#dataTable12').DataTable();	
+						}
+						
+					
+						
+					
+				}
 
 			}
 		}

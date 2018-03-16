@@ -14,6 +14,7 @@ import dao.BandejaDAO;
 import entity.CentroTrabajo;
 import entity.lista.Bandeja;
 import entity.lista.BandejaArchivador;
+import entity.lista.Trazabilidad;
 
 public class BandejaDAOImpl implements BandejaDAO {
 
@@ -440,6 +441,99 @@ public class BandejaDAOImpl implements BandejaDAO {
 			temp.setDocumento(rs.getString(14));
 			temp.setPalabras(rs.getString(15));
 			temp.setObservacionesDigitalizacion(rs.getString(16));
+			lista.add(temp);
+					}
+				}
+
+			} catch (SQLException e) {
+				System.out.println("Excepcion en query obtenercodigo de unidad: " + e.toString());
+			} finally {
+				em.getTransaction().commit();
+				em.close();
+				emf.close();
+			}
+		}
+		return lista;
+	}
+
+	@Override
+	public List<Trazabilidad> listaTrazabilidad(int id_ht) {
+		Trazabilidad temp = null;
+		List<Trazabilidad> lista = null;
+		PreparedStatement ps =null;
+		String query="SELECT mov.id_movimiento_ht,\r\n" + 
+				"mov.fecha_registro, \r\n" + 
+				"mov.id_hoja_tramite, \r\n" + 
+				"mov.id_documento, \r\n" + 
+				"mov.id_estado_movimiento_ht, \r\n" + 
+				"mov.observaciones as obs_movimiento,\r\n" + 
+				"emov.descripcion as desc_movimiento,\r\n" + 
+				"doc.asunto,\r\n" + 
+				"concat(tdoc.descripcion,' N°',doc.numero,' ',doc.siglas) as documento ,\r\n" + 
+				"uniorigen.descripcion as  uni_reg,\r\n" + 
+				"ofireg.descripcion as ofi_reg,\r\n" + 
+				"IFNULL(ofides.descripcion,\"INTERNO\") as oficinaDestino,\r\n" + 
+				"unidestino.descripcion as Destino,\r\n" + 
+				"eht.descripcion as estadoht,\r\n" + 
+				"concat(perreg.grado,' ', perreg.ape_pat,' ', perreg.ape_mat,' ', perreg.nombres) as usu_registra ,\r\n" + 
+				"IFNULL(concat(perdes.grado,' ', perdes.ape_pat,' ', perdes.ape_mat,' ', perdes.nombres), \"INTERNO\") AS usu_destino,\r\n" + 
+				"doc.id_fichero_doc,\r\n" + 
+				"IF(arc.estado='1',\"DIGITALIZADO\",\"ORIGINAL\") as estadoarchivo,\r\n" + 
+				"arc.id_fichero_archivo  AS id_fichero_archivo,\r\n" + 
+				"IFNULL(arc.observaciones ,\"INTERNO\")as obsarchivo,\r\n" + 
+				"doc.fecha_doc\r\n" + 
+				"FROM dbsigedo.movimiento_ht mov\r\n" + 
+				"inner join estado_movimiento_ht emov on emov.id_estado_movimiento_ht=mov.id_estado_movimiento_ht\r\n" + 
+				"join documento doc on doc.id_documento=mov.id_documento\r\n" + 
+				"join tipo_doc tdoc on tdoc.id_tipo_doc=doc.id_tipo_doc\r\n" + 
+				"join unidad uniorigen on uniorigen.id_unidad=mov.id_unidad_registro\r\n" + 
+				"join unidad unidestino on unidestino.id_unidad=mov.id_unidad_destino\r\n" + 
+				"join oficina ofireg on ofireg.id_oficina=mov.id_oficina_registro\r\n" + 
+				"left join oficina ofides on ofides.id_oficina=mov.id_oficina_destino                                                                                                                                                                                \r\n" + 
+				"join hoja_tramite ht on ht.id_hoja_tramite = mov.id_hoja_tramite\r\n" + 
+				"join estado_ht eht on eht.id_estado_ht = ht.id_estado_ht\r\n" + 
+				"join usuario usureg on usureg.id_usuario=mov.id_usuario_registro\r\n" + 
+				"join persona perreg on perreg.id_persona=usureg.id_persona\r\n" + 
+				"left join usuario usudes on usudes.id_usuario=mov.id_usuario_destino\r\n" + 
+				"left join persona perdes on perdes.id_persona=usudes.id_persona\r\n" + 
+				"left join archivo arc on arc.id_movimiento=mov.id_movimiento_ht\r\n" + 
+				"where mov.id_hoja_tramite=? order by 1 asc";
+		
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		java.sql.Connection cn = em.unwrap(java.sql.Connection.class);
+		if (cn != null) {
+			try {
+				ps = cn.prepareStatement(query);
+				ps.setInt(1, id_ht);
+				ResultSet rs = ps.executeQuery();
+				if (rs.next()) {
+					lista = new ArrayList<Trazabilidad>();
+					rs.beforeFirst();
+					while (rs.next()) {
+						temp = new Trazabilidad();
+			temp.setId_mov_ht(rs.getInt(1));
+			temp.setFecha_reg(rs.getDate(2));
+			temp.setId_ht(rs.getInt(3));
+			temp.setId_doc(rs.getInt(4));
+			temp.setId_est_mov_ht(rs.getInt(5));
+			temp.setObs_movimiento(rs.getString(6));
+			temp.setDesc_movimiento(rs.getString(7));
+			temp.setAsunto_doc(rs.getString(8));
+			temp.setDocumento(rs.getString(9));
+			temp.setUni_reg(rs.getString(10));
+			temp.setOfi_reg(rs.getString(11));
+			temp.setOfi_des(rs.getString(12));
+			temp.setUni_des(rs.getString(13));
+			temp.setEstadoht(rs.getString(14));
+			temp.setUsu_reg(rs.getString(15));
+			temp.setUsu_des(rs.getString(16));
+			temp.setId_fichero(rs.getInt(17));
+			temp.setEstado_archivo(rs.getString(18));
+			temp.setId_fichero_archivo(rs.getInt(19));
+			temp.setObs_archivo(rs.getString(20));
+			temp.setFechadoc(rs.getDate(21));
 			lista.add(temp);
 					}
 				}
