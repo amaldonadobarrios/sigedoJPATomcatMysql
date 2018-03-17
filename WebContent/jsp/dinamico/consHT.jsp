@@ -1,10 +1,10 @@
-<%-- 
-    Document   : consHT
-    Created on : 27/12/2017, 06:31:24 PM
-    Author     : 31424836
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="javax.servlet.http.HttpSession"%>
+<%@page import="javax.servlet.http.HttpServletRequest"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<jsp:useBean id="now" class="java.util.Date" scope="request" />
 <ol class="breadcrumb">
 <div class="col-lg-12" align="center">
         <form class="form-horizontal" name="form-registro" id="form-registro" role="form" method="post">                                           
@@ -13,7 +13,7 @@
                 <div class="form-group">
                     <label for="tipo_documento" class="col-md-6 control-label">Hoja de Trámite [HT]:</label>
                      <div class="col-md-4">                                                                                   
-                        <input type="text" class="form-control" maxlength="14" id="numero" name="numero" placeholder="Número de HT" onkeypress="return solo_numeros(event)" autocomplete="false">
+                        <input type="text" class="form-control" maxlength="9" id="numero" name="numero" placeholder="Número de HT" onkeypress="return solo_numeros(event)" autocomplete="false">
                     </div>
                 </div>
                 <!--</div>-->
@@ -34,14 +34,22 @@
                 <legend class="scheduler-border" align="center">Detalle</legend>                                   
                 <div class="card mb-3">
         <div class="card-header">
-          <i class="fa fa-table"></i> Data Table Example</div>
+          <i class="fa fa-table"></i> Trazabilidad</div>
         <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-bordered" id="ttrazabilidad" width="100%" cellspacing="0"> 
-            </table>
-          </div>
+				<div class="card mb-3">
+					<div class="card-body">
+						<div class="table-responsive">
+							<div id="ttrazabilidad"></div>
+						</div>
+					</div>
+					<div class="card-footer small text-muted">
+						Actualizado al
+						<fmt:formatDate type="both" dateStyle="short" timeStyle="short"
+							value="${now}" />
+					</div>
+			</div>
         </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+       
       </div>
             </fieldset>
             

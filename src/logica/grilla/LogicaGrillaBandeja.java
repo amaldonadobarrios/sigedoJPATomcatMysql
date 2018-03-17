@@ -794,7 +794,7 @@ public class LogicaGrillaBandeja {
 		List<Trazabilidad> lista=null;
 		lista=LogicaBandeja.getInstance().ListarTrazabilidad(id_ht);
 		StringBuilder str = new StringBuilder();
-			str.append("<div id =\"ttrazatalizado\">");
+			str.append("<div id =\"ttrazabilidad\">");
 			str.append(INI_TABLA12);
 		StringBuilder cabecera = new StringBuilder();
 		cabecera.append(INI_THEAD);
@@ -835,11 +835,7 @@ public class LogicaGrillaBandeja {
 				str.append(INI_TD);	str.append( fila.getUni_des().toUpperCase());			str.append(FIN_TD);
 				str.append(INI_TD);	str.append( fila.getOfi_des().toUpperCase());			str.append(FIN_TD);
 				str.append(INI_TD);	str.append( fila.getUsu_des().toUpperCase());			str.append(FIN_TD);
-				if (fila.getObs_archivo()=="INTERNO") {
-					str.append(INI_TD);	str.append( fila.getObs_movimiento().toUpperCase());			str.append(FIN_TD);	
-				} else {
-					str.append(INI_TD);	str.append( fila.getObs_archivo().toUpperCase());			str.append(FIN_TD);
-				}
+				str.append(INI_TD);	str.append( fila.getObs_movimiento().toUpperCase());			str.append(FIN_TD);	
 				if (fila.getId_fichero_archivo()>0) {
 					str.append(INI_TD);	str.append("<img\r\n" + 
 							"					alt=\"Brand\" class=\"img\"\r\n" + 
@@ -852,6 +848,7 @@ public class LogicaGrillaBandeja {
 								"					src=\"images/doc.png\" width=\"25\"\r\n" + 
 								"					height=\"20\" onclick=\"downloadfile('"+fila.getId_fichero()+"')\">");		str.append(FIN_TD);	
 					}else {
+						
 					str.append(INI_TD);	str.append("<img\r\n" + 
 							"					alt=\"Brand\" class=\"img\"\r\n" + 
 							"					src=\"images/pdf.jpg\" width=\"25\"\r\n" + 
@@ -859,8 +856,6 @@ public class LogicaGrillaBandeja {
 					}
 				}
 			}
-			
-			
 		}
 		str.append(FIN_TBODY);
 		str.append(FIN_TABLA);

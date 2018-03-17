@@ -427,12 +427,14 @@
 					}
 				}
 				if (vevento == 'TRAZABILIDAD') {
-					alert(v_resultado);
+					//alert(v_resultado);
 						var respuesta = v_resultado.split('||');
 						var tabla = respuesta[0];
 						var numero = respuesta[1];
-						if (numero=='0') {
-							danger('Error, No se encontró la Hoja de trámite!');	
+						if (numero=='0') {	
+							$('#ttrazabilidad').html('');
+							$('#dataTable12').DataTable();	
+							danger('Error, No se encontró la Hoja de trámite!');
 						}else{
 							//$('#lblarchivodigitalizado').html(numero);
 							$('#ttrazabilidad').html(tabla);

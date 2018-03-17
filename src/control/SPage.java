@@ -62,6 +62,9 @@ public class SPage extends HttpServlet {
 					case "searchHT":
 						this.pagesearchHT(request, response);
 						break;
+					case "searchARCH":
+						this.pagesearchARCH(request, response);
+						break;
 					case "BandejaMP":
 						this.pageBandejaMP(request, response);
 						break;
@@ -120,6 +123,13 @@ public class SPage extends HttpServlet {
 			System.out.println("DESTINO:" + "index.jsp");
 			forwar("index.jsp", request, response);
 		}
+	}
+
+	private void pagesearchARCH(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("breadcrumb", "Consultar Archivo");
+		request.setAttribute("body", "consARCH");
+		forwar("jsp/template.jsp", request, response);
+		
 	}
 
 	private void EnvdocMP(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
