@@ -4,6 +4,7 @@ import java.util.List;
 
 import entity.lista.Bandeja;
 import entity.lista.BandejaArchivador;
+import entity.lista.ConsArchivo;
 import entity.lista.Trazabilidad;
 
 public interface BandejaService {
@@ -13,4 +14,5 @@ public interface BandejaService {
 	public List<Bandeja> listaBandejaContestados(int estadoBandeja, int id_unidad_Registro);
 	public List<BandejaArchivador> listaBandejaArchivador(int id_unidad, int estado_archivo);
 	public List<Trazabilidad> listaTrazabilidad(int id_ht);
+	public List<ConsArchivo>listaArchivos(int unidad , String palabra);
 }

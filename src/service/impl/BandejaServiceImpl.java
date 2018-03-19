@@ -6,6 +6,7 @@ import dao.BandejaDAO;
 import dao.impl.BandejaDAOImpl;
 import entity.lista.Bandeja;
 import entity.lista.BandejaArchivador;
+import entity.lista.ConsArchivo;
 import entity.lista.Trazabilidad;
 import service.BandejaService;
 
@@ -40,6 +41,11 @@ BandejaDAO dao=new BandejaDAOImpl();
 	public List<Trazabilidad> listaTrazabilidad(int id_ht) {
 		// TODO Auto-generated method stub
 		return dao.listaTrazabilidad(id_ht);
+	}
+	@Override
+	public List<ConsArchivo> listaArchivos(int unidad, String palabra) {
+		// TODO Auto-generated method stub
+		return dao.listaArchivos(unidad, palabra);
 	}
 
 }

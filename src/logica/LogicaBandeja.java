@@ -4,6 +4,7 @@ import java.util.List;
 
 import entity.lista.Bandeja;
 import entity.lista.BandejaArchivador;
+import entity.lista.ConsArchivo;
 import entity.lista.Trazabilidad;
 import service.BandejaService;
 import service.impl.BandejaServiceImpl;
@@ -57,6 +58,12 @@ public class LogicaBandeja {
 		BandejaService serv = new BandejaServiceImpl();
 		List<Trazabilidad> bandeja = null;
 		bandeja = serv.listaTrazabilidad(id_ht);
+		return bandeja;
+	}
+	public List<ConsArchivo> ListarArchivos(int id_unidad, String palabra) {
+		BandejaService serv = new BandejaServiceImpl();
+		List<ConsArchivo> bandeja = null;
+		bandeja = serv.listaArchivos(id_unidad, palabra);
 		return bandeja;
 	}
 }

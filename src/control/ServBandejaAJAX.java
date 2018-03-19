@@ -116,6 +116,10 @@ public class ServBandejaAJAX extends HttpServlet {
 							System.out.println("hdEvento :  TRAZABILIDAD");
 							Trazabilidad(request, response);
 							break;
+						case "BUSCAR_ARCHIVO":
+							System.out.println("hdEvento :  BUSCAR_ARCHIVO");
+							BuscarArchivo(request, response);
+							break;
 						case "VER_PDF":
 							System.out.println("hdEvento :  VER_PDF");
 							VerPdf(request, response);
@@ -182,12 +186,14 @@ public class ServBandejaAJAX extends HttpServlet {
 
 	}
 
+	private void BuscarArchivo(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("BuscarArchivo");
+		
+	}
+
 	private void Trazabilidad(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("Trazabilidad");
 		String  idht=request.getParameter("numero");
-	//	HttpSession sesion = request.getSession();
-	//	ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
-	//	Unidad uni = (Unidad) SesionUsuario.get(3);
 		String tabla=LogicaGrillaBandeja.getInstance().Trazabilidad(Integer.parseInt(idht));
 		HtmlUtil.getInstance().escritura(response, tabla);
 		
@@ -286,7 +292,7 @@ public class ServBandejaAJAX extends HttpServlet {
 		doc.setIdFicheroDoc(Integer.parseInt(id_fichero));
 		doc.setIdPrioridadDoc(Integer.parseInt(cbxprioridad));
 		doc.setIdTipoDoc(Integer.parseInt(cbxdocumentoContestar));
-		doc.setAsunto(DirTexto.getInstance().cambiarFormatoUTF8(txtasuntoContestar).toUpperCase());
+		doc.setAsunto(txtasuntoContestar.toUpperCase());
 		doc.setSiglas(DirTexto.getInstance().cambiarFormatoUTF8(txtsiglas).toUpperCase());
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		try {
