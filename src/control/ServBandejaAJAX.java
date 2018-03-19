@@ -188,7 +188,12 @@ public class ServBandejaAJAX extends HttpServlet {
 
 	private void BuscarArchivo(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("BuscarArchivo");
-		
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		String palabra=request.getParameter("palabra");
+		String tabla=LogicaGrillaBandeja.getInstance().BuscarArchivo(uni.getIdUnidad(), palabra);
+		HtmlUtil.getInstance().escritura(response, tabla);
 	}
 
 	private void Trazabilidad(HttpServletRequest request, HttpServletResponse response) {

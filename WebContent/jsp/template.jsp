@@ -440,12 +440,24 @@
 							//$('#lblarchivodigitalizado').html(numero);
 							$('#ttrazabilidad').html(tabla);
 							$('#dataTable12').DataTable();	
-						}
-						
-					
-						
-					
+						}	
 				}
+				if (vevento == 'BUSCAR_ARCHIVO') {
+					//alert(v_resultado);
+						var respuesta = v_resultado.split('||');
+						var tabla = respuesta[0];
+						var numero = respuesta[1];
+						if (numero=='0') {	
+							$('#tconsarchivo').html('');
+							$('#dataTable13').DataTable();	
+							danger('Error, No se encontró Documento ');
+						}else{
+							//$('#lblarchivodigitalizado').html(numero);
+							$('#tconsarchivo').html(tabla);
+							$('#dataTable13').DataTable();	
+						}	
+				}
+				
 
 			}
 		}
