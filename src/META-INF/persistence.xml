@@ -24,7 +24,7 @@
 		<properties>
 			<property name="eclipselink.jdbc.batch-writing" value="JDBC"/>
 			<property name="javax.persistence.jdbc.user" value="root"/>
-			<property name="javax.persistence.jdbc.password" value=""/>
+			<property name="javax.persistence.jdbc.password" value="mauricio"/>
 			<property name="javax.persistence.dbc.driver" value="com.mysql.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/dbsigedo?useUnicode=true&amp;characterEncoding=UTF-8&amp;max_allowed_packet=1073741824;jdbcCompliantTruncation=false;sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION';jdbcCompliantTruncation=false"/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>

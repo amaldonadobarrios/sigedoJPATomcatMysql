@@ -27,6 +27,7 @@ import entity.Usuario;
 import entity.lista.Administrativo;
 import logica.LogicaCentroTrabajo;
 import logica.LogicaCombos;
+import logica.LogicaGrafico;
 import logica.LogicaOficina;
 import logica.LogicaPersona;
 import logica.LogicaUsuario;
@@ -79,6 +80,10 @@ public class ServAdministracionAJAX extends HttpServlet {
 							System.out.println("hdEvento :  COMBOS_CONTESTAR");
 							CombosContestar(request, response);
 							break;
+						case "VER_GRAFICOS":
+							System.out.println("hdEvento :  VER_GRAFICOS");
+							verGraficos(request, response);
+							break;
 						default:
 							break;
 						}
@@ -108,6 +113,14 @@ public class ServAdministracionAJAX extends HttpServlet {
 	
 	
 	
+	private void verGraficos(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		HtmlUtil.getInstance().escrituraHTML(response, LogicaGrafico.getInstance().GenerarGraficos(uni.getIdUnidad()));	
+		
+	}
+
 	private void CombosContestar(HttpServletRequest request, HttpServletResponse response) {
 		String Array=null;
 		JsonArray arrayTipoDoc = null;

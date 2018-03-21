@@ -107,6 +107,9 @@
 			<script src="js/bootstrap-notify.min.js"></script>
 			<script src="js/chosen.jquery.min.js"></script>
 			<script src="js/dirtexto.js"></script>
+			<script src="js/loader.js"></script>
+			<script src="js/highcharts.js"></script>
+			<script src="js/exporting.js"></script>
 
 
 
@@ -457,13 +460,28 @@
 							$('#dataTable13').DataTable();	
 						}	
 				}
+				if (vevento == 'VER_GRAFICOS') {
+					alert(v_resultado);
+						var respuesta = v_resultado.split('||');
+						var graf1 = respuesta[0];
+						var graf2 = respuesta[1];
+						var graf3 = respuesta[2];
+						var graf4 = respuesta[3];
+						graficoHigchar('titulo',graf1);
+						graficoHigchar2('titulo',graf2);
+						graficoHigchar3('titulo',graf3);
+						graficoHigchar4('titulo',graf4);
+							//$('#tconsarchivo').html(tabla);
+							//$('#dataTable13').DataTable();	
+							
+				}
 				
 
 			}
 		}
 	}
 </script>
-
+  
 <script>
 	function alerta(msg) {
 		var texto = msg;
