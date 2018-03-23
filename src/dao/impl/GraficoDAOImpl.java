@@ -15,7 +15,7 @@ public class GraficoDAOImpl implements GraficoDAO {
 	@Override
 	public String totArchivosAnio(int id_unidad) {
 		JsonArray jason = null;
-		String query = "select DATE_FORMAT(fecha_reg,'%Y') AS año, count(id_archivo) from archivo where id_unidad=?  GROUP BY YEAR(fecha_reg) asc";
+		String query = "select DATE_FORMAT(fecha_reg,'%Y') AS año, count(id_archivo) from archivo where id_unidad=? and estado='1' GROUP BY YEAR(fecha_reg) asc";
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
@@ -50,7 +50,7 @@ public class GraficoDAOImpl implements GraficoDAO {
 	@Override
 	public String totArchivosMesAnioActual(int id_unidad) {
 		JsonArray jason = null;
-		String query = "select DATE_FORMAT(fecha_reg,'%b') AS mes, count(id_archivo) from archivo where DATE_FORMAT(fecha_reg,'%Y')=DATE_FORMAT(sysdate(),'%Y') and id_unidad=?  GROUP BY MONTH(fecha_reg) asc";
+		String query = "select DATE_FORMAT(fecha_reg,'%b') AS mes, count(id_archivo) from archivo where DATE_FORMAT(fecha_reg,'%Y')=DATE_FORMAT(sysdate(),'%Y') and id_unidad=?  and estado='1'  GROUP BY MONTH(fecha_reg) asc";
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();

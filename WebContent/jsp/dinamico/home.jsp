@@ -251,7 +251,7 @@ Highcharts.chart('graf4', {
         type: 'column'
     },
     title: {
-        text: 'Documentos archivados por meses en el presente año'
+        text: 'Documentos digitalizados por meses en el presente año'
     },
     subtitle: {
         text: 'Archivo'

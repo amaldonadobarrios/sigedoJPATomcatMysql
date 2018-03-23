@@ -461,7 +461,7 @@
 						}	
 				}
 				if (vevento == 'VER_GRAFICOS') {
-					alert(v_resultado);
+					//alert(v_resultado);
 						var respuesta = v_resultado.split('||');
 						var graf1 = respuesta[0];
 						var graf2 = respuesta[1];
