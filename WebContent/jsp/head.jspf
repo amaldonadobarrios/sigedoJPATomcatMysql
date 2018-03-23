@@ -12,6 +12,7 @@
 	</button>
 	<div class="collapse navbar-collapse" id="navbarResponsive">
 		<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+			<c:if test="${sessionScope.usuario[5].idPerfil==2}">
 			<li class="nav-item" data-toggle="tooltip" data-placement="right"
 				title="Bandeja Principal de la Unidad"><a class="nav-link"
 				href="SPage?action=BandejaMP"> <i class="fa fa-fw fa-book"></i>
@@ -27,31 +28,34 @@
 				href="SPage?action=EnvdocMP"> <i class="fa fa-fw fa-pencil"></i>
 					<span class="nav-link-text">Enviar Documento </span><i class="fa fa-arrow-circle-o-right"></i> 
 			</a></li>
+			</c:if>
+			<c:if test="${sessionScope.usuario[5].idPerfil==5}">
 			<li class="nav-item" data-toggle="tooltip" data-placement="right"
 				title="Bandeja de Jefe"><a class="nav-link"
 				href="SPage?action=BandJefe"> <i class="fa fa-fw fa-book"></i> <span
 					class="nav-link-text">Bandeja de Jefe</span>
 			</a></li>
+			</c:if>
+			<c:if test="${sessionScope.usuario[5].idPerfil==4}">
 			<li class="nav-item" data-toggle="tooltip" data-placement="right"
 				title="Bandeja de Archivador"><a class="nav-link"
 				href="SPage?action=BandArchiv"> <i class="fa fa-fw fa-book"></i>
 					<span class="nav-link-text">Bandeja de Archivador</span>
 			</a></li>
+			
 			<li class="nav-item" data-toggle="tooltip" data-placement="right"
 				title="Consultar Archivo"><a class="nav-link"
 				href="SPage?action=searchARCH"> <i class="fa fa-fw fa-search"></i>
 					<span class="nav-link-text">Consultar Archivo</span>
 			</a></li>
-			<li class="nav-item" data-toggle="tooltip" data-placement="right"
-				title="Consultar Archivo"><a class="nav-link"
-				href="SPage?action=searchHT"> <i class="fa fa-fw fa-wrench"></i>
-					<span class="nav-link-text">Administrar Archivador</span>
-			</a></li>
+			</c:if>
+			<c:if test="${sessionScope.usuario[5].idPerfil==3}">
 			<li class="nav-item" data-toggle="tooltip" data-placement="right"
 				title="Bandeja de Archivador"><a class="nav-link"
 				href="SPage?action=BandAdministrativo"> <i class="fa fa-fw fa-book"></i>
 					<span class="nav-link-text">Bandeja de Administrativo</span>
 			</a></li>
+			</c:if>
 			<li class="nav-item" data-toggle="tooltip" data-placement="right"
 				title="Consultar Hoja de Trámite"><a class="nav-link"
 				href="SPage?action=searchHT"> <i class="fa fa-fw fa-search"></i>

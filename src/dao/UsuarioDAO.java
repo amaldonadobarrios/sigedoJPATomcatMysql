@@ -10,6 +10,7 @@ import entity.lista.Administrativo;
 public interface UsuarioDAO {
 
 	public Usuario validar(String usu,String pas) throws SQLException;
+	public Usuario validar(int idusu,String pas) throws SQLException;
 	public String img(String cip) throws IOException;
 	public Usuario GrabarUsuario(Usuario usu);
 	public Usuario ModificarUsuario(Usuario usu);

@@ -206,4 +206,26 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		return lista;
 	}
 
+	@Override
+	public Usuario validar(int idusu, String pas) throws SQLException {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		Usuario u = null;
+		u = em.getReference(Usuario.class, idusu);
+		em.getTransaction().commit();
+		em.close();
+		emf.close();
+		if (u!=null) {
+			if (u.getPassword().equals(pas)) {
+				System.out.println("passOK");
+			}else {
+				u=null;
+			}
+		}else {
+			u=null;
+		}
+		return u;
+	}
+
 }

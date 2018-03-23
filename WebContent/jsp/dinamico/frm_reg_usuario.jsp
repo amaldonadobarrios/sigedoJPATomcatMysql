@@ -42,6 +42,10 @@
 			}
 		});
 	}
+	
+	function setusuario(){
+	document.getElementById("txtusu").value = document.getElementById("txtcip").value;
+	}
 </script>
 <c:if test="${msgok!=null}">
 		<div class="alert alert-success">
@@ -67,7 +71,7 @@
 					<label for="lblcip">CIP</label> <input class="form-control"
 						id="txtcip" name="txtcip" type="text"
 						aria-describedby="Ingrese su cip" placeholder="Ingrese su cip"
-						required="required" maxlength="8" onkeypress="return solo_numeros(event)">
+						required="required" maxlength="8" onkeypress="return solo_numeros(event)" onchange="setusuario();">
 				</div>
 				<div class="form-group">
 					<label for="lbldni">DNI</label> <input class="form-control"
@@ -160,7 +164,7 @@
 				<label for="lblnom">Usuario</label> <input class="form-control"
 					id="txtusu" name="txtusu" type="text"
 					aria-describedby="Ingrese sus Usuario"
-					placeholder="Ingrese su Usuario" maxlength="15"  required="required">
+					placeholder="Ingrese su Usuario" maxlength="15"  required="required" disabled>
 			</div>
 			<div class="form-group">
 				<label for="lblpass">Contraseña</label> <input class="form-control"

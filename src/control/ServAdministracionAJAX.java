@@ -1,6 +1,7 @@
 package control;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,9 @@ import logica.LogicaCombos;
 import logica.LogicaGrafico;
 import logica.LogicaOficina;
 import logica.LogicaPersona;
+import logica.LogicaSeguridad;
 import logica.LogicaUsuario;
+import util.BatEncriptador;
 import util.HtmlUtil;
 
 /**
@@ -84,6 +87,24 @@ public class ServAdministracionAJAX extends HttpServlet {
 							System.out.println("hdEvento :  VER_GRAFICOS");
 							verGraficos(request, response);
 							break;
+						case "CAMBIAR_CLAVE":
+							System.out.println("hdEvento :  CAMBIAR_CLAVE");
+							try {
+								cambiarClave(request, response);
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							break;
+						case "CAMBIAR_CLAVEADM":
+							System.out.println("hdEvento :  CAMBIAR_CLAVEADM");
+							try {
+								cambiarClaveADM(request, response);
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							break;
 						default:
 							break;
 						}
@@ -113,6 +134,52 @@ public class ServAdministracionAJAX extends HttpServlet {
 	
 	
 	
+	private void cambiarClaveADM(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+		System.out.println("void cambiarClaveADM");
+		String html = null;
+		boolean resp=false;
+		String act=request.getParameter("act").trim();
+		String id_usuario=request.getParameter("id_usuario").trim();
+		Usuario user= new Usuario();
+		user.setIdUsuario(Integer.parseInt(id_usuario));
+		user.setPassword(BatEncriptador.getInstance().Encripta(act));
+		resp=LogicaUsuario.getInstance().ModificarClave(user);
+		if (resp) {
+		html="1";
+		}else {
+			html="0";	
+		}
+		HtmlUtil.getInstance().escrituraHTML(response, html);
+		
+	}
+
+	private void cambiarClave(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+		System.out.println("void cambiarClave");
+		String html = null;
+		boolean resp=false;
+		String act=request.getParameter("act").trim();
+		String new1=request.getParameter("new1");
+		String new2=request.getParameter("new2");
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Usuario user = (Usuario) SesionUsuario.get(0);
+		boolean est=LogicaSeguridad.getInstance().ValidacionClave(user.getIdUsuario(), act);
+		if (est==true) {
+			if (new1.equals(new2)) {
+				user.setPassword(BatEncriptador.getInstance().Encripta(new1));
+				resp=LogicaUsuario.getInstance().ModificarClave(user);
+				if (resp) {
+					html="1";
+				}
+			}else {
+				html="0";
+			}
+		}else {
+			html="0";
+		}
+		HtmlUtil.getInstance().escrituraHTML(response, html);	
+	}
+
 	private void verGraficos(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession sesion = request.getSession();
 		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");

@@ -475,11 +475,37 @@
 							//$('#dataTable13').DataTable();	
 							
 				}
+				if (vevento == 'CAMBIAR_CLAVE') {
+					//alert(v_resultado);
+						if (v_resultado=='0') {	
+						danger('Error, Clave actual invalida ');
+						}
+						if (v_resultado=='1') {	
+						alerta('Actualizacion de Clave exitosa ');
+						setTimeout("redireccionarPagina()", 5000);
+						}		
+				}
+				if (vevento == 'CAMBIAR_CLAVEADM') {
+					//alert(v_resultado);
+						if (v_resultado=='0') {	
+						danger('Error, No se pudo actualizar clave ');
+						}
+						if (v_resultado=='1') {	
+						alerta('Actualizacion de Clave exitosa ');
+						}
+						
+							
+				}
+				
 				
 
 			}
 		}
 	}
+	function redireccionarPagina() {
+  window.location = "SPage?action=login";
+}
+
 </script>
   
 <script>

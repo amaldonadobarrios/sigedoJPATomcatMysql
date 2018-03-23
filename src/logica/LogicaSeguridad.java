@@ -66,5 +66,16 @@ public class LogicaSeguridad {
 		}
 		return false;
 	}
+	public boolean ValidacionClave(int idusu, String pas) throws SQLException {
+		UsuarioService serv = new UsuarioServiceImpl();
+		Usuario usuario = serv.validar(idusu, BatEncriptador.getInstance().Encripta(pas));
+		boolean est=false;
+		if (usuario != null) {
+			if (usuario.getIdUsuario() > 0) {
+				est=true;
+			}	
+		}
+		return est;
+	}
 
 }

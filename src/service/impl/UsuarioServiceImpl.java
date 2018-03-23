@@ -54,4 +54,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 		return dao.ListarAdministrativoActivos(unidad, oficina);
 	}
 
+	@Override
+	public Usuario validar(int idusu, String pas) throws SQLException {
+		// TODO Auto-generated method stub
+		return dao.validar(idusu, pas);
+	}
+
 }

@@ -275,7 +275,7 @@ function limpiar(){
 				<label for="lblnom">Usuario</label> <input class="form-control"
 					id="txtusu" name="txtusu" type="text"
 					aria-describedby="Ingrese sus Usuario"
-					placeholder="Ingrese su Usuario" maxlength="15" required="required">
+					placeholder="Ingrese su Usuario" maxlength="15" required="required" disabled>
 			</div>
 			<div class="form-group">
 				<label for="lblpass">Contraseña</label> <input class="form-control"
@@ -284,7 +284,7 @@ function limpiar(){
 					placeholder="Ingrese su contraseña" maxlength="8">
 			</div>
 			<input type="button" value="Cambiar Contraseña"
-				class="btn  btn-block  btn-info" onclick="">
+				class="btn  btn-block  btn-info" onclick="fn_modificar()">
 			<div class="form-group">
 				<label for="lblestado">Estado</label> <select
 					class="selectpicker form-control" data-live-search="true"
@@ -302,6 +302,46 @@ function limpiar(){
 
 
 <script>
+
+function fn_modificar(){
+if (validarkey()) {
+if (confirm("Desea Cambiar su contraseña")) {
+	var contexto = document.getElementById("contexto").value;
+	var vservlet = contexto + '/ServAdministracionAJAX';
+	var txtevento = 'CAMBIAR_CLAVEADM';
+	var act = document.getElementById("txtpass").value;
+	var id_usuario = document.getElementById("id_usuario").value;
+	var jqdata = {
+				hdEvento : txtevento,
+				act : act,
+				id_usuario :id_usuario
+			};
+	fnEjecutarPeticion(vservlet, jqdata, txtevento);
+}
+		
+
+}
+}
+function validarkey(){
+var act = document.getElementById("txtpass").value;
+var id_usuario = document.getElementById("id_usuario").value;
+if (id_usuario=='') {
+	danger("ERROR, Debe consultar un usuario");
+	return false;
+}
+if (act.trim()=='') {
+	danger("ERROR, ingresar una contraseña");
+	return false;
+} if (act.length<8) {
+	danger("ERROR, La  nueva contraseña debe tener como minimo 8 caracteres");
+}else{
+return true;
+}
+}
+
+
+
+
 
 
 	function seleccionarUnidad(msg, uni, id) {
