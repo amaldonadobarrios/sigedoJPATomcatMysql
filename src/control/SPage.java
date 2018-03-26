@@ -97,6 +97,9 @@ public class SPage extends HttpServlet {
 						break;
 					case "EnvdocMP":
 						this.EnvdocMP(request, response);
+						break;
+					case "PreTest":
+						this.PreTest(request, response);
 						break;	
 					default:
 						this.pagelogin(request, response);
@@ -123,6 +126,12 @@ public class SPage extends HttpServlet {
 			System.out.println("DESTINO:" + "index.jsp");
 			forwar("index.jsp", request, response);
 		}
+	}
+
+	private void PreTest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("breadcrumb", "Pre-Test");
+		request.setAttribute("body", "PreTest");
+		forwar("jsp/template.jsp", request, response);	
 	}
 
 	private void pagesearchARCH(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

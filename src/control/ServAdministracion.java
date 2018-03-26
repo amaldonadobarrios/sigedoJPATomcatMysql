@@ -87,10 +87,6 @@ public class ServAdministracion extends HttpServlet {
 							System.out.println("hdEvento :  MODIFICAR_USUARIO");
 							ModificarUsuario(request, response);
 							break;
-						case "PRETEST_IND1":
-							System.out.println("hdEvento :  PRETEST_IND1");
-							pretest_ind1(request, response);
-							break;
 						default:
 							break;
 						}
@@ -118,10 +114,6 @@ public class ServAdministracion extends HttpServlet {
 
 	}
 
-	private void pretest_ind1(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	private void ModificarUsuario(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

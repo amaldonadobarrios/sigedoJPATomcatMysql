@@ -30,6 +30,7 @@ import logica.LogicaHojaTramite;
 import logica.LogicaMovimientoHT;
 import logica.LogicaOficina;
 import logica.grilla.LogicaGrillaBandeja;
+import logica.grilla.LogicaGrillaEstadistica;
 import util.DirTexto;
 import util.HtmlUtil;
 
@@ -160,6 +161,10 @@ public class ServBandejaAJAX extends HttpServlet {
 							System.out.println("hdEvento :  DIGITALIZAR");
 							Digitalizar(request, response);
 							break;
+						case "PRETEST_IND1":
+							System.out.println("hdEvento :  PRETEST_IND1");
+							pretest_ind1(request, response);
+							break;
 						default:
 							break;
 						}
@@ -185,7 +190,12 @@ public class ServBandejaAJAX extends HttpServlet {
 		}
 
 	}
-
+	private void pretest_ind1(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("void pretest_ind1");
+		String html;
+		html=LogicaGrillaEstadistica.getInstance().GrillaIndicador1();
+		HtmlUtil.getInstance().escrituraHTML(response, html);
+	}
 	private void BuscarArchivo(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("BuscarArchivo");
 		HttpSession sesion = request.getSession();

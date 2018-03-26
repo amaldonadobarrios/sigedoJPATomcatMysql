@@ -33,6 +33,7 @@ import logica.LogicaOficina;
 import logica.LogicaPersona;
 import logica.LogicaSeguridad;
 import logica.LogicaUsuario;
+import logica.grilla.LogicaGrillaEstadistica;
 import util.BatEncriptador;
 import util.HtmlUtil;
 
@@ -42,7 +43,7 @@ import util.HtmlUtil;
 @WebServlet("/ServAdmnistracionAJAX")
 public class ServAdministracionAJAX extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -134,6 +135,8 @@ public class ServAdministracionAJAX extends HttpServlet {
 	
 	
 	
+	
+
 	private void cambiarClaveADM(HttpServletRequest request, HttpServletResponse response) throws SQLException {
 		System.out.println("void cambiarClaveADM");
 		String html = null;

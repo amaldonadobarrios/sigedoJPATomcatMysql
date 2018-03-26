@@ -357,6 +357,25 @@
 					$('#tarchivodigitalizado').html(tabla);
 					$('#dataTable11').DataTable();
 				}
+				if (vevento == 'PRETEST_IND1') {
+					var respuesta = v_resultado.split('||');
+					var tabla = respuesta[0];
+					var numero = respuesta[1];
+					var sumvalor1 = respuesta[2];
+					var sumvalor2 = respuesta[3];
+					var resp = respuesta[4];
+					resp=resp.replace(",",".");
+					resp=parseFloat(resp).toFixed(1);
+					var iresp= 100-resp;
+					iresp=parseFloat(iresp).toFixed(1); 
+					$('#lblpretest1').html(numero);
+					$('#tpretest1').html(tabla);
+					$('#dataTable14').DataTable();
+					$('#lblval1t1').html(sumvalor1);
+					$('#lblval2t1').html(sumvalor2);
+					$('#lblval3t1').html(resp+'%');
+					graficoHigchar4('titulo',resp+'#'+iresp);
+				}
 
 				if (vevento == 'DERIVAR') {
 					if (v_resultado != '0') {

@@ -37,6 +37,7 @@ public class EstadisticaDAOImpl implements EstadisticaDAO {
 						temp = new Pretest();
 						 temp.setNroindicador(String.valueOf(1));
 						 temp.setIndicador("PORCENTAJE DE DOCUMENTOS NO CLASIFICADOS APROPIADAMENTE");
+						 temp.setFechadoc(rs.getDate("fecha_doc"));
 						 temp.setSiglas(rs.getString("siglas"));
 						 temp.setAsunto(rs.getString("asunto"));
 						 temp.setEva1(rs.getString("EVA1I1"));
@@ -99,7 +100,7 @@ public class EstadisticaDAOImpl implements EstadisticaDAO {
 					}
 				}
 			} catch (SQLException e) {
-				System.out.println("Excepcion en query Pretest de indicador 1: " + e.toString());
+				System.out.println("Excepcion en query Pretest de indicador 2: " + e.toString());
 			} finally {
 				em.getTransaction().commit();
 				em.close();
