@@ -70,7 +70,18 @@ public class Documento implements Serializable {
 	@Column(name = "id_unidad_registra")
 	private int idUnidadReg;
 	
+	@Column(name = "id_unidad_documental")
+	private int id_unidad_documental;
+	
 	public Documento() {
+	}
+
+	public int getId_unidad_documental() {
+		return id_unidad_documental;
+	}
+
+	public void setId_unidad_documental(int id_unidad_documental) {
+		this.id_unidad_documental = id_unidad_documental;
 	}
 
 	public int getIdDocumento() {

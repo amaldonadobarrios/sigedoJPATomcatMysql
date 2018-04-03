@@ -165,6 +165,10 @@ public class ServBandejaAJAX extends HttpServlet {
 							System.out.println("hdEvento :  PRETEST_IND1");
 							pretest_ind1(request, response);
 							break;
+						case "PRETEST_IND2":
+							System.out.println("hdEvento :  PRETEST_IND2");
+							pretest_ind2(request, response);
+							break;
 						default:
 							break;
 						}
@@ -190,10 +194,18 @@ public class ServBandejaAJAX extends HttpServlet {
 		}
 
 	}
+	private void pretest_ind2(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("void pretest_ind2");
+		String html;
+		html=LogicaGrillaEstadistica.getInstance().GrillaIndicador2();
+		HtmlUtil.getInstance().escrituraHTML(response, html);
+		
+	}
+
 	private void pretest_ind1(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("void pretest_ind1");
 		String html;
-		html=LogicaGrillaEstadistica.getInstance().GrillaIndicador1();
+		html=LogicaGrillaEstadistica.getInstance().GrillaIndicador1ACTUALIZADO();
 		HtmlUtil.getInstance().escrituraHTML(response, html);
 	}
 	private void BuscarArchivo(HttpServletRequest request, HttpServletResponse response) {

@@ -132,6 +132,7 @@ public class ServGestionDocumento extends HttpServlet {
 		String cbxremitente = request.getParameter("cbxremitente");
 		String asunto = request.getParameter("txtasunto");
 		String obsservaciones=request.getParameter("txtobservaciones");
+		String cbxunidad_documental=request.getParameter("cbxunidad_documental");
 		HttpSession sesion = request.getSession();
 		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
 		Usuario user = (Usuario) SesionUsuario.get(0);
@@ -146,6 +147,7 @@ public class ServGestionDocumento extends HttpServlet {
 		doc.setIdTipoDoc(Integer.parseInt(tipo));
 		doc.setAsunto(DirTexto.getInstance().cambiarFormatoUTF8(asunto).toUpperCase());
 		doc.setSiglas(DirTexto.getInstance().cambiarFormatoUTF8(txtsiglas).toUpperCase());
+		doc.setId_unidad_documental(Integer.parseInt(cbxunidad_documental));
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			FECHA_DOC = formatter.parse(txtfechadoc);
@@ -244,6 +246,8 @@ public class ServGestionDocumento extends HttpServlet {
 		String cbxremitente = request.getParameter("cbxremitente");
 		String asunto = request.getParameter("txtasunto");
 		String obsservaciones=request.getParameter("txtobservaciones");
+		String cbxunidad_documental=request.getParameter("cbxunidad_documental");
+		
 		HttpSession sesion = request.getSession();
 		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
 		Usuario user = (Usuario) SesionUsuario.get(0);
@@ -258,6 +262,7 @@ public class ServGestionDocumento extends HttpServlet {
 		doc.setIdTipoDoc(Integer.parseInt(tipo));
 		doc.setAsunto(DirTexto.getInstance().cambiarFormatoUTF8(asunto).toUpperCase());
 		doc.setSiglas(DirTexto.getInstance().cambiarFormatoUTF8(txtsiglas).toUpperCase());
+		doc.setId_unidad_documental(Integer.parseInt(cbxunidad_documental));
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			FECHA_DOC = formatter.parse(txtfechadoc);

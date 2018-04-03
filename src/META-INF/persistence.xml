@@ -4,7 +4,6 @@
 		<class>entity.CentroTrabajo</class>
 		<class>entity.ClasContenidoDoc</class>
 		<class>entity.ClasFuncionDoc</class>
-		<class>entity.Documento</class>
 		<class>entity.EstadoDoc</class>
 		<class>entity.EstadoHt</class>
 		<class>entity.EstadoMovimientoHt</class>
@@ -21,6 +20,8 @@
 		<class>entity.Codeqr</class>
 		<class>entity.AlmacenArchivo</class>
 		<class>entity.Archivo</class>
+		<class>entity.CuadroClasificacion</class>
+		<class>entity.Documento</class>
 		<properties>
 			<property name="eclipselink.jdbc.batch-writing" value="JDBC"/>
 			<property name="javax.persistence.jdbc.user" value="root"/>

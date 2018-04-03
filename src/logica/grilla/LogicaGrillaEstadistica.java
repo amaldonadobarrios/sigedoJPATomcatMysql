@@ -26,6 +26,7 @@ public class LogicaGrillaEstadistica {
 	}
 	// PATRON SINGLETON FIN
 	private String INI_TABLA14 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable14\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
+	private String INI_TABLA15 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable15\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
     private String INI_THEAD = "<thead>";
     private String INI_TR = "<tr>";
     private String INI_TRBody = "<tr>";
@@ -39,64 +40,114 @@ public class LogicaGrillaEstadistica {
     private String INI_TD = "<td nowrap>";
     private String FIN_TD = "</td>";
     
-    public String GrillaIndicador1 ()
-	{
-    	NumberFormat formatterResp = new DecimalFormat("#0.0");
-    	NumberFormat formatterValor = new DecimalFormat("#0");
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-		List<Pretest> lista=null;
-		lista=LogicaEstadistica.getInstance().listarindicador1();
-		StringBuilder str = new StringBuilder();
-		str.append("<div id =\"tpretest1\">");
-		str.append(INI_TABLA14);
-		StringBuilder cabecera = new StringBuilder();
-		cabecera.append(INI_THEAD);
-		cabecera.append(INI_TR);
-		cabecera.append(INI_TH);	cabecera.append("N°");	cabecera.append(FINI_TH);
-		cabecera.append(INI_TH);	cabecera.append("Fecha de Documento");	cabecera.append(FINI_TH);
-		cabecera.append(INI_TH);	cabecera.append("Siglas");			cabecera.append(FINI_TH);
-		cabecera.append(INI_TH);	cabecera.append("Asunto");			cabecera.append(FINI_TH);
-		cabecera.append(INI_TH);	cabecera.append("Evaluación 1 : Alexander Maldonado Barrios");			cabecera.append(FINI_TH);
-		cabecera.append(INI_TH);	cabecera.append("Evaluación 2 : Jorge Leopoldo Liza Vilca");			cabecera.append(FINI_TH);
-		cabecera.append(INI_TH);	cabecera.append("Evaluación 3 : Luis Arnaldo Alvarado Cepeda");			cabecera.append(FINI_TH);
-		cabecera.append(INI_TH);	cabecera.append("Total de Documentos Clasficados inapropiadamente");			cabecera.append(FINI_TH);
-		cabecera.append(INI_TH);	cabecera.append("Total de documentos clasificados");			cabecera.append(FINI_TH);
-		cabecera.append(INI_TH);	cabecera.append("Porcentade de documentos clasificados inapropiadamente");			cabecera.append(FINI_TH);
-		cabecera.append(FINI_TR);
-		cabecera.append(FIN_THEAD);
-		int i=0;
-		double sumval1=0;
-		double sumval2=0;
-		double rpta=0;
-		str.append(cabecera.toString());
-		str.append(INI_TBODY);
-		if(  lista!=null && lista.size()>0 )
-		{
-                    
-			for(Pretest fila : lista  )
-			{
-				i++;			
-				str.append(INI_TRBody);
-				str.append(INI_TD);	str.append( i );			str.append(FIN_TD);
-				str.append(INI_TD);	str.append( df.format(fila.getFechadoc()));				str.append(FIN_TD);
-				str.append(INI_TD);	str.append( fila.getSiglas().toUpperCase());			str.append(FIN_TD);
-				str.append(INI_TD);	str.append( fila.getAsunto().toUpperCase());			str.append(FIN_TD);
-				str.append(INI_TD);	str.append( fila.getEva1());			str.append(FIN_TD);
-				str.append(INI_TD);	str.append( fila.getEva2());		str.append(FIN_TD);
-				str.append(INI_TD);	str.append( fila.getEva3());		str.append(FIN_TD);
-				str.append(INI_TD);	str.append( fila.getValor1());		str.append(FIN_TD);
-				str.append(INI_TD);	str.append( fila.getValor2());		str.append(FIN_TD);
-				str.append(INI_TD);	str.append( fila.getRespuesta());		str.append(FIN_TD);
-				str.append(FINI_TR);	
-				sumval1=sumval1+fila.getValor1();
-				sumval2=sumval2+fila.getValor2();
-			}	
-		}
-		
-		str.append(FIN_TBODY);
-		str.append(FIN_TABLA);
-		str.append("</div>");
-		rpta=((sumval1/sumval2)*100);
-		return str.toString()+"||"+i+"||"+formatterValor.format(sumval1)+"||"+formatterValor.format(sumval2)+"||"+formatterResp.format(rpta);
-	}
+    
+    public String GrillaIndicador1ACTUALIZADO ()
+   	{
+       	NumberFormat formatterResp = new DecimalFormat("#0");
+       	NumberFormat formatterValor = new DecimalFormat("#0");
+   		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+   		List<Pretest> lista=null;
+   		lista=LogicaEstadistica.getInstance().listarindicador1ACTUALIZADO();
+   		StringBuilder str = new StringBuilder();
+   		str.append("<div id =\"tpretest1\">");
+   		str.append(INI_TABLA14);
+   		StringBuilder cabecera = new StringBuilder();
+   		cabecera.append(INI_THEAD);
+   		cabecera.append(INI_TR);
+   		cabecera.append(INI_TH);	cabecera.append("N°");	cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Fecha de Documento");	cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Siglas");			cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Asunto");			cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Evaluación");			cabecera.append(FINI_TH);
+   		cabecera.append(FINI_TR);
+   		cabecera.append(FIN_THEAD);
+   		int i=0;
+   		double io=0;
+   		double contador_inapropiado=0;
+   		double rpta=0;
+   		str.append(cabecera.toString());
+   		str.append(INI_TBODY);
+   		if(  lista!=null && lista.size()>0 )
+   		{
+                       
+   			for(Pretest fila : lista  )
+   			{
+   				i++;
+   				io++;
+   				str.append(INI_TRBody);
+   				str.append(INI_TD);	str.append( i );			str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( df.format(fila.getFechadoc()));				str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( fila.getSiglas().toUpperCase());			str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( fila.getAsunto().toUpperCase());			str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( fila.getEva1());			str.append(FIN_TD);
+   				str.append(FINI_TR);
+   				if (fila.getEva1().equals("INAPROPIADO")) {
+   					contador_inapropiado++;
+				}
+   			}	
+   		}
+   		
+   		str.append(FIN_TBODY);
+   		str.append(FIN_TABLA);
+   		str.append("</div>");
+   		
+   		rpta=(contador_inapropiado/io)*100;
+   		System.out.println("RESPUESTA: "+rpta);
+   		return str.toString()+"||"+i+"||"+formatterValor.format(contador_inapropiado)+"||"+formatterValor.format(i)+"||"+formatterResp.format(rpta);
+   	}
+    public String GrillaIndicador2 ()
+   	{
+       	NumberFormat formatterResp = new DecimalFormat("#0");
+       	NumberFormat formatterValor = new DecimalFormat("#0");
+   		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+   		List<Pretest> lista=null;
+   		lista=LogicaEstadistica.getInstance().listarindicador2();
+   		StringBuilder str = new StringBuilder();
+   		str.append("<div id =\"tpretest2\">");
+   		str.append(INI_TABLA15);
+   		StringBuilder cabecera = new StringBuilder();
+   		cabecera.append(INI_THEAD);
+   		cabecera.append(INI_TR);
+   		cabecera.append(INI_TH);	cabecera.append("N°");	cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Fecha de Documento");	cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Siglas");			cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Asunto");			cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Duracion de la busqueda de documentos para su consulta( EN MINUTOS)");			cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Consultas contestadas a documentos dentro del plazo de 15 min");			cabecera.append(FINI_TH);
+   		cabecera.append(FINI_TR);
+   		cabecera.append(FIN_THEAD);
+   		int i=0;
+   		double io=0;
+   		double contador_SI=0;
+   		double rpta=0;
+   		str.append(cabecera.toString());
+   		str.append(INI_TBODY);
+   		if(  lista!=null && lista.size()>0 )
+   		{
+                       
+   			for(Pretest fila : lista  )
+   			{
+   				i++;
+   				io++;
+   				str.append(INI_TRBody);
+   				str.append(INI_TD);	str.append( i );			str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( df.format(fila.getFechadoc()));				str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( fila.getSiglas().toUpperCase());			str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( fila.getAsunto().toUpperCase());			str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( fila.getEva1());			str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( fila.getEva2());			str.append(FIN_TD);
+   				str.append(FINI_TR);
+   				if (fila.getEva2().equals("SI")) {
+   					contador_SI++;
+				}
+   			}	
+   		}
+   		
+   		str.append(FIN_TBODY);
+   		str.append(FIN_TABLA);
+   		str.append("</div>");
+   		
+   		rpta=(contador_SI/io)*100;
+   		return str.toString()+"||"+i+"||"+formatterValor.format(contador_SI)+"||"+formatterValor.format(i)+"||"+formatterResp.format(rpta);
+   	}
 }

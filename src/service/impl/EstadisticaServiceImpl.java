@@ -9,16 +9,18 @@ import service.EstadisticaService;
 
 public class EstadisticaServiceImpl implements EstadisticaService {
 EstadisticaDAO dao=new EstadisticaDAOImpl();
-	@Override
-	public List<Pretest> listarIndicador1() {
-		// TODO Auto-generated method stub
-		return dao.listarIndicador1();
-	}
+	
 
 	@Override
 	public List<Pretest> listarIndicador2() {
 		// TODO Auto-generated method stub
 		return dao.listarIndicador2();
+	}
+
+	@Override
+	public List<Pretest> listarIndicador1ACTUALLIZADO() {
+		// TODO Auto-generated method stub
+		return dao.listarIndicador1ACTUALLIZADO();
 	}
 
 }

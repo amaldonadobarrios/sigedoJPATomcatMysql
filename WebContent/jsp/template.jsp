@@ -365,9 +365,9 @@
 					var sumvalor2 = respuesta[3];
 					var resp = respuesta[4];
 					resp=resp.replace(",",".");
-					resp=parseFloat(resp).toFixed(1);
+					//resp=parseFloat(resp).toFixed(1);
 					var iresp= 100-resp;
-					iresp=parseFloat(iresp).toFixed(1); 
+					//iresp=parseFloat(iresp).toFixed(1); 
 					$('#lblpretest1').html(numero);
 					$('#tpretest1').html(tabla);
 					$('#dataTable14').DataTable();
@@ -375,6 +375,24 @@
 					$('#lblval2t1').html(sumvalor2);
 					$('#lblval3t1').html(resp+'%');
 					graficoHigchar4('titulo',resp+'#'+iresp);
+				}
+				if (vevento == 'PRETEST_IND2') {
+				
+					var respuesta = v_resultado.split('||');
+					var tabla = respuesta[0];
+					var numero = respuesta[1];
+					var sumvalor1 = respuesta[2];
+					var sumvalor2 = respuesta[3];
+					var resp = respuesta[4];
+					resp=resp.replace(",",".");
+					var iresp= 100-resp;
+					$('#lblpretest2').html(numero);
+					$('#tpretest2').html(tabla);
+					$('#dataTable15').DataTable();
+					$('#lblval1t2').html(sumvalor1);
+					$('#lblval2t2').html(sumvalor2);
+					$('#lblval3t2').html(resp+'%');
+					graficoHigchar5('titulo',parseFloat(resp)+'#'+parseFloat(iresp));
 				}
 
 				if (vevento == 'DERIVAR') {

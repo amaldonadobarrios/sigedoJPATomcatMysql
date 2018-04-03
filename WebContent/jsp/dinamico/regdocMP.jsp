@@ -172,6 +172,21 @@ function fn_upload_ajax(vservlet){
 								</select> <input id="hdnprioridad" type="hidden" value="">
 							</div>
 							<div class="form-group">
+								<label id="lblunidad_documental">UNIDAD DOCUMENTAL</label> <select
+									data-placeholder="Seleccione la Unidad documental correspondiente"
+									class="form-control" tabindex="2" id="cbxunidad_documental"
+									name="cbxunidad_documental" required>
+									<option value="" selected>Seleccione</option>
+									<option value="1" >Dirección y Control</option>
+									<option value="2" >Gestión de las Comunicaciones</option>
+									<option value="3" >Gestión Documental</option>
+									<option value="4" >Gestión de las Operaciones</option>
+									<option value="5" >Administración</option>
+									<option value="6" >Gestión de Operaciones de Desminado</option>
+									<option value="7" >Gestión de Operaciones de Mineria ilegal</option>	
+								</select> <input id="hdnunidad_documental" type="hidden" value="">
+							</div>
+							<div class="form-group">
 								<input id="hdnremitente" type="hidden" value=""> <label
 									id="lblremitente">REMITENTE</label> <select id="cbxremitente"
 									name="cbxremitente" data-placeholder="Seleccion el remitente"
