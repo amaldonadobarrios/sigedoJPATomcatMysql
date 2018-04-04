@@ -118,9 +118,8 @@
 					<li><a href="SPage?action=PosTest"> <i
 							class="fa fa-fw fa-line-chart"></i> <span class="nav-link-text">Post
 								test</span></a></li>
-					<li><a href="SPage?action=Estadistica"> <i
-							class="fa fa-fw fa-bar-chart"></i> <span class="nav-link-text">Reporte
-								Estadístico</span></a></li>
+					<li><a href="SPage?action=RepDocRecibido"> <i
+							class="fa fa-fw fa-bar-chart"></i> <span class="nav-link-text">Reporte Documento Recibidos</span></a></li>
 				</ul></li>
 		</ul>
 		<ul class="navbar-nav sidenav-toggler">

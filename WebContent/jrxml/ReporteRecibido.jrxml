@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteRecibido" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6e98a770-c1b4-46fd-aa3b-752c49f5692c">
+	<property name="ireport.zoom" value="1.6105100000000019"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#00FFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="1e2b65e0-0241-473d-9d49-5627f4d3fbf9"/>
+	<parameter name="id_ht" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT ht.id_hoja_tramite,ht.fecha_registro,ht.asunto , doc.numero,tip.descripcion, concat(uni.DESCRIPCION,' ',ofi.DESCRIPCION) as OfiReg ,concat(per.grado,' ', per.ape_pat,' ',per.ape_mat,' ',per.nombres) as usuarioReg , qr.codeQr FROM hoja_tramite ht
+inner join documento doc on doc.id_documento=ht.id_documento_inicio
+join usuario usu on ht.id_usuario_registro=usu.id_usuario
+join persona per on per.id_persona=usu.id_persona
+join oficina ofi on ht.id_oficina_registro = ofi.id_oficina
+join unidad uni on ht.id_unidad_registro = uni.id_unidad
+join tipo_doc tip on tip.id_tipo_doc = doc.id_tipo_doc
+join prioridad_doc pri on pri.id_prioridad_doc=doc.id_prioridad_doc
+join codeqr qr on qr.id_Hoja_tramite=ht.id_hoja_tramite
+where ht.id_hoja_tramite=$P{id_ht};]]>
+	</queryString>
+	<field name="id_hoja_tramite" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_registro" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="asunto" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="descripcion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="OfiReg" class="java.lang.String"/>
+	<field name="usuarioReg" class="java.lang.String"/>
+	<field name="codeQr" class="java.io.InputStream">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="78" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="-1" y="0" width="554" height="60" uuid="0a51f398-1745-4962-ae17-af7bc52cfb95"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="120" y="10" width="282" height="24" uuid="377d7b7a-f8b6-475d-be9f-c6be883bf3df"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE DOCUMENTOS RECIBIDOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="134" y="23" width="287" height="20" uuid="8847866d-d07c-45ac-9896-56cd16e399cf"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sistema de Gestión Documental -  SIGEDO - DIVSECOM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="212" y="40" width="130" height="20" uuid="c2fb7aa1-eb23-472f-a1ff-f797eaa97e8b"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Policia Nacional del Perú]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="24" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="310"/>
+	</detail>
+</jasperReport>

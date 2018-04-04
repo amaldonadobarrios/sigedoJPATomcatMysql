@@ -100,6 +100,9 @@ public class SPage extends HttpServlet {
 						break;
 					case "PreTest":
 						this.PreTest(request, response);
+						break;
+					case "RepDocRecibido":
+						this.RepDocRecibido(request, response);
 						break;	
 					default:
 						this.pagelogin(request, response);
@@ -126,6 +129,13 @@ public class SPage extends HttpServlet {
 			System.out.println("DESTINO:" + "index.jsp");
 			forwar("index.jsp", request, response);
 		}
+	}
+
+	private void RepDocRecibido(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("breadcrumb", "Reporte de Documentos Recibidos");
+		request.setAttribute("body", "RepDocRecibido");
+		forwar("jsp/template.jsp", request, response);	
+		
 	}
 
 	private void PreTest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

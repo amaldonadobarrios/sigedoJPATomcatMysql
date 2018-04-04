@@ -169,6 +169,11 @@ public class ServBandejaAJAX extends HttpServlet {
 							System.out.println("hdEvento :  PRETEST_IND2");
 							pretest_ind2(request, response);
 							break;
+						case "REPDOCRECIBIDO":
+							System.out.println("hdEvento :  REPDOCRECIBIDO");
+							repdocrecibido(request, response);
+							break;
+							
 						default:
 							break;
 						}
@@ -194,6 +199,20 @@ public class ServBandejaAJAX extends HttpServlet {
 		}
 
 	}
+	private void repdocrecibido(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("void repdocrecibido");
+		String html;
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		String fecha1=request.getParameter("fecha1");
+		String fecha2=request.getParameter("fecha2");
+		System.out.println("fecha1 :"+ fecha1);
+		html=LogicaGrillaEstadistica.getInstance().GrillaEstadisticaDocumentosRecibidos(uni.getIdUnidad(), fecha1, fecha2);
+		HtmlUtil.getInstance().escrituraHTML(response, html);
+		
+	}
+
 	private void pretest_ind2(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("void pretest_ind2");
 		String html;

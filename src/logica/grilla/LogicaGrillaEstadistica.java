@@ -6,6 +6,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import entity.estadistica.EstDocumentoRecibido;
 import entity.estadistica.Pretest;
 import entity.lista.Bandeja;
 import logica.LogicaEstadistica;
@@ -27,6 +28,7 @@ public class LogicaGrillaEstadistica {
 	// PATRON SINGLETON FIN
 	private String INI_TABLA14 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable14\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
 	private String INI_TABLA15 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable15\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
+	private String INI_TABLA16 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable16\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
     private String INI_THEAD = "<thead>";
     private String INI_TR = "<tr>";
     private String INI_TRBody = "<tr>";
@@ -42,6 +44,7 @@ public class LogicaGrillaEstadistica {
     
     
     public String GrillaIndicador1ACTUALIZADO ()
+    
    	{
        	NumberFormat formatterResp = new DecimalFormat("#0");
        	NumberFormat formatterValor = new DecimalFormat("#0");
@@ -149,5 +152,58 @@ public class LogicaGrillaEstadistica {
    		
    		rpta=(contador_SI/io)*100;
    		return str.toString()+"||"+i+"||"+formatterValor.format(contador_SI)+"||"+formatterValor.format(i)+"||"+formatterResp.format(rpta);
+   	}
+    public String GrillaEstadisticaDocumentosRecibidos (int id_unidad,String fecha1, String fecha2)
+   	{
+   		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+   		List<EstDocumentoRecibido> lista=null;
+   		lista=LogicaEstadistica.getInstance().listarDocumentoRecibidoEst(id_unidad, fecha1, fecha2);
+   		StringBuilder str = new StringBuilder();
+   		str.append("<div id =\"tEstDocRec\">");
+   		str.append(INI_TABLA16);
+   		StringBuilder cabecera = new StringBuilder();
+   		cabecera.append(INI_THEAD);
+   		cabecera.append(INI_TR);
+   		cabecera.append(INI_TH);	cabecera.append("N°");	cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Fecha de Documento");	cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Siglas");			cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Asunto");			cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Nro HT");			cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Fecha Recibido");			cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Estado HT");			cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Estado actualización");			cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Fecha actualización");			cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("observaciones");			cabecera.append(FINI_TH);
+   		cabecera.append(FINI_TR);
+   		cabecera.append(FIN_THEAD);
+   		int i=0;
+   		str.append(cabecera.toString());
+   		str.append(INI_TBODY);
+   		if(  lista!=null && lista.size()>0 )
+   		{           
+   			for(EstDocumentoRecibido fila : lista  )
+   			{
+   				i++;
+   				str.append(INI_TRBody);
+   				str.append(INI_TD);	str.append( i );			str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( df.format(fila.getFechadoc()));				str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( fila.getDocumento().toUpperCase());			str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( fila.getAsunto().toUpperCase());			str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( fila.getId_hoja_tramite());			str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( df.format(fila.getFechareg()));			str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( fila.getEstht());			str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( fila.getEstmax());			str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( df.format(fila.getFecharegmax()));			str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( fila.getObservaciones());			str.append(FIN_TD);
+   				str.append(FINI_TR);
+   				
+   			}	
+   		}
+   		
+   		str.append(FIN_TBODY);
+   		str.append(FIN_TABLA);
+   		str.append("</div>");
+   		
+   		return str.toString()+"||"+i;
    	}
 }

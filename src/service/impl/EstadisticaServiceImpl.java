@@ -4,6 +4,7 @@ import java.util.List;
 
 import dao.EstadisticaDAO;
 import dao.impl.EstadisticaDAOImpl;
+import entity.estadistica.EstDocumentoRecibido;
 import entity.estadistica.Pretest;
 import service.EstadisticaService;
 
@@ -21,6 +22,12 @@ EstadisticaDAO dao=new EstadisticaDAOImpl();
 	public List<Pretest> listarIndicador1ACTUALLIZADO() {
 		// TODO Auto-generated method stub
 		return dao.listarIndicador1ACTUALLIZADO();
+	}
+
+	@Override
+	public List<EstDocumentoRecibido> listarDocRecibido(int id_unidad, String fecha1, String fecha2) {
+		// TODO Auto-generated method stub
+		return dao.listarDocRecibido(id_unidad, fecha1, fecha2);
 	}
 
 }

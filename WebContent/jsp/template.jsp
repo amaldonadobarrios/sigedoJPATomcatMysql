@@ -532,6 +532,20 @@
 						}
 						
 							
+				}if (vevento == 'REPDOCRECIBIDO') {
+					//alert(v_resultado);
+						var respuesta = v_resultado.split('||');
+						var tabla = respuesta[0];
+						var numero = respuesta[1];
+						if (numero=='0') {	
+							$('#tEstDocRec').html('');
+							$('#dataTable16').DataTable();	
+							danger('Error, No se encontró Documentos recibidos en ese Rango de Fechas!');
+						}else{
+							//$('#lblarchivodigitalizado').html(numero);
+							$('#tEstDocRec').html(tabla);
+							$('#dataTable16').DataTable();	
+						}	
 				}
 				
 				
