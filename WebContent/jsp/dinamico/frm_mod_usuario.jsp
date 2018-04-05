@@ -275,7 +275,7 @@ function limpiar(){
 				<label for="lblnom">Usuario</label> <input class="form-control"
 					id="txtusu" name="txtusu" type="text"
 					aria-describedby="Ingrese sus Usuario"
-					placeholder="Ingrese su Usuario" maxlength="15" required="required" disabled>
+					placeholder="Ingrese su Usuario" maxlength="15" required="required" readonly >
 			</div>
 			<div class="form-group">
 				<label for="lblpass">Contraseña</label> <input class="form-control"
