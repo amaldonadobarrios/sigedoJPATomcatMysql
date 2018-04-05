@@ -101,6 +101,9 @@ public class SPage extends HttpServlet {
 					case "PreTest":
 						this.PreTest(request, response);
 						break;
+					case "PosTest":
+						this.PosTest(request, response);
+						break;
 					case "RepDocRecibido":
 						this.RepDocRecibido(request, response);
 						break;	
@@ -129,6 +132,13 @@ public class SPage extends HttpServlet {
 			System.out.println("DESTINO:" + "index.jsp");
 			forwar("index.jsp", request, response);
 		}
+	}
+
+	private void PosTest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("breadcrumb", "Pos-Test");
+		request.setAttribute("body", "PosTest");
+		forwar("jsp/template.jsp", request, response);
+		
 	}
 
 	private void RepDocRecibido(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

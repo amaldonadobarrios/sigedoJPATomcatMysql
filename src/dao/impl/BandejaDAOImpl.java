@@ -497,6 +497,21 @@ public class BandejaDAOImpl implements BandejaDAO {
 		ConsArchivo temp = null;
 		List<ConsArchivo> lista = null;
 		PreparedStatement ps = null;
+		String [] palabrasarray = palabra.trim().split(" ");
+		int npalabras=palabrasarray.length;
+		String ParametroQuery="";
+		if (npalabras>1) {
+			for (int i = 0; i < palabrasarray.length; i++) {
+				ParametroQuery=ParametroQuery +" ar.palabras_clave like concat('%',?,'%')";
+				if (i<palabrasarray.length-1) {
+					ParametroQuery=ParametroQuery+" OR ";
+				}
+			}	
+		} else {
+			ParametroQuery="ar.palabras_clave like concat('%',?,'%')";
+		}
+		System.out.println("PARAMETRO QUERY "+ParametroQuery);
+		System.out.println("NUMERO DE PALABRAS :" +npalabras);
 		String query = "SELECT ar.id_archivo,\r\n" + "ar.id_hoja_tramite,\r\n" + "ar.fecha_reg,\r\n"
 				+ "ar.id_unidad, \r\n" + "ar.id_fichero_archivo,  \r\n" + "ar.observaciones,\r\n"
 				+ "concat(tdoc.descripcion,' N°',doc.numero,' ',doc.siglas) as documento,\r\n" + "doc.fecha_doc,\r\n"
@@ -509,8 +524,9 @@ public class BandejaDAOImpl implements BandejaDAO {
 				+ "join tipo_doc tdoc on tdoc.id_tipo_doc=doc.id_tipo_doc\r\n"
 				+ "join usuario usureg on usureg.id_usuario=ar.usuario_reg\r\n"
 				+ "join persona perreg on perreg.id_persona=usureg.id_persona\r\n"
-				+ "where ar.palabras_clave like concat('%',?,'%') and ar.estado='1' and ar.id_unidad=? or doc.asunto like concat('%',?,'%') or ar.observaciones like concat('%',?,'%') order by 1 asc";
-
+				+ "where "
+				+ ParametroQuery+"  and ar.estado='1' and ar.id_unidad=? or doc.asunto like concat('%',?,'%') or ar.observaciones like concat('%',?,'%') order by 1 asc";
+//ar.palabras_clave like concat('%',REPLACE(?,' ','%'),'%')
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
@@ -518,10 +534,14 @@ public class BandejaDAOImpl implements BandejaDAO {
 		if (cn != null) {
 			try {
 				ps = cn.prepareStatement(query);
-				ps.setString(1, palabra);
-				ps.setInt(2, unidad);
-				ps.setString(3, palabra);
-				ps.setString(4, palabra);
+				for (int i = 0; i < palabrasarray.length; i++) {
+					ps.setString(i+1, palabrasarray[i]);	
+				}
+				//ps.setString(1, palabra);
+				
+				ps.setInt(npalabras+1, unidad);//2
+				ps.setString(npalabras+2, palabra);//3
+				ps.setString(npalabras+3, palabra);//4
 				ResultSet rs = ps.executeQuery();
 				if (rs.next()) {
 					lista = new ArrayList<ConsArchivo>();
