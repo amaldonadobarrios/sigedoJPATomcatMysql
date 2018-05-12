@@ -154,8 +154,8 @@ public class ServAdministracion extends HttpServlet {
 				Usuario user = (Usuario) SesionUsuario.get(0);
 				per = new Persona();
 				per.setIdPersona(Integer.parseInt(id_persona));
-				per.setApeMat(apePat.toUpperCase());
-				per.setApePat(apeMat.toUpperCase());
+				per.setApeMat(apeMat.toUpperCase());
+				per.setApePat(apePat.toUpperCase());
 				per.setNombres(Nom.toUpperCase());
 				per.setCelular(cel);
 				per.setCip(cip);
@@ -228,8 +228,8 @@ public class ServAdministracion extends HttpServlet {
 				Usuario user = (Usuario) SesionUsuario.get(0);
 				System.out.println("CIP NO EXISTE");
 				per = new Persona();
-				per.setApeMat(apePat.toUpperCase());
-				per.setApePat(apeMat.toUpperCase());
+				per.setApeMat(apeMat.toUpperCase());
+				per.setApePat(apePat.toUpperCase());
 				per.setNombres(Nom.toUpperCase());
 				per.setCelular(cel);
 				per.setCip(cip);

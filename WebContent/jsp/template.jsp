@@ -23,7 +23,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>SIGEDO PNP</title>
+<title>SITRAD PNP</title>
 <!-- Bootstrap core CSS-->
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <!-- Custom fonts for this template-->
@@ -81,7 +81,7 @@
 
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="#">Sigedo</a></li>
+				<li class="breadcrumb-item"><a href="#">SITRAD</a></li>
 				<li class="breadcrumb-item active">${breadcrumb}</li>
 			</ol>
 			<c:import url="dinamico/${body}.jsp" />

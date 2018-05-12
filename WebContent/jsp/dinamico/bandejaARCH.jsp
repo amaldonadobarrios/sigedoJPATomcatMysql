@@ -298,7 +298,7 @@ function fn_upload_ajax2(vservlet){
 									class="hideme">
 								<!-- PRIMERA COLUMNA -->
 								<div class="form-group">
-									<label id="lblarchivador">ARCHIBADOR</label> <select
+									<label id="lblarchivador">ARCHIVADOR</label> <select
 										class="form-control" tabindex="2" id="cbxarchivador"
 										name="cbxarchivador" required>
 									</select>

@@ -7,6 +7,7 @@ import javax.persistence.Persistence;
 import dao.ArchivoDAO;
 import entity.Archivo;
 import entity.Usuario;
+import util.DirTexto;
 
 public class ArchivoDAOImpl implements ArchivoDAO {
 
@@ -28,12 +29,13 @@ public class ArchivoDAOImpl implements ArchivoDAO {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		Archivo ar = null;
+		System.out.println("obj.getObservaciones() : "+obj.getObservaciones());
 		ar = em.getReference(Archivo.class, obj.getIdArchivo());
 		ar.setEstado(1);
 		ar.setId_fichero_archivo(obj.getId_fichero_archivo());
 		ar.setUsuarioReg(obj.getUsuarioReg());
-		ar.setPalabras_clave(obj.getPalabras_clave());
-		ar.setObservaciones(obj.getObservaciones());
+		ar.setPalabras_clave(DirTexto.getInstance().cambiarFormatoUTF8(obj.getPalabras_clave()));
+		ar.setObservaciones(DirTexto.getInstance().cambiarFormatoUTF8(obj.getObservaciones()));
 		ar.setFechaReg(obj.getFechaReg());
 		em.merge(ar);
 		em.getTransaction().commit();

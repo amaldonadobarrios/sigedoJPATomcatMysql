@@ -81,7 +81,7 @@ where ht.id_hoja_tramite=$P{id_ht};]]>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Sistema de Gestión Documental -  SIGEDO - DIVSECOM]]></text>
+				<text><![CDATA[Sistema de Trámite Documentario -  SITRAD - DIVSECOM]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="212" y="40" width="130" height="20" uuid="c2fb7aa1-eb23-472f-a1ff-f797eaa97e8b"/>

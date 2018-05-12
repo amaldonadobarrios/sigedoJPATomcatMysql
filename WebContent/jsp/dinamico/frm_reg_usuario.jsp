@@ -84,6 +84,14 @@
 						class="selectpicker form-control" data-live-search="true"
 						id="cbxgrado" name="cbxgrado" required="required">
 						<option data-tokens="ketchup mustard" value="" selected="selected">Seleccione</option>
+						<option data-tokens="ketchup mustard" value="CRNL PNP">CRNL PNP</option>
+						<option data-tokens="ketchup mustard" value="CMDTE PNP">CMDTE PNP</option>
+						<option data-tokens="ketchup mustard" value="MAY PNP">MAY PNP</option>
+						<option data-tokens="ketchup mustard" value="SS PNP">SS PNP</option>
+						<option data-tokens="ketchup mustard" value="SB PNP">SB PNP</option>
+						<option data-tokens="ketchup mustard" value="ST1 PNP">ST1 PNP</option>
+						<option data-tokens="ketchup mustard" value="ST2 PNP">ST2 PNP</option>
+						<option data-tokens="ketchup mustard" value="ST3 PNP">ST3 PNP</option>
 						<option data-tokens="ketchup mustard" value="S1 PNP">S1
 							PNP</option>
 						<option data-tokens="ketchup mustard" value="S2 PNP">S2
