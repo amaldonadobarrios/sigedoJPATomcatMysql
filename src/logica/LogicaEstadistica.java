@@ -3,6 +3,7 @@ package logica;
 import java.util.List;
 
 import entity.estadistica.EstDocumentoRecibido;
+import entity.estadistica.PostTest;
 import entity.estadistica.Pretest;
 import service.EstadisticaService;
 import service.impl.EstadisticaServiceImpl;
@@ -40,4 +41,17 @@ public class LogicaEstadistica {
 					lista=serv.listarDocRecibido(id_unidad, fecha1, fecha2);
 					return lista;
 				}
+				public List<PostTest>Localizacion_Doc_PostTest(int id_unidad, String fecha1, String fecha2){
+					List<PostTest> lista=null;
+					EstadisticaService serv=new EstadisticaServiceImpl();
+					lista=serv.LocalizacionDocumentos(id_unidad, fecha1, fecha2);
+					return lista;
+				}
+				public List<PostTest>Nivel_Serv_PostTest(int id_unidad, String fecha1, String fecha2){
+					List<PostTest> lista=null;
+					EstadisticaService serv=new EstadisticaServiceImpl();
+					lista=serv.NivelServicio(id_unidad, fecha1, fecha2);
+					return lista;
+				}
+				
 }

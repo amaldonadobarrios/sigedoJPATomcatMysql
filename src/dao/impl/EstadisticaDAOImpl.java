@@ -13,6 +13,7 @@ import javax.persistence.Persistence;
 
 import dao.EstadisticaDAO;
 import entity.estadistica.EstDocumentoRecibido;
+import entity.estadistica.PostTest;
 import entity.estadistica.Pretest;
 
 public class EstadisticaDAOImpl implements EstadisticaDAO {
@@ -168,5 +169,97 @@ public class EstadisticaDAOImpl implements EstadisticaDAO {
 		}
 		return lista;
 	}
+
+	@Override
+	public List<PostTest> LocalizacionDocumentos(int id_unidad, String fecha1, String fecha2) {
+		
+		List<PostTest> lista = null;
+		PostTest dato=null;
+		PreparedStatement ps = null;
+		String query = "SELECT count(ht.id_movimiento_ht) as total_documentos, ht.id_movimiento_ht, ht.fecha_registro as fecha_reg, ht.id_unidad_registro, ht.id_hoja_tramite , sum(IF(ar.estado>0,'1','0')) as localizado ,ar.estado,(sum(IF(ar.estado>0,'1','0'))/( count(ht.id_movimiento_ht))) as localizacion_doc \r\n" + 
+				"				FROM movimiento_ht ht\r\n" + 
+				"         left join archivo ar on ar.id_hoja_tramite = ht.id_hoja_tramite\r\n" + 
+				"        \r\n" + 
+				"        where ht.id_estado_movimiento_ht='2' and ht.fecha_registro BETWEEN ? AND ? and ht.id_unidad_registro=? \r\n" + 
+				"        group by  DATE_FORMAT(ht.fecha_registro, \"%Y-%m-%d\" ) order by 3 asc";
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		java.sql.Connection cn = em.unwrap(java.sql.Connection.class);
+		if (cn != null) {
+			try {
+				ps = cn.prepareStatement(query);
+				ps.setString(1, fecha1);
+				ps.setString(2, fecha2);
+				ps.setInt(3, id_unidad);
+				ResultSet rs = ps.executeQuery();
+				if (rs.next()) {
+					lista = new ArrayList<PostTest>();
+					rs.beforeFirst();
+					while (rs.next()) {
+						dato = new PostTest();
+						 dato.setFecha(rs.getString("fecha_reg"));
+						 dato.setCant_total(rs.getInt("total_documentos"));
+						 dato.setCant_encontrada(rs.getInt("localizado"));
+						 dato.setIndicador(rs.getDouble("localizacion_doc"));
+						 lista.add(dato);
+					}
+				}
+			} catch (SQLException e) {
+				System.out.println("Excepcion en query listarLocalización de documentos: " + e.toString());
+			} finally {
+				em.getTransaction().commit();
+				em.close();
+				emf.close();
+			}
+		}
+		return lista;
+	}
+
+	@Override
+	public List<PostTest> NivelServicio(int id_unidad, String fecha1, String fecha2) {
+		List<PostTest> lista = null;
+		PostTest dato=null;
+		PreparedStatement ps = null;
+		String query = "SELECT  count(ht.id_movimiento_ht) as total_documentos,ht.id_movimiento_ht, ht.fecha_registro as fecha_reg, ht.id_unidad_registro, ht.id_hoja_tramite,mov.id_hoja_tramite as maxht, mov.id_estado_movimiento_ht as maxestado,DATE_ADD(ht.fecha_registro, INTERVAL 7 DAY),IF(mov.id_estado_movimiento_ht=8,'1','0'),mov.fecha_registro as fecharegmax, IF(mov.fecha_registro<= DATE_ADD(ht.fecha_registro, INTERVAL 7 DAY),'1','0'), IF(((IF(mov.fecha_registro<= DATE_ADD(ht.fecha_registro, INTERVAL 7 DAY),'1','0'))=(IF(mov.id_estado_movimiento_ht=8,'1','0'))), '1','0' ) AS regla_tramitado_a_tiempo,(sum(IF(((IF(mov.fecha_registro<= DATE_ADD(ht.fecha_registro, INTERVAL 7 DAY),'1','0'))=(IF(mov.id_estado_movimiento_ht=8,'1','0'))), '1','0' ) )) as total_doc_tramit_tiempo, (((sum(IF(((IF(mov.fecha_registro<= DATE_ADD(ht.fecha_registro, INTERVAL 7 DAY),'1','0'))=(IF(mov.id_estado_movimiento_ht=8,'1','0'))), '1','0' ) )))/(count(ht.id_movimiento_ht)))as nivel_servicio\r\n" + 
+				"				FROM \r\n" + 
+				"        movimiento_ht ht\r\n" + 
+				"        inner join (select MAX(id_movimiento_ht) as maximo ,id_estado_movimiento_ht as maxest,fecha_registro, id_hoja_tramite from movimiento_ht group by id_hoja_tramite ) ma on ma.id_hoja_tramite = ht.id_hoja_tramite\r\n" + 
+				"        inner join movimiento_ht  mov  on ma.maximo=mov.id_movimiento_ht \r\n" + 
+				"        where ht.id_estado_movimiento_ht='2' and ht.fecha_registro BETWEEN ? AND ? and ht.id_unidad_registro=? \r\n" + 
+				"        group by  DATE_FORMAT(ht.fecha_registro, \"%Y-%m-%d\" ) order by 3 asc;";
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		java.sql.Connection cn = em.unwrap(java.sql.Connection.class);
+		if (cn != null) {
+			try {
+				ps = cn.prepareStatement(query);
+				ps.setString(1, fecha1);
+				ps.setString(2, fecha2);
+				ps.setInt(3, id_unidad);
+				ResultSet rs = ps.executeQuery();
+				if (rs.next()) {
+					lista = new ArrayList<PostTest>();
+					rs.beforeFirst();
+					while (rs.next()) {
+						dato = new PostTest();
+						 dato.setFecha(rs.getString("fecha_reg"));
+						 dato.setCant_total(rs.getInt("total_documentos"));
+						 dato.setCant_encontrada(rs.getInt("total_doc_tramit_tiempo"));
+						 dato.setIndicador(rs.getDouble("nivel_servicio"));
+						 lista.add(dato);
+					}
+				}
+			} catch (SQLException e) {
+				System.out.println("Excepcion en query listarLocalización de documentos: " + e.toString());
+			} finally {
+				em.getTransaction().commit();
+				em.close();
+				emf.close();
+			}
+		}
+		return lista;
+		}
 
 }

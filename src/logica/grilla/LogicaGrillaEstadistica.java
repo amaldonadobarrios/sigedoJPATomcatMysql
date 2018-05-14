@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import entity.estadistica.EstDocumentoRecibido;
+import entity.estadistica.PostTest;
 import entity.estadistica.Pretest;
 import entity.lista.Bandeja;
 import logica.LogicaEstadistica;
@@ -29,6 +30,8 @@ public class LogicaGrillaEstadistica {
 	private String INI_TABLA14 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable14\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
 	private String INI_TABLA15 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable15\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
 	private String INI_TABLA16 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable16\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
+	private String INI_TABLA17 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable17\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
+	private String INI_TABLA18 = "<table class=\"table  table-bordered table-hover table-condensed\" id=\"dataTable18\" width=\"100%\" cellspacing=\"0\" style=\"font-size:11px\">";
     private String INI_THEAD = "<thead>";
     private String INI_TR = "<tr>";
     private String INI_TRBody = "<tr>";
@@ -206,4 +209,104 @@ public class LogicaGrillaEstadistica {
    		
    		return str.toString()+"||"+i;
    	}
+    public String GrillaLocalizacion_doc(int id_unidad,String fecha1, String fecha2)
+   	{
+   		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+   		NumberFormat formatterValor = new DecimalFormat("#0");
+   		int totaldoc=0;
+   		int totalenc=0;
+   		double totindicador=0;
+   		List<PostTest> lista=null;
+   		lista=LogicaEstadistica.getInstance().Localizacion_Doc_PostTest(id_unidad, fecha1, fecha2);
+   		StringBuilder str = new StringBuilder();
+   		str.append("<div id =\"tLocalizacion\">");
+   		str.append(INI_TABLA17);
+   		StringBuilder cabecera = new StringBuilder();
+   		cabecera.append(INI_THEAD);
+   		cabecera.append(INI_TR);
+   		cabecera.append(INI_TH);	cabecera.append("N°");	cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Fecha");			cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Total de Documentos Consultados (TDC)");	cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Cantidad de documentos Localizados (DL)");			cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Localización de documentos");			cabecera.append(FINI_TH);
+ 		cabecera.append(FINI_TR);
+   		cabecera.append(FIN_THEAD);
+   		int i=0;
+   		str.append(cabecera.toString());
+   		str.append(INI_TBODY);
+   		if(  lista!=null && lista.size()>0 )
+   		{           
+   			for(PostTest fila : lista  )
+   			{
+   				i++;
+   				str.append(INI_TRBody);
+   				str.append(INI_TD);	str.append( i );			str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( df.format(fila.getFecha()));				str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( fila.getCant_total());			str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( fila.getCant_encontrada());			str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( fila.getIndicador());			str.append(FIN_TD);
+   				str.append(FINI_TR);
+   				totaldoc=totaldoc+fila.getCant_total();
+   				totalenc=totalenc+fila.getCant_encontrada();
+   			}	
+   			totindicador=totalenc/totaldoc;
+   		}
+   		
+   		str.append(FIN_TBODY);
+   		str.append(FIN_TABLA);
+   		str.append("</div>");
+   		return str.toString()+"||"+i+"||"+formatterValor.format(totindicador)+"||"+totaldoc+"||"+totalenc+"||"+fecha1+"||"+fecha2;
+   	}
+    public String GrillaNivelServicio(int id_unidad,String fecha1, String fecha2)
+   	{
+   		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+   		NumberFormat formatterValor = new DecimalFormat("#0");
+   		int totaldoc=0;
+   		int totalenc=0;
+   		double totindicador=0;
+   		List<PostTest> lista=null;
+   		lista=LogicaEstadistica.getInstance().Nivel_Serv_PostTest(id_unidad, fecha1, fecha2);
+   		StringBuilder str = new StringBuilder();
+   		str.append("<div id =\"tNivelServicio\">");
+   		str.append(INI_TABLA18);
+   		StringBuilder cabecera = new StringBuilder();
+   		cabecera.append(INI_THEAD);
+   		cabecera.append(INI_TR);
+   		cabecera.append(INI_TH);	cabecera.append("N°");	cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Fecha");			cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Documentos Recibidos - Peticiones Recibidas (PR)");	cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Documentos tramitados -Peticiones atendidas (PA)");			cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Nivel de Servicio (NS)");			cabecera.append(FINI_TH);
+ 		cabecera.append(FINI_TR);
+   		cabecera.append(FIN_THEAD);
+   		int i=0;
+   		str.append(cabecera.toString());
+   		str.append(INI_TBODY);
+   		if(  lista!=null && lista.size()>0 )
+   		{           
+   			for(PostTest fila : lista  )
+   			{
+   				i++;
+   				str.append(INI_TRBody);
+   				str.append(INI_TD);	str.append( i );			str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( df.format(fila.getFecha()));				str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( fila.getCant_total());			str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( fila.getCant_encontrada());			str.append(FIN_TD);
+   				str.append(INI_TD);	str.append( fila.getIndicador());			str.append(FIN_TD);
+   				str.append(FINI_TR);
+   				totaldoc=totaldoc+fila.getCant_total();
+   				totalenc=totalenc+fila.getCant_encontrada();
+   			}	
+   			totindicador=totalenc/totaldoc;
+   		}
+   		
+   		str.append(FIN_TBODY);
+   		str.append(FIN_TABLA);
+   		str.append("</div>");
+   		return str.toString()+"||"+i+"||"+formatterValor.format(totindicador)+"||"+totaldoc+"||"+totalenc+"||"+fecha1+"||"+fecha2;
+   	}
+
+
 }
+
+
