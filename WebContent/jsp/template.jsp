@@ -546,7 +546,48 @@
 							$('#tEstDocRec').html(tabla);
 							$('#dataTable16').DataTable();	
 						}	
-				}
+				}if (vevento == 'REPPOSTESTI1') {
+					var respuesta = v_resultado.split('||');
+					var tabla = respuesta[0];
+					var registros = respuesta[1];
+					var totindicador = respuesta[2];
+					var totaldoc = respuesta[3];
+					var totalenc = respuesta[4];
+					var fecha1 = respuesta[5];
+					var fecha2 = respuesta[6];
+					var contraindicador = respuesta[7];
+					var iresp= 100-totindicador;
+					$('#lblregistros1').html(registros);
+					$('#tIndicador1').html(tabla);
+					$('#dataTable17').DataTable();
+					$('#lblval1t1').html(totaldoc);
+					$('#lblval2t1').html(totalenc);
+					$('#lblval3t1').html(totindicador+'%');
+					$('#lblfechaini1').html(fecha1);
+					$('#lblfechafin1').html(fecha2);
+					graficoHigchar4('Localización de documentos',(totindicador)+'#'+contraindicador);
+			}
+				if (vevento == 'REPPOSTESTI2') {
+					var respuesta = v_resultado.split('||');
+					var tabla = respuesta[0];
+					var registros = respuesta[1];
+					var totindicador = respuesta[2];
+					var totaldoc = respuesta[3];
+					var totalenc = respuesta[4];
+					var fecha1 = respuesta[5];
+					var fecha2 = respuesta[6];
+					var contraindicador = respuesta[7];
+					var iresp= 100-totindicador;
+					$('#lblregistros2').html(registros);
+					$('#tIndicador2').html(tabla);
+					$('#dataTable18').DataTable();
+					$('#lblval1t2').html(totaldoc);
+					$('#lblval2t2').html(totalenc);
+					$('#lblval3t2').html(totindicador+'%');
+					$('#lblfechaini2').html(fecha1);
+					$('#lblfechafin2').html(fecha2);
+					graficoHigchar5('Nivel de Servicio',(totindicador)+'#'+contraindicador);
+			}
 				
 				
 

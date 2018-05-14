@@ -176,12 +176,12 @@ public class EstadisticaDAOImpl implements EstadisticaDAO {
 		List<PostTest> lista = null;
 		PostTest dato=null;
 		PreparedStatement ps = null;
-		String query = "SELECT count(ht.id_movimiento_ht) as total_documentos, ht.id_movimiento_ht, ht.fecha_registro as fecha_reg, ht.id_unidad_registro, ht.id_hoja_tramite , sum(IF(ar.estado>0,'1','0')) as localizado ,ar.estado,(sum(IF(ar.estado>0,'1','0'))/( count(ht.id_movimiento_ht))) as localizacion_doc \r\n" + 
-				"				FROM movimiento_ht ht\r\n" + 
-				"         left join archivo ar on ar.id_hoja_tramite = ht.id_hoja_tramite\r\n" + 
-				"        \r\n" + 
-				"        where ht.id_estado_movimiento_ht='2' and ht.fecha_registro BETWEEN ? AND ? and ht.id_unidad_registro=? \r\n" + 
-				"        group by  DATE_FORMAT(ht.fecha_registro, \"%Y-%m-%d\" ) order by 3 asc";
+		String query = "SELECT count(ht.id_movimiento_ht) as total_documentos, ht.id_movimiento_ht, ht.fecha_registro as fecha_reg, ht.id_unidad_registro, ht.id_hoja_tramite , sum(IF(ar.estado>0,'1','0')) as localizado ,ar.estado,(sum(IF(ar.estado>0,'1','0'))/( count(ht.id_movimiento_ht))) as localizacion_doc  \r\n" + 
+				"								FROM movimiento_ht ht \r\n" + 
+				"				         left join archivo ar on ar.id_hoja_tramite = ht.id_hoja_tramite \r\n" + 
+				"				         \r\n" + 
+				"				        where ht.id_estado_movimiento_ht='2' and ht.fecha_registro BETWEEN ? AND DATE_ADD(?, INTERVAL 1 DAY)  and ht.id_unidad_registro=?  \r\n" + 
+				"				        group by  DATE_FORMAT(ht.fecha_registro, \"%Y-%m-%d\" ) order by 3 asc";
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
@@ -198,7 +198,7 @@ public class EstadisticaDAOImpl implements EstadisticaDAO {
 					rs.beforeFirst();
 					while (rs.next()) {
 						dato = new PostTest();
-						 dato.setFecha(rs.getString("fecha_reg"));
+						 dato.setFecha(rs.getDate("fecha_reg"));
 						 dato.setCant_total(rs.getInt("total_documentos"));
 						 dato.setCant_encontrada(rs.getInt("localizado"));
 						 dato.setIndicador(rs.getDouble("localizacion_doc"));
@@ -226,7 +226,7 @@ public class EstadisticaDAOImpl implements EstadisticaDAO {
 				"        movimiento_ht ht\r\n" + 
 				"        inner join (select MAX(id_movimiento_ht) as maximo ,id_estado_movimiento_ht as maxest,fecha_registro, id_hoja_tramite from movimiento_ht group by id_hoja_tramite ) ma on ma.id_hoja_tramite = ht.id_hoja_tramite\r\n" + 
 				"        inner join movimiento_ht  mov  on ma.maximo=mov.id_movimiento_ht \r\n" + 
-				"        where ht.id_estado_movimiento_ht='2' and ht.fecha_registro BETWEEN ? AND ? and ht.id_unidad_registro=? \r\n" + 
+				"        where ht.id_estado_movimiento_ht='2' and ht.fecha_registro BETWEEN ? AND DATE_ADD(?, INTERVAL 1 DAY) and ht.id_unidad_registro=? \r\n" + 
 				"        group by  DATE_FORMAT(ht.fecha_registro, \"%Y-%m-%d\" ) order by 3 asc;";
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
 		EntityManager em = emf.createEntityManager();
@@ -244,7 +244,7 @@ public class EstadisticaDAOImpl implements EstadisticaDAO {
 					rs.beforeFirst();
 					while (rs.next()) {
 						dato = new PostTest();
-						 dato.setFecha(rs.getString("fecha_reg"));
+						 dato.setFecha(rs.getDate("fecha_reg"));
 						 dato.setCant_total(rs.getInt("total_documentos"));
 						 dato.setCant_encontrada(rs.getInt("total_doc_tramit_tiempo"));
 						 dato.setIndicador(rs.getDouble("nivel_servicio"));

@@ -212,23 +212,25 @@ public class LogicaGrillaEstadistica {
     public String GrillaLocalizacion_doc(int id_unidad,String fecha1, String fecha2)
    	{
    		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-   		NumberFormat formatterValor = new DecimalFormat("#0");
-   		int totaldoc=0;
-   		int totalenc=0;
+   		NumberFormat formatterValor = new DecimalFormat("#0.00");
+   		NumberFormat formatterValorE = new DecimalFormat("#0");
+   		double totaldoc=0;
+   		double totalenc=0;
    		double totindicador=0;
+   		double contraindicador=0;
    		List<PostTest> lista=null;
    		lista=LogicaEstadistica.getInstance().Localizacion_Doc_PostTest(id_unidad, fecha1, fecha2);
    		StringBuilder str = new StringBuilder();
-   		str.append("<div id =\"tLocalizacion\">");
+   		str.append("<div id =\"tIndicador1\">");
    		str.append(INI_TABLA17);
    		StringBuilder cabecera = new StringBuilder();
    		cabecera.append(INI_THEAD);
    		cabecera.append(INI_TR);
    		cabecera.append(INI_TH);	cabecera.append("N°");	cabecera.append(FINI_TH);
    		cabecera.append(INI_TH);	cabecera.append("Fecha");			cabecera.append(FINI_TH);
-   		cabecera.append(INI_TH);	cabecera.append("Total de Documentos Consultados (TDC)");	cabecera.append(FINI_TH);
-   		cabecera.append(INI_TH);	cabecera.append("Cantidad de documentos Localizados (DL)");			cabecera.append(FINI_TH);
-   		cabecera.append(INI_TH);	cabecera.append("Localización de documentos");			cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Cantidad de Documentos Consultados (CDC)");	cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Cantidad de documentos Localizados (CDL)");			cabecera.append(FINI_TH);
+   		cabecera.append(INI_TH);	cabecera.append("Localización de documentos (LD)");			cabecera.append(FINI_TH);
  		cabecera.append(FINI_TR);
    		cabecera.append(FIN_THEAD);
    		int i=0;
@@ -249,25 +251,28 @@ public class LogicaGrillaEstadistica {
    				totaldoc=totaldoc+fila.getCant_total();
    				totalenc=totalenc+fila.getCant_encontrada();
    			}	
-   			totindicador=totalenc/totaldoc;
+   			totindicador=(totalenc/totaldoc)*100;
+   			contraindicador=100-totindicador;
    		}
    		
    		str.append(FIN_TBODY);
    		str.append(FIN_TABLA);
    		str.append("</div>");
-   		return str.toString()+"||"+i+"||"+formatterValor.format(totindicador)+"||"+totaldoc+"||"+totalenc+"||"+fecha1+"||"+fecha2;
+   		return str.toString()+"||"+i+"||"+formatterValor.format(totindicador)+"||"+formatterValorE.format(totaldoc)+"||"+formatterValorE.format(totalenc)+"||"+fecha1+"||"+fecha2+"||"+formatterValor.format(contraindicador);
    	}
     public String GrillaNivelServicio(int id_unidad,String fecha1, String fecha2)
    	{
    		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-   		NumberFormat formatterValor = new DecimalFormat("#0");
-   		int totaldoc=0;
-   		int totalenc=0;
+   		NumberFormat formatterValor = new DecimalFormat("#0.00");
+   		NumberFormat formatterValorE = new DecimalFormat("#0");
+   		double totaldoc=0;
+   		double totalenc=0;
    		double totindicador=0;
+   		double contraindicador=0;
    		List<PostTest> lista=null;
    		lista=LogicaEstadistica.getInstance().Nivel_Serv_PostTest(id_unidad, fecha1, fecha2);
    		StringBuilder str = new StringBuilder();
-   		str.append("<div id =\"tNivelServicio\">");
+   		str.append("<div id =\"tIndicador2\">");
    		str.append(INI_TABLA18);
    		StringBuilder cabecera = new StringBuilder();
    		cabecera.append(INI_THEAD);
@@ -297,13 +302,14 @@ public class LogicaGrillaEstadistica {
    				totaldoc=totaldoc+fila.getCant_total();
    				totalenc=totalenc+fila.getCant_encontrada();
    			}	
-   			totindicador=totalenc/totaldoc;
+ 			totindicador=(totalenc/totaldoc)*100;
+   			contraindicador=100-totindicador;
    		}
    		
    		str.append(FIN_TBODY);
    		str.append(FIN_TABLA);
    		str.append("</div>");
-   		return str.toString()+"||"+i+"||"+formatterValor.format(totindicador)+"||"+totaldoc+"||"+totalenc+"||"+fecha1+"||"+fecha2;
+   		return str.toString()+"||"+i+"||"+formatterValor.format(totindicador)+"||"+formatterValorE.format(totaldoc)+"||"+formatterValorE.format(totalenc)+"||"+fecha1+"||"+fecha2+"||"+formatterValor.format(contraindicador);
    	}
 
 

@@ -101,7 +101,7 @@ public class SPage extends HttpServlet {
 					case "PreTest":
 						this.PreTest(request, response);
 						break;
-					case "PosTest":
+					case "PostTest":
 						this.PosTest(request, response);
 						break;
 					case "RepDocRecibido":
@@ -136,7 +136,7 @@ public class SPage extends HttpServlet {
 
 	private void PosTest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute("breadcrumb", "Pos-Test");
-		request.setAttribute("body", "PosTest");
+		request.setAttribute("body", "PostTest");
 		forwar("jsp/template.jsp", request, response);
 		
 	}

@@ -173,6 +173,14 @@ public class ServBandejaAJAX extends HttpServlet {
 							System.out.println("hdEvento :  REPDOCRECIBIDO");
 							repdocrecibido(request, response);
 							break;
+						case "REPPOSTESTI1":
+							System.out.println("hdEvento :  REPPOSTESTI1");
+							reppostesti1(request, response);
+							break;
+						case "REPPOSTESTI2":
+							System.out.println("hdEvento :  REPPOSTESTI2");
+							reppostesti2(request, response);
+							break;
 							
 						default:
 							break;
@@ -199,6 +207,34 @@ public class ServBandejaAJAX extends HttpServlet {
 		}
 
 	}
+	private void reppostesti2(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("void reppostesti2");
+		String html;
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		String fecha1=request.getParameter("fecha1");
+		String fecha2=request.getParameter("fecha2");
+		System.out.println("fecha1 :"+ fecha1);
+		html=LogicaGrillaEstadistica.getInstance().GrillaNivelServicio(uni.getIdUnidad(), fecha1, fecha2);
+		HtmlUtil.getInstance().escrituraHTML(response, html);
+		
+	}
+
+	private void reppostesti1(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("void reppostesti1");
+		String html;
+		HttpSession sesion = request.getSession();
+		ArrayList<Object> SesionUsuario = (ArrayList<Object>) sesion.getAttribute("usuario");
+		Unidad uni = (Unidad) SesionUsuario.get(3);
+		String fecha1=request.getParameter("fecha1");
+		String fecha2=request.getParameter("fecha2");
+		System.out.println("fecha1 :"+ fecha1);
+		html=LogicaGrillaEstadistica.getInstance().GrillaLocalizacion_doc(uni.getIdUnidad(), fecha1, fecha2);
+		HtmlUtil.getInstance().escrituraHTML(response, html);
+		
+	}
+
 	private void repdocrecibido(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("void repdocrecibido");
 		String html;

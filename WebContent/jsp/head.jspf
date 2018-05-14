@@ -115,7 +115,7 @@
 					<li><a href="SPage?action=PreTest"> <i
 							class="fa fa-fw fa-line-chart"></i> <span class="nav-link-text">Pre
 								test</span></a></li>
-					<li><a href="SPage?action=PosTest"> <i
+					<li><a href="SPage?action=PostTest"> <i
 							class="fa fa-fw fa-line-chart"></i> <span class="nav-link-text">Post
 								test</span></a></li>
 					<li><a href="SPage?action=RepDocRecibido"> <i
