@@ -25,9 +25,11 @@ import entity.PrioridadDoc;
 import entity.TipoDoc;
 import entity.Unidad;
 import entity.Usuario;
+import entity.estadistica.Cant_doc_trazabilidad;
 import entity.lista.Administrativo;
 import logica.LogicaCentroTrabajo;
 import logica.LogicaCombos;
+import logica.LogicaEstadistica;
 import logica.LogicaGrafico;
 import logica.LogicaOficina;
 import logica.LogicaPersona;
@@ -106,6 +108,10 @@ public class ServAdministracionAJAX extends HttpServlet {
 								e.printStackTrace();
 							}
 							break;
+						case "workflow_cant":
+							System.out.println("hdEvento :  workflow_cant");
+							workflow_cant(request, response);
+							break;	
 						default:
 							break;
 						}
@@ -134,7 +140,13 @@ public class ServAdministracionAJAX extends HttpServlet {
 
 	
 	
-	
+	private void workflow_cant(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("void workflow_cant");
+		String html;
+		Cant_doc_trazabilidad dato;
+		dato=LogicaEstadistica.getInstance().workflow_cant();
+		HtmlUtil.getInstance().escrituraHTML(response, dato.toString());	
+	}
 	
 
 	private void cambiarClaveADM(HttpServletRequest request, HttpServletResponse response) throws SQLException {

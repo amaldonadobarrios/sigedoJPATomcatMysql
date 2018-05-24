@@ -11,8 +11,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import com.google.gson.Gson;
+
 import dao.EstadisticaDAO;
+import entity.estadistica.Cant_doc_trazabilidad;
 import entity.estadistica.EstDocumentoRecibido;
+import entity.estadistica.Grafic_Trazabilidad;
 import entity.estadistica.PostTest;
 import entity.estadistica.Pretest;
 
@@ -261,5 +265,144 @@ public class EstadisticaDAOImpl implements EstadisticaDAO {
 		}
 		return lista;
 		}
+
+	@Override
+	public Cant_doc_trazabilidad workflow_cantidad() {
+		List<String> array = new ArrayList<String>();
+		Cant_doc_trazabilidad dato=null;
+		PreparedStatement ps = null;
+		String query = "SELECT count(ht.id_movimiento_ht) as cantidad_recibido \r\n" + 
+				"FROM movimiento_ht ht  where ht.id_estado_movimiento_ht='2'   and ht.id_unidad_registro='1' and DATE_FORMAT(fecha_registro,'%Y')=DATE_FORMAT(sysdate(),'%Y')    \r\n" + 
+				"union  ALL \r\n" + 
+				"SELECT count(ht.id_movimiento_ht) as cantidad_derivado	FROM movimiento_ht ht  where ht.id_estado_movimiento_ht='3'   and ht.id_unidad_registro='1' and DATE_FORMAT(fecha_registro,'%Y')=DATE_FORMAT(sysdate(),'%Y')  \r\n" + 
+				"union  ALL \r\n" + 
+				"SELECT count(ht.id_movimiento_ht) as cantidad_respondido	FROM movimiento_ht ht  where ht.id_estado_movimiento_ht='4'   and ht.id_unidad_registro='1' and DATE_FORMAT(fecha_registro,'%Y')=DATE_FORMAT(sysdate(),'%Y')  \r\n" + 
+				"union   ALL\r\n" + 
+				"SELECT count(ht.id_movimiento_ht) as cantidad_aprobado	FROM movimiento_ht ht  where ht.id_estado_movimiento_ht='5'   and ht.id_unidad_registro='1'and DATE_FORMAT(fecha_registro,'%Y')=DATE_FORMAT(sysdate(),'%Y')  \r\n" + 
+				"union   ALL\r\n" + 
+				"SELECT count(ht.id_movimiento_ht) as cantidad_desaprobado	FROM movimiento_ht ht  where ht.id_estado_movimiento_ht='6'   and ht.id_unidad_registro='1' and DATE_FORMAT(fecha_registro,'%Y')=DATE_FORMAT(sysdate(),'%Y')  \r\n" + 
+				"union   ALL\r\n" + 
+				"SELECT count(ht.id_movimiento_ht) as cantidad_devuelto	FROM movimiento_ht ht  where ht.id_estado_movimiento_ht='7'   and ht.id_unidad_registro='1' and DATE_FORMAT(fecha_registro,'%Y')=DATE_FORMAT(sysdate(),'%Y')  \r\n" + 
+				"union   ALL\r\n" + 
+				"SELECT count(ht.id_movimiento_ht) as cantidad_contestado	FROM movimiento_ht ht  where ht.id_estado_movimiento_ht='8'   and ht.id_unidad_registro='1' and DATE_FORMAT(fecha_registro,'%Y')=DATE_FORMAT(sysdate(),'%Y')  \r\n" + 
+				"union  ALL \r\n" + 
+				"SELECT count(ht.id_hoja_tramite) as cantidad_archivado	FROM archivo ht  where ht.estado='1'   and ht.id_unidad='1' and DATE_FORMAT(fecha_reg,'%Y')=DATE_FORMAT(sysdate(),'%Y')  \r\n" + 
+				"union  ALL \r\n" + 
+				"SELECT count(ht.id_movimiento_ht) as cantidad_enviado	FROM movimiento_ht ht  where ht.id_estado_movimiento_ht='1'   and ht.id_unidad_registro='1' and DATE_FORMAT(fecha_registro,'%Y')=DATE_FORMAT(sysdate(),'%Y')  \r\n" + 
+				"";
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		java.sql.Connection cn = em.unwrap(java.sql.Connection.class);
+		if (cn != null) {
+			try {
+				ps = cn.prepareStatement(query);
+				ResultSet rs = ps.executeQuery();
+				if (rs.next()) {
+					rs.beforeFirst();
+					while (rs.next()) {
+						array.add(rs.getString("cantidad_recibido"));
+					}
+				}
+			} catch (SQLException e) {
+				System.out.println("Excepcion en query cantidad_recibido de documentos: " + e.toString());
+			} finally {
+				em.getTransaction().commit();
+				em.close();
+				emf.close();
+			}
+		}
+		if (array.size()>0) {
+			System.out.println(array.size());
+			dato=new Cant_doc_trazabilidad();
+			dato.setCant_recibido(Integer.parseInt(array.get(0)));
+			dato.setCant_derivado(Integer.parseInt(array.get(1)));
+			dato.setCant_respondido(Integer.parseInt(array.get(2)));
+			dato.setCant_aprobado(Integer.parseInt(array.get(3)));
+			dato.setCant_desaprobado(Integer.parseInt(array.get(4)));
+			dato.setCant_devuelto(Integer.parseInt(array.get(5)));
+			dato.setCant_contestado(Integer.parseInt(array.get(6)));
+			dato.setCant_archivado(Integer.parseInt(array.get(7)));
+			dato.setCant_enviado(Integer.parseInt(array.get(8)));		
+		}
+		return dato;
+	}
+
+	@Override
+	public String Grafico_trazabilidad(int id_ht) {
+		Grafic_Trazabilidad grafico = null;
+		String json = "";
+		String dato=null;
+		PreparedStatement ps = null;
+		String query = "select ht.id_hoja_tramite, (IFNULL(recibido.fecha_registro,'NO REGISTRO')) as recibido, (IFNULL(derivado.fecha_registro,'NO REGISTRO')) as derivado, (IFNULL(respondido.fecha_registro,'NO REGISTRO')) as respondido, (IFNULL(aprobado.fecha_registro,'NO REGISTRO')) as aprobado ,(IFNULL(desaprobado.fecha_registro,'NO REGISTRO')) as desaprobado,(IFNULL(devuelto.fecha_registro,'NO REGISTRO')) as devuelto,(IFNULL(contestado.fecha_registro,'NO REGISTRO')) as contestado,(IFNULL(archivo.fecha_reg,'NO REGISTRO')) as archivado,(IFNULL(enviado.fecha_registro,'NO REGISTRO')) as enviado,\r\n" + 
+				"(IFNULL(DATEDIFF(derivado.fecha_registro,recibido.fecha_registro),0)) as DERIV_RECIBIDO,\r\n" + 
+				"(IFNULL(DATEDIFF(respondido.fecha_registro,derivado.fecha_registro),0)) as RESPONDIDO_DERIVADO,\r\n" + 
+				"(IFNULL(DATEDIFF(devuelto.fecha_registro,derivado.fecha_registro),0)) as DEVUELTO_DERIVADO,\r\n" + 
+				"(IFNULL(DATEDIFF(aprobado.fecha_registro,respondido.fecha_registro),0)) as APROBADO_RESPONDIDO,\r\n" + 
+				"(IFNULL(DATEDIFF(desaprobado.fecha_registro,respondido.fecha_registro),0)) as DESAPROBADO_RESPONDIDO,\r\n" + 
+				"(IFNULL(DATEDIFF(contestado.fecha_registro,aprobado.fecha_registro),0)) as CONTESTADO_APROBADO,\r\n" + 
+				"(IFNULL(DATEDIFF(archivo.fecha_reg,contestado.fecha_registro),0)) as ARCHIVADO_CONTESTADO,\r\n" + 
+				"((IFNULL(DATEDIFF(derivado.fecha_registro,recibido.fecha_registro),0))+(IFNULL(DATEDIFF(respondido.fecha_registro,derivado.fecha_registro),0))+(IFNULL(DATEDIFF(devuelto.fecha_registro,derivado.fecha_registro),0))+ (IFNULL(DATEDIFF(aprobado.fecha_registro,respondido.fecha_registro),0)) +\r\n" + 
+				"(IFNULL(DATEDIFF(desaprobado.fecha_registro,respondido.fecha_registro),0)) +(IFNULL(DATEDIFF(contestado.fecha_registro,aprobado.fecha_registro),0)) + (IFNULL(DATEDIFF(archivo.fecha_reg,contestado.fecha_registro),0))) as TOTAL_DIAS\r\n" + 
+				"\r\n" + 
+				"from\r\n" + 
+				"hoja_tramite ht\r\n" + 
+				"left join (SELECT  recibido.id_hoja_tramite, recibido.id_estado_movimiento_ht, recibido.fecha_registro from movimiento_ht recibido where  recibido.id_estado_movimiento_ht ='2'and recibido.id_unidad_registro='1') recibido on ht.id_hoja_tramite = recibido.id_hoja_tramite\r\n" + 
+				"left join (SELECT  ht.id_hoja_tramite, ht.id_estado_movimiento_ht, ht.fecha_registro from movimiento_ht ht where  ht.id_estado_movimiento_ht ='3'and ht.id_unidad_registro='1') derivado on derivado.id_hoja_tramite=ht.id_hoja_tramite\r\n" + 
+				"left join (SELECT  ht.id_hoja_tramite, ht.id_estado_movimiento_ht, ht.fecha_registro from movimiento_ht ht where  ht.id_estado_movimiento_ht ='4'and ht.id_unidad_registro='1') respondido on respondido.id_hoja_tramite=ht.id_hoja_tramite\r\n" + 
+				"left join (SELECT  ht.id_hoja_tramite, ht.id_estado_movimiento_ht, ht.fecha_registro from movimiento_ht ht where  ht.id_estado_movimiento_ht ='5'and ht.id_unidad_registro='1') aprobado on aprobado.id_hoja_tramite=ht.id_hoja_tramite\r\n" + 
+				"left join (SELECT  ht.id_hoja_tramite, ht.id_estado_movimiento_ht, ht.fecha_registro from movimiento_ht ht where  ht.id_estado_movimiento_ht ='6'and ht.id_unidad_registro='1') desaprobado on desaprobado.id_hoja_tramite=ht.id_hoja_tramite\r\n" + 
+				"left join (SELECT  ht.id_hoja_tramite, ht.id_estado_movimiento_ht, ht.fecha_registro from movimiento_ht ht where  ht.id_estado_movimiento_ht ='7'and ht.id_unidad_registro='1') devuelto on devuelto.id_hoja_tramite=ht.id_hoja_tramite\r\n" + 
+				"left join (SELECT  ht.id_hoja_tramite, ht.id_estado_movimiento_ht, ht.fecha_registro from movimiento_ht ht where  ht.id_estado_movimiento_ht ='8'and ht.id_unidad_registro='1') contestado on contestado.id_hoja_tramite=ht.id_hoja_tramite\r\n" + 
+				"left join (SELECT  ht.id_hoja_tramite,  ht.fecha_reg from archivo ht where  ht.estado='1' and ht.id_unidad='1') archivo on archivo.id_hoja_tramite=ht.id_hoja_tramite\r\n" + 
+				"left join (SELECT  ht.id_hoja_tramite, ht.id_estado_movimiento_ht, ht.fecha_registro from movimiento_ht ht where  ht.id_estado_movimiento_ht ='1'and ht.id_unidad_registro='1') enviado on enviado.id_hoja_tramite=ht.id_hoja_tramite\r\n" + 
+				"where  ht.id_hoja_tramite =?";
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		java.sql.Connection cn = em.unwrap(java.sql.Connection.class);
+		if (cn != null) {
+			try {
+				grafico=new Grafic_Trazabilidad();
+				ps = cn.prepareStatement(query);
+				ps.setInt(1, id_ht);
+				ResultSet rs = ps.executeQuery();
+				if (rs.next()) {
+					rs.beforeFirst();
+					while (rs.next()) {
+						grafico.setId_hoja_tramite(rs.getInt("id_hoja_tramite"));
+						grafico.setFrecibido(rs.getString("recibido"));
+						grafico.setFderivado(rs.getString("derivado"));
+						grafico.setFrespondido(rs.getString("respondido"));
+						grafico.setFaprobado(rs.getString("aprobado"));
+						grafico.setFdesaprobado(rs.getString("desaprobado"));
+						grafico.setFdevuelto(rs.getString("devuelto"));
+						grafico.setFcontestado(rs.getString("contestado"));
+						grafico.setFarchivado(rs.getString("archivado"));
+						grafico.setFenviado(rs.getString("enviado"));
+						grafico.setDeriv_recibido(rs.getString("DERIV_RECIBIDO"));
+						grafico.setRespondido_derivado(rs.getString("RESPONDIDO_DERIVADO"));
+						grafico.setDevuelto_derivado(rs.getString("DEVUELTO_DERIVADO"));
+						grafico.setAprobado_respondido(rs.getString("APROBADO_RESPONDIDO"));
+						grafico.setDesaprobado_respondido(rs.getString("DESAPROBADO_RESPONDIDO"));
+						grafico.setContestado_aprobado(rs.getString("CONTESTADO_APROBADO"));
+						grafico.setArchivado_contestado(rs.getString("ARCHIVADO_CONTESTADO"));
+						grafico.setTotal_dias(rs.getString("TOTAL_DIAS"));
+					
+						
+					}
+				}
+			} catch (SQLException e) {
+				System.out.println("Excepcion en query listarLocalización de documentos: " + e.toString());
+			} finally {
+				em.getTransaction().commit();
+				em.close();
+				emf.close();
+			}
+		}
+		Gson gson = new Gson();
+		json = gson.toJson(grafico);
+		return json;
+	}
 
 }

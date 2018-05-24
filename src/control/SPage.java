@@ -12,11 +12,14 @@ import javax.servlet.http.HttpSession;
 
 import entity.Unidad;
 import entity.Usuario;
+import entity.estadistica.Cant_doc_trazabilidad;
 import logica.LogicaCombos;
+import logica.LogicaEstadistica;
 import logica.LogicaOficina;
 import logica.LogicaPerfil;
 import logica.LogicaUnidad;
 import logica.grilla.LogicaGrillaBandeja;
+import util.HtmlUtil;
 
 /**
  * Servlet implementation class SPage
@@ -139,6 +142,9 @@ public class SPage extends HttpServlet {
 
 	private void Workflow(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute("breadcrumb", "Workflow");
+		Cant_doc_trazabilidad dato;
+		dato=LogicaEstadistica.getInstance().workflow_cant();
+		request.setAttribute("Workflow_cant", dato);
 		request.setAttribute("body", "Workflow");
 		forwar("jsp/template.jsp", request, response);
 		

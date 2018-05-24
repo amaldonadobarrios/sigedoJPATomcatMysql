@@ -22,9 +22,11 @@ import entity.MovimientoHt;
 import entity.Oficina;
 import entity.Unidad;
 import entity.Usuario;
+import entity.estadistica.Cant_doc_trazabilidad;
 import logica.LogicaAlmacenArchivo;
 import logica.LogicaArchivo;
 import logica.LogicaDocumento;
+import logica.LogicaEstadistica;
 import logica.LogicaFichero;
 import logica.LogicaHojaTramite;
 import logica.LogicaMovimientoHT;
@@ -181,7 +183,6 @@ public class ServBandejaAJAX extends HttpServlet {
 							System.out.println("hdEvento :  REPPOSTESTI2");
 							reppostesti2(request, response);
 							break;
-							
 						default:
 							break;
 						}
@@ -207,6 +208,8 @@ public class ServBandejaAJAX extends HttpServlet {
 		}
 
 	}
+
+
 	private void reppostesti2(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("void reppostesti2");
 		String html;

@@ -588,6 +588,12 @@
 					$('#lblfechafin2').html(fecha2);
 					graficoHigchar5('Nivel de Servicio',(totindicador)+'#'+contraindicador);
 			}
+				if (vevento == 'workflow_cant') {
+					alert(v_resultado);
+					//var respuesta = v_resultado.split('||');
+					
+					
+			}
 				
 				
 

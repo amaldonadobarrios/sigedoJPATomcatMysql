@@ -2,6 +2,7 @@ package logica;
 
 import java.util.List;
 
+import entity.estadistica.Cant_doc_trazabilidad;
 import entity.estadistica.EstDocumentoRecibido;
 import entity.estadistica.PostTest;
 import entity.estadistica.Pretest;
@@ -52,6 +53,12 @@ public class LogicaEstadistica {
 					EstadisticaService serv=new EstadisticaServiceImpl();
 					lista=serv.NivelServicio(id_unidad, fecha1, fecha2);
 					return lista;
+				}
+				public Cant_doc_trazabilidad workflow_cant() {
+					Cant_doc_trazabilidad dato=null;
+					EstadisticaService serv=new EstadisticaServiceImpl();
+					dato=serv.workflow_cantidad();
+					return dato;
 				}
 				
 }

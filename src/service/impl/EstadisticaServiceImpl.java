@@ -4,6 +4,7 @@ import java.util.List;
 
 import dao.EstadisticaDAO;
 import dao.impl.EstadisticaDAOImpl;
+import entity.estadistica.Cant_doc_trazabilidad;
 import entity.estadistica.EstDocumentoRecibido;
 import entity.estadistica.PostTest;
 import entity.estadistica.Pretest;
@@ -41,6 +42,12 @@ EstadisticaDAO dao=new EstadisticaDAOImpl();
 	public List<PostTest> NivelServicio(int id_unidad, String fecha1, String fecha2) {
 		// TODO Auto-generated method stub
 		return dao.NivelServicio(id_unidad, fecha1, fecha2);
+	}
+
+	@Override
+	public Cant_doc_trazabilidad workflow_cantidad() {
+		// TODO Auto-generated method stub
+		return dao.workflow_cantidad();
 	}
 
 }
