@@ -120,6 +120,8 @@
 								test</span></a></li>
 					<li><a href="SPage?action=RepDocRecibido"> <i
 							class="fa fa-fw fa-bar-chart"></i> <span class="nav-link-text">Reporte Documento Recibidos</span></a></li>
+					<li><a href="SPage?action=Workflow"> <i
+							class="fa fa-fw fa-bar-chart"></i> <span class="nav-link-text">Workflow</span></a></li>
 				</ul></li>
 		</ul>
 		<ul class="navbar-nav sidenav-toggler">

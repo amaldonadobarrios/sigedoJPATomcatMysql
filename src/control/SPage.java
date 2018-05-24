@@ -106,7 +106,10 @@ public class SPage extends HttpServlet {
 						break;
 					case "RepDocRecibido":
 						this.RepDocRecibido(request, response);
-						break;	
+						break;
+					case "Workflow":
+						this.Workflow(request, response);
+						break;
 					default:
 						this.pagelogin(request, response);
 						break;
@@ -132,6 +135,13 @@ public class SPage extends HttpServlet {
 			System.out.println("DESTINO:" + "index.jsp");
 			forwar("index.jsp", request, response);
 		}
+	}
+
+	private void Workflow(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("breadcrumb", "Workflow");
+		request.setAttribute("body", "Workflow");
+		forwar("jsp/template.jsp", request, response);
+		
 	}
 
 	private void PosTest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
