@@ -9,12 +9,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the codeqr database table.
  * 
  */
 @Entity
+@Table(name="codeqr")
 @NamedQuery(name = "Codeqr.findAll", query = "SELECT c FROM Codeqr c")
 public class Codeqr implements Serializable {
 	private static final long serialVersionUID = 1L;

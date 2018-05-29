@@ -33,7 +33,7 @@ public class PerfilDAOImpl implements PerfilDAO {
 	public List<Perfil> Listar() {
 		Perfil temp = null;
 		List <Perfil> lista=null;
-		String query = "SELECT id_perfil, descripcion FROM Perfil";
+		String query = "SELECT id_perfil, descripcion FROM perfil";
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();

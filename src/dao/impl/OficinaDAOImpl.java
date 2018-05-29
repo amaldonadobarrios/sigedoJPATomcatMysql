@@ -44,7 +44,7 @@ public class OficinaDAOImpl implements OficinaDAO {
 	public List<Oficina> Listar() {
 		Oficina temp = null;
 		List <Oficina> lista=null;
-		String query = "SELECT id_Oficina, descripcion FROM Oficina";
+		String query = "SELECT id_Oficina, descripcion FROM oficina";
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();

@@ -32,7 +32,7 @@ public class CentroTrabajoDAOImpl implements CentroTrabajoDAO {
 	public List<CentroTrabajo> Listar() {
 		CentroTrabajo temp = null;
 		List<CentroTrabajo> lista = null;
-		String query = "SELECT id_centro_trabajo, id_unidad,id_oficina FROM Centro_Trabajo where estado=1";
+		String query = "SELECT id_centro_trabajo, id_unidad,id_oficina FROM centro_trabajo where estado=1";
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
@@ -68,7 +68,7 @@ public class CentroTrabajoDAOImpl implements CentroTrabajoDAO {
 	public List<CentroTrabajo> ListarxidUnixidOfi(int id_unidad, int id_oficina) {
 		CentroTrabajo temp = null;
 		List<CentroTrabajo> lista = null;
-		String query = "SELECT id_centro_trabajo, id_unidad,id_oficina FROM Centro_Trabajo where id_unidad=? and id_oficina=? and estado=1";
+		String query = "SELECT id_centro_trabajo, id_unidad,id_oficina FROM centro_trabajo where id_unidad=? and id_oficina=? and estado=1";
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();

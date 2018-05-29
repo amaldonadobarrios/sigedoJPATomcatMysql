@@ -425,7 +425,7 @@ public class BandejaDAOImpl implements BandejaDAO {
 				+ "doc.id_fichero_doc,\r\n" + "IF(arc.estado='1',\"DIGITALIZADO\",\"ORIGINAL\") as estadoarchivo,\r\n"
 				+ "arc.id_fichero_archivo  AS id_fichero_archivo,\r\n"
 				+ "IFNULL(arc.observaciones ,\"INTERNO\")as obsarchivo,\r\n" + "doc.fecha_doc\r\n"
-				+ "FROM dbsigedo.movimiento_ht mov\r\n"
+				+ "FROM movimiento_ht mov\r\n"
 				+ "inner join estado_movimiento_ht emov on emov.id_estado_movimiento_ht=mov.id_estado_movimiento_ht\r\n"
 				+ "join documento doc on doc.id_documento=mov.id_documento\r\n"
 				+ "join tipo_doc tdoc on tdoc.id_tipo_doc=doc.id_tipo_doc\r\n"

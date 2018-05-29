@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -17,6 +18,7 @@ import javax.persistence.TemporalType;
  * 
  */
 @Entity
+@Table(name="documento")
 @NamedQuery(name = "Documento.findAll", query = "SELECT d FROM Documento d")
 public class Documento implements Serializable {
 	private static final long serialVersionUID = 1L;
