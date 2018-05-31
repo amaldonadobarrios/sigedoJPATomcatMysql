@@ -49,9 +49,8 @@
 <link
 	href="bootstrap-datepicker/css/bootstrap-datepicker3.standalone.css"
 	rel="stylesheet">
-
-
-
+<script type="text/javascript" src="js/loader.js"></script>
+<link href="css/main.css" rel="stylesheet" type="text/css">
 
 
 
@@ -107,7 +106,7 @@
 			<script src="js/bootstrap-notify.min.js"></script>
 			<script src="js/chosen.jquery.min.js"></script>
 			<script src="js/dirtexto.js"></script>
-			<script src="js/loader.js"></script>
+
 			<script src="js/highcharts.js"></script>
 			<script src="js/exporting.js"></script>
 
@@ -219,9 +218,8 @@
 							var tipo = respuesta[1];
 							$('#divPdfView').html(frame);
 							$('#viewer').attr('src',
-									//'data:application/pdf;base64,'
-									'data:'+tipo+';base64,'
-											+ b64);
+							//'data:application/pdf;base64,'
+							'data:' + tipo + ';base64,' + b64);
 						}
 					}
 				});
@@ -364,35 +362,36 @@
 					var sumvalor1 = respuesta[2];
 					var sumvalor2 = respuesta[3];
 					var resp = respuesta[4];
-					resp=resp.replace(",",".");
+					resp = resp.replace(",", ".");
 					//resp=parseFloat(resp).toFixed(1);
-					var iresp= 100-resp;
+					var iresp = 100 - resp;
 					//iresp=parseFloat(iresp).toFixed(1); 
 					$('#lblpretest1').html(numero);
 					$('#tpretest1').html(tabla);
 					$('#dataTable14').DataTable();
 					$('#lblval1t1').html(sumvalor1);
 					$('#lblval2t1').html(sumvalor2);
-					$('#lblval3t1').html(resp+'%');
-					graficoHigchar4('titulo',resp+'#'+iresp);
+					$('#lblval3t1').html(resp + '%');
+					graficoHigchar4('titulo', resp + '#' + iresp);
 				}
 				if (vevento == 'PRETEST_IND2') {
-				
+
 					var respuesta = v_resultado.split('||');
 					var tabla = respuesta[0];
 					var numero = respuesta[1];
 					var sumvalor1 = respuesta[2];
 					var sumvalor2 = respuesta[3];
 					var resp = respuesta[4];
-					resp=resp.replace(",",".");
-					var iresp= 100-resp;
+					resp = resp.replace(",", ".");
+					var iresp = 100 - resp;
 					$('#lblpretest2').html(numero);
 					$('#tpretest2').html(tabla);
 					$('#dataTable15').DataTable();
 					$('#lblval1t2').html(sumvalor1);
 					$('#lblval2t2').html(sumvalor2);
-					$('#lblval3t2').html(resp+'%');
-					graficoHigchar5('titulo',parseFloat(resp)+'#'+parseFloat(iresp));
+					$('#lblval3t2').html(resp + '%');
+					graficoHigchar5('titulo', parseFloat(resp) + '#'
+							+ parseFloat(iresp));
 				}
 
 				if (vevento == 'DERIVAR') {
@@ -469,84 +468,134 @@
 				}
 				if (vevento == 'TRAZABILIDAD') {
 					//alert(v_resultado);
-						var respuesta = v_resultado.split('||');
-						var tabla = respuesta[0];
-						var numero = respuesta[1];
-						if (numero=='0') {	
-							$('#ttrazabilidad').html('');
-							$('#dataTable12').DataTable();	
-							danger('Error, No se encontró la Hoja de trámite!');
-						}else{
-							//$('#lblarchivodigitalizado').html(numero);
-							$('#ttrazabilidad').html(tabla);
-							$('#dataTable12').DataTable();	
-						}	
+					var respuesta = v_resultado.split('||');
+					var tabla = respuesta[0];
+					var numero = respuesta[1];
+					$('#p_recibido').removeClass("active");
+					$('#p_archivado').removeClass("active");
+					$('#p_contestado').removeClass("active");
+					$('#p_tramite').removeClass("active");
+					if (numero == '0') {
+						$('#ht_ini').html('');
+						$('#fecha_ini').html('');
+						$('#asunto_ini').html('');
+						$('#prioridad_ini').html('');
+						$('#documento_ini').html('');
+						$('#observaciones_ini').html('');
+						$('#estado_final').html('');
+						$('#ttrazabilidad').html('');
+						$('#dataTable12').DataTable();
+						$('#p_recibido').removeClass("active");
+						$('#p_archivado').removeClass("active");
+						$('#p_contestado').removeClass("active");
+						$('#p_tramite').removeClass("active");
+						danger('Error, No se encontró la Hoja de trámite!');
+					} else {
+						//$('#lblarchivodigitalizado').html(numero);
+						var ht_ini = respuesta[2];
+						var fecha_ini = respuesta[3];
+						var asunto_ini = respuesta[4];
+						var prioridad_ini = respuesta[5];
+						var documento_ini = respuesta[6];
+						var observaciones_ini = respuesta[7];
+						var estado_final = respuesta[8];
+						var estado_archivo = respuesta[9];
+						$('#ht_ini').html(ht_ini);
+						$('#fecha_ini').html(fecha_ini);
+						$('#asunto_ini').html(asunto_ini);
+						$('#prioridad_ini').html(prioridad_ini);
+						$('#documento_ini').html(documento_ini);
+						$('#observaciones_ini').html(observaciones_ini);
+						$('#estado_final').html(estado_final);
+						$('#ttrazabilidad').html(tabla);
+						$('#dataTable12').DataTable();
+						$('#estado_final').css({
+							'color' : 'red',
+							'font-size' : '1.3em',
+							'background' : 'yellow'
+						});
+
+						if (estado_final == 'RECIBIDO') {
+							$('#p_recibido').addClass("active");
+						} else if (estado_final == 'CONTESTADO') {
+							if (estado_archivo == 'DIGITALIZADO') {
+								$('#estado_final').html('ARCHIVADO');
+								$('#p_archivado').addClass("active");
+							} else {
+								$('#p_contestado').addClass("active");
+							}
+						} else {
+							$('#p_tramite').addClass("active");
+						}
+
+					}
 				}
 				if (vevento == 'BUSCAR_ARCHIVO') {
 					//alert(v_resultado);
-						var respuesta = v_resultado.split('||');
-						var tabla = respuesta[0];
-						var numero = respuesta[1];
-						if (numero=='0') {	
-							$('#tconsarchivo').html('');
-							$('#dataTable13').DataTable();	
-							danger('Error, No se encontró Documento ');
-						}else{
-							//$('#lblarchivodigitalizado').html(numero);
-							$('#tconsarchivo').html(tabla);
-							$('#dataTable13').DataTable();	
-						}	
+					var respuesta = v_resultado.split('||');
+					var tabla = respuesta[0];
+					var numero = respuesta[1];
+					if (numero == '0') {
+						$('#tconsarchivo').html('');
+						$('#dataTable13').DataTable();
+						danger('Error, No se encontró Documento ');
+					} else {
+						//$('#lblarchivodigitalizado').html(numero);
+						$('#tconsarchivo').html(tabla);
+						$('#dataTable13').DataTable();
+					}
 				}
 				if (vevento == 'VER_GRAFICOS') {
 					//alert(v_resultado);
-						var respuesta = v_resultado.split('||');
-						var graf1 = respuesta[0];
-						var graf2 = respuesta[1];
-						var graf3 = respuesta[2];
-						var graf4 = respuesta[3];
-						graficoHigchar('titulo',graf1);
-						graficoHigchar2('titulo',graf2);
-						graficoHigchar3('titulo',graf3);
-						graficoHigchar4('titulo',graf4);
-							//$('#tconsarchivo').html(tabla);
-							//$('#dataTable13').DataTable();	
-							
+					var respuesta = v_resultado.split('||');
+					var graf1 = respuesta[0];
+					var graf2 = respuesta[1];
+					var graf3 = respuesta[2];
+					var graf4 = respuesta[3];
+					graficoHigchar('titulo', graf1);
+					graficoHigchar2('titulo', graf2);
+					graficoHigchar3('titulo', graf3);
+					graficoHigchar4('titulo', graf4);
+					//$('#tconsarchivo').html(tabla);
+					//$('#dataTable13').DataTable();	
+
 				}
 				if (vevento == 'CAMBIAR_CLAVE') {
 					//alert(v_resultado);
-						if (v_resultado=='0') {	
+					if (v_resultado == '0') {
 						danger('Error, Clave actual invalida ');
-						}
-						if (v_resultado=='1') {	
+					}
+					if (v_resultado == '1') {
 						alerta('Actualizacion de Clave exitosa ');
 						setTimeout("redireccionarPagina()", 5000);
-						}		
+					}
 				}
 				if (vevento == 'CAMBIAR_CLAVEADM') {
 					//alert(v_resultado);
-						if (v_resultado=='0') {	
+					if (v_resultado == '0') {
 						danger('Error, No se pudo actualizar clave ');
-						}
-						if (v_resultado=='1') {	
+					}
+					if (v_resultado == '1') {
 						alerta('Actualizacion de Clave exitosa ');
-						}
-						
-							
-				}if (vevento == 'REPDOCRECIBIDO') {
+					}
+
+				}
+				if (vevento == 'REPDOCRECIBIDO') {
 					//alert(v_resultado);
-						var respuesta = v_resultado.split('||');
-						var tabla = respuesta[0];
-						var numero = respuesta[1];
-						if (numero=='0') {	
-							$('#tEstDocRec').html('');
-							$('#dataTable16').DataTable();	
-							danger('Error, No se encontró Documentos recibidos en ese Rango de Fechas!');
-						}else{
-							//$('#lblarchivodigitalizado').html(numero);
-							$('#tEstDocRec').html(tabla);
-							$('#dataTable16').DataTable();	
-						}	
-				}if (vevento == 'REPPOSTESTI1') {
+					var respuesta = v_resultado.split('||');
+					var tabla = respuesta[0];
+					var numero = respuesta[1];
+					if (numero == '0') {
+						$('#tEstDocRec').html('');
+						$('#dataTable16').DataTable();
+						danger('Error, No se encontró Documentos recibidos en ese Rango de Fechas!');
+					} else {
+						//$('#lblarchivodigitalizado').html(numero);
+						$('#tEstDocRec').html(tabla);
+						$('#dataTable16').DataTable();
+					}
+				}
+				if (vevento == 'REPPOSTESTI1') {
 					var respuesta = v_resultado.split('||');
 					var tabla = respuesta[0];
 					var registros = respuesta[1];
@@ -556,17 +605,18 @@
 					var fecha1 = respuesta[5];
 					var fecha2 = respuesta[6];
 					var contraindicador = respuesta[7];
-					var iresp= 100-totindicador;
+					var iresp = 100 - totindicador;
 					$('#lblregistros1').html(registros);
 					$('#tIndicador1').html(tabla);
 					$('#dataTable17').DataTable();
 					$('#lblval1t1').html(totaldoc);
 					$('#lblval2t1').html(totalenc);
-					$('#lblval3t1').html(totindicador+'%');
+					$('#lblval3t1').html(totindicador + '%');
 					$('#lblfechaini1').html(fecha1);
 					$('#lblfechafin1').html(fecha2);
-					graficoHigchar4('Localización de documentos',(totindicador)+'#'+contraindicador);
-			}
+					graficoHigchar4('Localización de documentos',
+							(totindicador) + '#' + contraindicador);
+				}
 				if (vevento == 'REPPOSTESTI2') {
 					var respuesta = v_resultado.split('||');
 					var tabla = respuesta[0];
@@ -577,35 +627,32 @@
 					var fecha1 = respuesta[5];
 					var fecha2 = respuesta[6];
 					var contraindicador = respuesta[7];
-					var iresp= 100-totindicador;
+					var iresp = 100 - totindicador;
 					$('#lblregistros2').html(registros);
 					$('#tIndicador2').html(tabla);
 					$('#dataTable18').DataTable();
 					$('#lblval1t2').html(totaldoc);
 					$('#lblval2t2').html(totalenc);
-					$('#lblval3t2').html(totindicador+'%');
+					$('#lblval3t2').html(totindicador + '%');
 					$('#lblfechaini2').html(fecha1);
 					$('#lblfechafin2').html(fecha2);
-					graficoHigchar5('Nivel de Servicio',(totindicador)+'#'+contraindicador);
-			}
+					graficoHigchar5('Nivel de Servicio', (totindicador) + '#'
+							+ contraindicador);
+				}
 				if (vevento == 'workflow_cant') {
 					alert(v_resultado);
 					//var respuesta = v_resultado.split('||');
-					
-					
-			}
-				
-				
+
+				}
 
 			}
 		}
 	}
 	function redireccionarPagina() {
-  window.location = "SPage?action=login";
-}
-
+		window.location = "SPage?action=login";
+	}
 </script>
-  
+
 <script>
 	function alerta(msg) {
 		var texto = msg;

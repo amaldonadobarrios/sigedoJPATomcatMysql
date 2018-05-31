@@ -795,6 +795,7 @@ public class LogicaGrillaBandeja {
 		DateFormat df2 = new SimpleDateFormat("dd/MM/yyyy");
 		List<Trazabilidad> lista=null;
 		lista=LogicaBandeja.getInstance().ListarTrazabilidad(id_ht);
+		String generales = "";
 		StringBuilder str = new StringBuilder();
 			str.append("<div id =\"ttrazabilidad\">");
 			str.append(INI_TABLA12);
@@ -804,15 +805,13 @@ public class LogicaGrillaBandeja {
 		cabecera.append(INI_TH);	cabecera.append("N°");	cabecera.append(FINI_TH);
 		cabecera.append(INI_TH);	cabecera.append("Fecha de Registro");	cabecera.append(FINI_TH);
 		cabecera.append(INI_TH);	cabecera.append("Origen");			cabecera.append(FINI_TH);
-		cabecera.append(INI_TH);	cabecera.append("Oficina Registra");			cabecera.append(FINI_TH);
-		cabecera.append(INI_TH);	cabecera.append("Usuario Registra");			cabecera.append(FINI_TH);
+		
+		
 		cabecera.append(INI_TH);	cabecera.append("Motivo");			cabecera.append(FINI_TH);
-		cabecera.append(INI_TH);	cabecera.append("Documento");			cabecera.append(FINI_TH);
-		cabecera.append(INI_TH);	cabecera.append("Fecha Documento");			cabecera.append(FINI_TH);
-		cabecera.append(INI_TH);	cabecera.append("Destino");			cabecera.append(FINI_TH);
-		cabecera.append(INI_TH);	cabecera.append("Oficina Destino");			cabecera.append(FINI_TH);
-		cabecera.append(INI_TH);	cabecera.append("Usuario Destino");			cabecera.append(FINI_TH);
 		cabecera.append(INI_TH);	cabecera.append("Observaciones");			cabecera.append(FINI_TH);
+		
+		cabecera.append(INI_TH);	cabecera.append("Destino");			cabecera.append(FINI_TH);
+		
 		cabecera.append(INI_TH);	cabecera.append("Fichero");			cabecera.append(FINI_TH);
 		cabecera.append(FINI_TR);
 		cabecera.append(FIN_THEAD);
@@ -825,19 +824,29 @@ public class LogicaGrillaBandeja {
 			for(Trazabilidad fila : lista  )
 			{
 				i++;
+				if (fila.getDesc_movimiento().toUpperCase().equals("RESPONDIDO")) {
+					fila.setOfi_des("JEFATURA");
+					fila.setUsu_des("JEFATURA");
+				}else if (fila.getDesc_movimiento().toUpperCase().equals("APROBADO")) {
+					fila.setOfi_des("MESA DE PARTES");
+					fila.setUsu_des("MESA DE PARTES");
+				}else if (fila.getDesc_movimiento().toUpperCase().equals("CONTESTADO")) {
+					fila.setOfi_des("ARCHIVO");
+					fila.setUsu_des("ARCHIVADOR");
+				}
 				str.append(INI_TRBody);
 				str.append(INI_TD);	str.append( i );			str.append(FIN_TD);
 				str.append(INI_TD);	str.append( df2.format(fila.getFecha_reg()));				str.append(FIN_TD);
-				str.append(INI_TD);	str.append( fila.getUni_reg().toUpperCase());			str.append(FIN_TD);
-				str.append(INI_TD);	str.append( fila.getOfi_reg().toUpperCase());			str.append(FIN_TD);
-				str.append(INI_TD);	str.append( fila.getUsu_reg().toUpperCase());			str.append(FIN_TD);
+				
+				str.append(INI_TD);	str.append( fila.getOfi_reg().toUpperCase()+"<BR>"+fila.getUsu_reg().toUpperCase() );			str.append(FIN_TD);
+				
 				str.append(INI_TD);	str.append( fila.getDesc_movimiento().toUpperCase());			str.append(FIN_TD);
-				str.append(INI_TD);	str.append( fila.getDocumento().toUpperCase());			str.append(FIN_TD);
-				str.append(INI_TD);	str.append( df2.format(fila.getFechadoc()));				str.append(FIN_TD);
-				str.append(INI_TD);	str.append( fila.getUni_des().toUpperCase());			str.append(FIN_TD);
-				str.append(INI_TD);	str.append( fila.getOfi_des().toUpperCase());			str.append(FIN_TD);
-				str.append(INI_TD);	str.append( fila.getUsu_des().toUpperCase());			str.append(FIN_TD);
 				str.append(INI_TD);	str.append( fila.getObs_movimiento().toUpperCase());			str.append(FIN_TD);	
+				
+				
+				str.append(INI_TD);	str.append( fila.getOfi_des().toUpperCase()+"<BR>"+fila.getUsu_des().toUpperCase());			str.append(FIN_TD);
+				
+				
 				if (fila.getId_fichero_archivo()>0) {
 					str.append(INI_TD);	str.append("<img\r\n" + 
 							"					alt=\"Brand\" class=\"img\"\r\n" + 
@@ -857,12 +866,17 @@ public class LogicaGrillaBandeja {
 							"					height=\"20\" onclick=\"fnVerPDF('"+fila.getId_fichero()+"')\">");		str.append(FIN_TD);			
 					}
 				}
+				//obtengo los datos generales
+				generales=fila.getHt_ini()+"||"+df2.format(fila.getFecha_ini())+"||"+fila.getAsunto_ini().toUpperCase()+"||"+fila.getPrioridad_ini().toUpperCase()+"||"+fila.getDocumento_ini().toUpperCase()+"||"+fila.getObservaciones_ini()+"||"+fila.getDesc_movimiento().toUpperCase()+"||"+fila.getEstado_archivo().toUpperCase();
+				
+				
+				
 			}
 		}
 		str.append(FIN_TBODY);
 		str.append(FIN_TABLA);
 		str.append("</div>");
-		return str.toString()+"||"+i;
+		return str.toString()+"||"+i+"||"+generales;
 	}
 	
 	public String BuscarArchivo(int id_unidad, String palabra) {

@@ -19,7 +19,7 @@
         <div class="container-fluid">
         
         
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        
         <h4>Operaciones realizadas en el presente año: <p><fmt:formatDate pattern = "yyyy" 
          value = "${now}" /></p></h4>
         

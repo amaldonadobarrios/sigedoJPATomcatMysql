@@ -413,34 +413,39 @@ public class BandejaDAOImpl implements BandejaDAO {
 		Trazabilidad temp = null;
 		List<Trazabilidad> lista = null;
 		PreparedStatement ps = null;
-		String query = "SELECT mov.id_movimiento_ht,\r\n" + "mov.fecha_registro, \r\n" + "mov.id_hoja_tramite, \r\n"
-				+ "mov.id_documento, \r\n" + "mov.id_estado_movimiento_ht, \r\n"
-				+ "mov.observaciones as obs_movimiento,\r\n" + "emov.descripcion as desc_movimiento,\r\n"
-				+ "doc.asunto,\r\n" + "concat(tdoc.descripcion,' N°',doc.numero,' ',doc.siglas) as documento ,\r\n"
-				+ "uniorigen.descripcion as  uni_reg,\r\n" + "ofireg.descripcion as ofi_reg,\r\n"
-				+ "IFNULL(ofides.descripcion,\"INTERNO\") as oficinaDestino,\r\n"
-				+ "unidestino.descripcion as Destino,\r\n" + "eht.descripcion as estadoht,\r\n"
-				+ "concat(perreg.grado,' ', perreg.ape_pat,' ', perreg.ape_mat,' ', perreg.nombres) as usu_registra ,\r\n"
-				+ "IFNULL(concat(perdes.grado,' ', perdes.ape_pat,' ', perdes.ape_mat,' ', perdes.nombres), \"INTERNO\") AS usu_destino,\r\n"
-				+ "doc.id_fichero_doc,\r\n" + "IF(arc.estado='1',\"DIGITALIZADO\",\"ORIGINAL\") as estadoarchivo,\r\n"
-				+ "arc.id_fichero_archivo  AS id_fichero_archivo,\r\n"
-				+ "IFNULL(arc.observaciones ,\"INTERNO\")as obsarchivo,\r\n" + "doc.fecha_doc\r\n"
-				+ "FROM movimiento_ht mov\r\n"
-				+ "inner join estado_movimiento_ht emov on emov.id_estado_movimiento_ht=mov.id_estado_movimiento_ht\r\n"
-				+ "join documento doc on doc.id_documento=mov.id_documento\r\n"
-				+ "join tipo_doc tdoc on tdoc.id_tipo_doc=doc.id_tipo_doc\r\n"
-				+ "join unidad uniorigen on uniorigen.id_unidad=mov.id_unidad_registro\r\n"
-				+ "join unidad unidestino on unidestino.id_unidad=mov.id_unidad_destino\r\n"
-				+ "join oficina ofireg on ofireg.id_oficina=mov.id_oficina_registro\r\n"
-				+ "left join oficina ofides on ofides.id_oficina=mov.id_oficina_destino                                                                                                                                                                                \r\n"
-				+ "join hoja_tramite ht on ht.id_hoja_tramite = mov.id_hoja_tramite\r\n"
-				+ "join estado_ht eht on eht.id_estado_ht = ht.id_estado_ht\r\n"
-				+ "join usuario usureg on usureg.id_usuario=mov.id_usuario_registro\r\n"
-				+ "join persona perreg on perreg.id_persona=usureg.id_persona\r\n"
-				+ "left join usuario usudes on usudes.id_usuario=mov.id_usuario_destino\r\n"
-				+ "left join persona perdes on perdes.id_persona=usudes.id_persona\r\n"
-				+ "left join archivo arc on arc.id_movimiento=mov.id_movimiento_ht\r\n"
-				+ "where mov.id_hoja_tramite=? order by 1 asc";
+		String query = "SELECT mov.id_movimiento_ht, mov.fecha_registro,  mov.id_hoja_tramite, \r\n" + 
+				"				mov.id_documento,  mov.id_estado_movimiento_ht, \r\n" + 
+				"				mov.observaciones as obs_movimiento, emov.descripcion as desc_movimiento,\r\n" + 
+				"				doc.asunto, concat(tdoc.descripcion,' N°',doc.numero,' ',doc.siglas) as documento ,\r\n" + 
+				"				uniorigen.descripcion as  uni_reg, ofireg.descripcion as ofi_reg,\r\n" + 
+				"				IFNULL(ofides.descripcion,\"INTERNO\") as oficinaDestino,\r\n" + 
+				"				unidestino.descripcion as Destino, eht.descripcion as estadoht,\r\n" + 
+				"				concat(perreg.grado,' ', perreg.ape_pat,' ', perreg.ape_mat,' ', perreg.nombres) as usu_registra ,\r\n" + 
+				"				IFNULL(concat(perdes.grado,' ', perdes.ape_pat,' ', perdes.ape_mat,' ', perdes.nombres), \"INTERNO\") AS usu_destino,\r\n" + 
+				"				doc.id_fichero_doc, IF(arc.estado='1',\"DIGITALIZADO\",\"ORIGINAL\") as estadoarchivo,\r\n" + 
+				"				arc.id_fichero_archivo  AS id_fichero_archivo,\r\n" + 
+				"				IFNULL(arc.observaciones ,\"INTERNO\")as obsarchivo, doc.fecha_doc, hoja.id_hoja_tramite as ht_ini, hoja.fecha_registro as fecha_ini, hoja.asunto as asunto_ini, pri.descripcion as prioridad_ini, concat(tdocini.descripcion,' N°',docini.numero,' ',docini.siglas) as documento_ini, movini.observaciones as observaciones_ini \r\n" + 
+				"				FROM movimiento_ht mov\r\n" + 
+				"				inner join estado_movimiento_ht emov on emov.id_estado_movimiento_ht=mov.id_estado_movimiento_ht\r\n" + 
+				"				join documento doc on doc.id_documento=mov.id_documento\r\n" + 
+				"				join tipo_doc tdoc on tdoc.id_tipo_doc=doc.id_tipo_doc\r\n" + 
+				"				join unidad uniorigen on uniorigen.id_unidad=mov.id_unidad_registro\r\n" + 
+				"				join unidad unidestino on unidestino.id_unidad=mov.id_unidad_destino\r\n" + 
+				"				join oficina ofireg on ofireg.id_oficina=mov.id_oficina_registro\r\n" + 
+				"				left join oficina ofides on ofides.id_oficina=mov.id_oficina_destino                                                                                                                                                                                \r\n" + 
+				"				join hoja_tramite ht on ht.id_hoja_tramite = mov.id_hoja_tramite\r\n" + 
+				"				join estado_ht eht on eht.id_estado_ht = ht.id_estado_ht\r\n" + 
+				"				join usuario usureg on usureg.id_usuario=mov.id_usuario_registro\r\n" + 
+				"				join persona perreg on perreg.id_persona=usureg.id_persona\r\n" + 
+				"				left join usuario usudes on usudes.id_usuario=mov.id_usuario_destino\r\n" + 
+				"				left join persona perdes on perdes.id_persona=usudes.id_persona\r\n" + 
+				"				left join archivo arc on arc.id_movimiento=mov.id_movimiento_ht\r\n" + 
+				"        join hoja_tramite hoja on mov.id_hoja_tramite = hoja.id_hoja_tramite\r\n" + 
+				"        left join documento docini on docini.id_documento = hoja.id_documento_inicio\r\n" + 
+				"        left join tipo_doc tdocini on docini.id_tipo_doc = tdocini.id_tipo_doc\r\n" + 
+				"        left join movimiento_ht movini on movini.id_hoja_tramite = hoja.id_hoja_tramite and movini.id_estado_movimiento_ht='2'\r\n" + 
+				"        left join prioridad_doc pri on docini.id_prioridad_doc = pri.id_prioridad_doc\r\n" + 
+				"				where hoja.id_hoja_tramite=? order by 1 asc";
 
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PwSigedo");
 		EntityManager em = emf.createEntityManager();
@@ -477,6 +482,12 @@ public class BandejaDAOImpl implements BandejaDAO {
 						temp.setId_fichero_archivo(rs.getInt(19));
 						temp.setObs_archivo(rs.getString(20));
 						temp.setFechadoc(rs.getDate(21));
+						temp.setHt_ini(rs.getInt(22));
+						temp.setFecha_ini(rs.getDate(23));
+						temp.setAsunto_ini(rs.getString(24));
+						temp.setPrioridad_ini(rs.getString(25));
+						temp.setDocumento_ini(rs.getString(26));
+						temp.setObservaciones_ini(rs.getString(27));
 						lista.add(temp);
 					}
 				}

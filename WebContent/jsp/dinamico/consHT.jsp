@@ -6,80 +6,173 @@
 
 <jsp:useBean id="now" class="java.util.Date" scope="request" />
 <ol class="breadcrumb">
-<div class="col-lg-12" align="center">
-        <form class="form-horizontal" name="form-registro" id="form-registro" role="form" method="post">                                           
-            <fieldset  class="scheduler-border">
-                <legend class="scheduler-border">Ingrese Datos para Consultar</legend>                                   
-                <div class="form-group">
-                    <label for="tipo_documento" class="col-md-6 control-label">Hoja de Trámite [HT]:</label>
-                     <div class="col-md-4">                                                                                   
-                        <input type="text" class="form-control" maxlength="9" id="numero" name="numero" placeholder="Número de HT" onkeypress="return solo_numeros(event)" autocomplete="false">
-                    </div>
-                </div>
-                <!--</div>-->
-                <div class="form-group">
-                    <div class="col-md-12 text-center">
-                        <button class="btn btn-success" type="button" name="submit" id="btn" onclick="fn_consultar();"><span class='glyphicon glyphicon-search' aria-hidden='true'></span> Consultar</button>
-                    </div>
-                </div>
-            </fieldset>
-            
-        </form>
-    </div>
+	<div class="col-lg-12" align="center">
+		<form class="form-horizontal" name="form-registro" id="form-registro"
+			role="form" method="post">
+			<fieldset class="scheduler-border">
+				<legend class="scheduler-border">Ingrese Datos para
+					Consultar</legend>
+				<div class="form-group">
+					<label for="tipo_documento" class="col-md-6 control-label">Hoja
+						de Trámite [HT]:</label>
+					<div class="col-md-4">
+						<input type="text" class="form-control" maxlength="9" id="numero"
+							name="numero" placeholder="Número de HT"
+							onkeypress="return solo_numeros(event)" autocomplete="false">
+					</div>
+				</div>
+				<!--</div>-->
+				<div class="form-group">
+					<div class="col-md-12 text-center">
+						<button class="btn btn-success" type="button" name="submit"
+							id="btn" onclick="fn_consultar();">
+							<span class='glyphicon glyphicon-search' aria-hidden='true'></span>
+							Consultar
+						</button>
+					</div>
+				</div>
+			</fieldset>
+
+		</form>
+	</div>
 </ol>
 <ol class="breadcrumb">
-<div class="col-lg-12" >
-        <form class="form-horizontal" name="form-registro" id="form-registro" role="form" method="post">                                           
-            <fieldset  class="scheduler-border">
-                <legend class="scheduler-border" align="center">Detalle</legend>                                   
-                <div class="card mb-3">
-        <div class="card-header">
-          <i class="fa fa-table"></i> Trazabilidad</div>
-        <div class="card-body">
+	<div class="col-lg-12">
+		<form class="form-horizontal" name="form-registro" id="form-registro"
+			role="form" method="post">
+			<fieldset class="scheduler-border">
+				<legend class="scheduler-border" align="center">Detalle</legend>
 				<div class="card mb-3">
+					<div class="card-header">
+						<i class="fa fa-table"></i> Trazabilidad
+					</div>
 					<div class="card-body">
-						<div class="table-responsive">
-							<div id="ttrazabilidad"></div>
+						<div class="card mb-3">
+							<div class="card-body">
+								<h3>Datos Generales</h3>
+								<div class="row" style="background-color: silver;">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-4">
+												<label> Número de Hoja de Trámite:</label>
+											</div>
+											<div class="col-md-8">
+												<p style="text-align: justify;" id="ht_ini"></p>
+
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-4">
+												<label> Documento :</label>
+											</div>
+											<div class="col-md-8">
+												<p style="text-align: justify;" id="documento_ini"></p>
+
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-4">
+												<label> Asunto:</label>
+											</div>
+											<div class="col-md-8">
+												<p style="text-align: justify;" id="asunto_ini"></p>
+
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-4">
+												<label> Observación:</label>
+											</div>
+											<div class="col-md-8">
+												<p style="text-align: justify;" id="observaciones_ini"></p>
+
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="row">
+											<div class="col-md-6">
+												<label> Prioridad:</label>
+											</div>
+											<div class="col-md-6">
+												<p style="text-align: justify;" id="prioridad_ini"></p>
+
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-6">
+												<label> Fecha Registro:</label>
+											</div>
+											<div class="col-md-6">
+												<p style="text-align: justify;" id="fecha_ini"></p>
+
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-6">
+												<label> Estado:</label>
+											</div>
+											<div class="col-md-6">
+												<p style="text-align: justify;" id="estado_final"></p>
+
+											</div>
+										</div>
+
+									</div>
+
+								</div>
+								<div class="container">
+									<ul class="progressbar">
+										<li id="p_recibido">RECIBIDO</li>							
+										<li id="p_tramite">TRÁMITE</li>
+										<li id="p_contestado">CONTESTADO</li>
+										<li id="p_archivado">ARCHIVADO</li>
+									</ul>
+								</div>
+								
+								
+							
+								
+								
+								<div class="table-responsive">
+									<h3>Reporte de Movimientos:</h3>
+									<div id="ttrazabilidad"></div>
+								</div>
+							</div>
+							<div class="card-footer small text-muted">
+								Actualizado al
+								<fmt:formatDate type="both" dateStyle="short" timeStyle="short"
+									value="${now}" />
+							</div>
 						</div>
 					</div>
-					<div class="card-footer small text-muted">
-						Actualizado al
-						<fmt:formatDate type="both" dateStyle="short" timeStyle="short"
-							value="${now}" />
-					</div>
-			</div>
-        </div>
-       
-      </div>
-            </fieldset>
-            
-        </form>
-    </div> 
+
+				</div>
+			</fieldset>
+
+		</form>
+	</div>
 </ol>
 <script>
-function fn_consultar(){
-	var numero = document.getElementById("numero").value;
-	if (numero!='') {
-		
+	function fn_consultar() {
+		var numero = document.getElementById("numero").value;
+		if (numero != '') {
+
 			var contexto = document.getElementById("contexto").value;
 			var vservlet = contexto + '/ServBandejaAJAX';
 			var txtevento = "TRAZABILIDAD";
 			var jqdata = {
 				hdEvento : txtevento,
-				numero: numero
+				numero : numero
 			};
 
 			fnEjecutarPeticion(vservlet, jqdata, txtevento);
-		
-		
-		
-	}else{
-		danger("Error, Debe ingresar un número de Hoja de Trámite");
+
+		} else {
+			danger("Error, Debe ingresar un número de Hoja de Trámite");
+		}
+
 	}
-	
-}
-
-
 </script>
 <style>
 fieldset {
@@ -155,5 +248,4 @@ fieldset legend {
 	{
 	opacity: .5;
 }
-
 </style>

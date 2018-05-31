@@ -24,7 +24,50 @@ String estado_archivo;
 int id_fichero_archivo;
 String obs_archivo;
 Date fechadoc;
+int ht_ini;
+Date fecha_ini;
+String asunto_ini;
+String prioridad_ini;
+String documento_ini;
+String observaciones_ini;
 
+
+public int getHt_ini() {
+	return ht_ini;
+}
+public void setHt_ini(int ht_ini) {
+	this.ht_ini = ht_ini;
+}
+public Date getFecha_ini() {
+	return fecha_ini;
+}
+public void setFecha_ini(Date fecha_ini) {
+	this.fecha_ini = fecha_ini;
+}
+public String getAsunto_ini() {
+	return asunto_ini;
+}
+public void setAsunto_ini(String asunto_ini) {
+	this.asunto_ini = asunto_ini;
+}
+public String getPrioridad_ini() {
+	return prioridad_ini;
+}
+public void setPrioridad_ini(String prioridad_ini) {
+	this.prioridad_ini = prioridad_ini;
+}
+public String getDocumento_ini() {
+	return documento_ini;
+}
+public void setDocumento_ini(String documento_ini) {
+	this.documento_ini = documento_ini;
+}
+public String getObservaciones_ini() {
+	return observaciones_ini;
+}
+public void setObservaciones_ini(String observaciones_ini) {
+	this.observaciones_ini = observaciones_ini;
+}
 public Date getFechadoc() {
 	return fechadoc;
 }
