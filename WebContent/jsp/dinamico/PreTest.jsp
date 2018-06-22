@@ -222,7 +222,7 @@
 
 <script type="text/javascript">
 	window.onload = function() {
-	graficoHigchar4('Localización de documentos','56#44');
+	graficoHigchar4('Localización de documentos','55#45');
 	graficoHigchar5('Nivel de Servicio','57#43');
 		//fnlistarBandeja('PRETEST_IND1');
 		
