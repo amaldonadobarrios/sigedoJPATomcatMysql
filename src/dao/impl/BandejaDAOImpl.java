@@ -191,8 +191,9 @@ public class BandejaDAOImpl implements BandejaDAO {
 						temp.setUni_destino(rs.getString(20));
 						temp.setOfi_destino(rs.getString(21));
 						temp.setPersona_destino(rs.getString(22));
+						lista.add(temp);
 					}
-					lista.add(temp);
+					
 				}
 
 			} catch (SQLException e) {
